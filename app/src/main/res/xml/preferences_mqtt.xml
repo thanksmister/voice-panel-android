@@ -1,0 +1,89 @@
+<!--
+  ~ Copyright (c) 2018 ThanksMister LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed
+  ~ under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <PreferenceCategory
+        android:summary="@string/preference_summary_mqtt_server"
+        android:title="@string/preference_title_mqtt_server">
+
+        <EditTextPreference
+            android:key="@string/key_setting_mqtt_servername"
+            android:negativeButtonText="@android:string/cancel"
+            android:positiveButtonText="@android:string/ok"
+            android:summary="192.168.1.1"
+            android:title="@string/preference_title_broker" />
+
+        <EditTextPreference
+            android:paddingTop="0dp"
+            android:selectable="false"
+            android:summary="@string/preference_summary_broker"
+            android:textSize="12sp"/>
+
+        <SwitchPreference
+            android:key="@string/key_setting_mqtt_tls_enabled"
+            android:summary="@string/preference_summary_tls_connection"
+            android:title="@string/preference_tls_connection" />
+
+        <EditTextPreference
+            android:digits="0123456789"
+            android:inputType="number"
+            android:key="@string/key_setting_mqtt_serverport"
+            android:negativeButtonText="@android:string/cancel"
+            android:numeric="integer"
+            android:positiveButtonText="@android:string/ok"
+            android:summary="@string/preference_summary_port"
+            android:title="@string/preference_title_port" />
+
+        <EditTextPreference
+            android:key="@string/key_setting_mqtt_basetopic"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:summary="alarmpanel"
+            android:title="@string/title_setting_mqtt_basetopic"/>
+
+        <EditTextPreference
+            android:paddingTop="0dp"
+            android:selectable="false"
+            android:summary="@string/summary_setting_mqtt_basetopic"
+            android:textSize="12sp"/>
+
+        <EditTextPreference
+            android:key="@string/key_setting_mqtt_username"
+            android:negativeButtonText="@android:string/cancel"
+            android:positiveButtonText="@android:string/ok"
+            android:summary="@string/preference_summary_username"
+            android:title="@string/preference_title_username" />
+
+        <EditTextPreference
+            android:inputType="textPassword"
+            android:key="@string/key_setting_mqtt_password"
+            android:negativeButtonText="@android:string/cancel"
+            android:password="true"
+            android:positiveButtonText="@android:string/ok"
+            android:summary="@string/preference_summary_password"
+            android:title="@string/preference_title_password" />
+
+        <EditTextPreference
+            android:key="@string/key_setting_mqtt_clientid"
+            android:negativeButtonText="@android:string/cancel"
+            android:positiveButtonText="@android:string/ok"
+            android:summary="@string/preference_summary_client_id"
+            android:title="@string/preference_client_id" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

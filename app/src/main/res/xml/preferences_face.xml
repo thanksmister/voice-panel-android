@@ -1,0 +1,23 @@
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <PreferenceCategory android:title="@string/pref_face_detection_title"
+        android:summary="@string/pref_face_detection_summary">
+
+        <SwitchPreference
+            android:defaultValue="@string/default_setting_camera_faceenabled"
+            android:key="@string/key_setting_camera_faceenabled"
+            android:title="@string/title_setting_camera_faceenabled"
+            android:summary="@string/pref_face_detection_summary"/>
+
+        <SwitchPreference
+            android:defaultValue="@string/default_setting_camera_facewake"
+            android:key="@string/key_setting_camera_facewake"
+            android:title="@string/title_setting_camera_facewake"
+            android:summary="@string/pref_face_wake_summary"
+            android:dependency="@string/key_setting_camera_faceenabled"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,56 @@
+<!--
+  ~ Copyright (c) 2018 ThanksMister LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed
+  ~ under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/preferenceView">
+
+    <PreferenceCategory android:title="@string/pref_system_sounds_title">
+
+        <CheckBoxPreference
+            android:key="pref_system_sounds"
+            android:summary="@string/pref_system_sounds_summary"
+            android:title="@string/pref_system_sounds_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/pref_mqtt_settings_category">
+
+        <EditTextPreference
+            android:selectable="false"
+            android:summary="@string/preference_summary_alert"
+            android:title="@string/preference_title_alert"
+            android:textColor="@color/light_gray"
+            android:textSize="12sp"/>
+
+        <EditTextPreference
+            android:selectable="false"
+            android:summary="@string/summary_notification_topic"
+            android:title="@string/preference_title_system_notifications"
+            android:textColor="@color/light_gray"
+            android:textSize="12sp"/>
+
+        <EditTextPreference
+            android:selectable="false"
+            android:summary="@string/preference_tts_topic_summary"
+            android:title="@string/preference_tts"
+            android:textColor="@color/light_gray"
+            android:textSize="12sp"/>
+
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

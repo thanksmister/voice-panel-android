@@ -1,0 +1,23 @@
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory android:title="@string/title_voice_assistant">
+
+        <EditTextPreference
+            android:key="@string/key_snips_hotword_sensitivity"
+            android:negativeButtonText="@android:string/cancel"
+            android:positiveButtonText="@android:string/ok"
+            android:summary="@string/pref_hotword_summary"
+            android:title="@string/pref_hotword_title"/>
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_face_wakeword"
+            android:title="@string/pref_face_wake_word_title"
+            android:summary="@string/pref_face_wake_word_summary"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

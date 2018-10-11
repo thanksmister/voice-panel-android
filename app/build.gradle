@@ -1,0 +1,206 @@
+/*
+ * Copyright (c) 2018 ThanksMister LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+def versionMajor = 0
+def versionMinor = 1
+def versionPatch = 0
+def versionBuild = 2 // bump for dog food builds, public betas, etc.
+
+def ALARM_CODE() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("alarmCode");
+}
+
+def DASHBOARD_URL() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("dashboardUrl");
+}
+
+def BROKER() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("broker");
+}
+
+
+def ASSISTANT_VERSION() {
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.getProperty("assistantVersion");
+}
+
+android {
+    kapt {
+        generateStubs = true
+        correctErrorTypes = true
+    }
+    compileSdkVersion 27
+    buildToolsVersion "28.0.2"
+    defaultConfig {
+        applicationId "com.thanksmister.iot.voicepanel"
+        minSdkVersion versions.min_sdk
+        targetSdkVersion versions.target_sdk
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}.${versionBuild}"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 16
+        renderscriptSupportModeEnabled true
+        multiDexEnabled true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    flavorDimensions "default"
+    productFlavors {
+        def BASE_ENVIRONMENT = "BASE_ENVIRONMENT"
+        dev {
+            dimension "default"
+            buildConfigField "String", BASE_ENVIRONMENT, '"DEV_ENVIRONMENT"'
+            applicationId "com.thanksmister.iot.voicepanel"
+            versionName "${versionMajor}.${versionMinor}.${versionPatch} Build ${versionBuild}-DEV"
+            buildConfigField 'Integer', 'ALARM_CODE', ALARM_CODE()
+            buildConfigField 'String', 'DASHBOARD_URL', "\"" + DASHBOARD_URL() +"\""
+            buildConfigField 'String', 'BROKER', "\"" + BROKER() +"\""
+            buildConfigField 'String', 'ASSISTANT_VERSION', "\"" + ASSISTANT_VERSION() +"\""
+        }
+        qa {
+            dimension "default"
+            buildConfigField "String", BASE_ENVIRONMENT, '"QA_ENVIRONMENT"'
+            applicationId "com.thanksmister.iot.voicepanel"
+            versionName "${versionMajor}.${versionMinor}.${versionPatch} Build ${versionBuild}-QA"
+            buildConfigField 'Integer', 'ALARM_CODE', '1234'
+            buildConfigField 'String', 'DASHBOARD_URL', '""'
+            buildConfigField 'String', 'BROKER', '""'
+            buildConfigField 'String', 'ASSISTANT_VERSION', "\"" + ASSISTANT_VERSION() +"\""
+        }
+        prod {
+            dimension "default"
+            buildConfigField "String", BASE_ENVIRONMENT, '"PROD_ENVIRONMENT"'
+            applicationId "com.thanksmister.iot.voicepanel"
+            versionName "${versionMajor}.${versionMinor}.${versionPatch} Build ${versionBuild}"
+            buildConfigField 'Integer', 'ALARM_CODE', '1234'
+            buildConfigField 'String', 'DASHBOARD_URL', '""'
+            buildConfigField 'String', 'BROKER', '""'
+            buildConfigField 'String', 'ASSISTANT_VERSION', "\"" + ASSISTANT_VERSION() +"\""
+        }
+    }
+    packagingOptions {
+        exclude 'lib/armeabi/*'
+        exclude 'lib/mips/*'
+        exclude 'lib/mips64/*'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation "com.android.support:appcompat-v7:$versions.support"
+    implementation "com.android.support:design:$versions.support"
+    implementation "com.android.support:support-v13:$versions.support"
+    implementation "com.android.support:preference-v14:$versions.support"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation "com.android.support:gridlayout-v7:$versions.support"
+    implementation "com.android.support:support-vector-drawable:$versions.support"
+    implementation 'com.google.android.gms:play-services-vision:15.0.2'
+
+    // Snips
+    implementation('ai.snips:snips-platform-android:0.58.3@aar') {
+        transitive = true
+    }
+
+    // Navigation
+    implementation "android.arch.navigation:navigation-fragment:$versions.navigation"
+    implementation "android.arch.navigation:navigation-ui:$versions.navigation"
+
+    // RxJava
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+
+    // LiveData + ViewModel
+    implementation "android.arch.lifecycle:extensions:$versions.archVersion"
+    annotationProcessor "android.arch.lifecycle:compiler:$versions.archVersion"
+    implementation "android.arch.lifecycle:reactivestreams:$versions.archVersion"
+
+    // Room
+    implementation "android.arch.persistence.room:runtime:$versions.archRoomVersion"
+    kapt "android.arch.persistence.room:compiler:$versions.archRoomVersion"
+    implementation "android.arch.persistence.room:rxjava2:$versions.archRoomVersion"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$versions.retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$versions.retrofit"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$versions.retrofit"
+
+    // OKHttp
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+
+    // Dagger
+    implementation "com.google.dagger:dagger:$versions.dagger"
+    annotationProcessor "com.google.dagger:dagger-compiler:$versions.dagger"
+    implementation "com.google.dagger:dagger-android-support:$versions.dagger"
+    kapt "com.google.dagger:dagger-compiler:$versions.dagger"
+    implementation "com.google.dagger:dagger-android:$versions.dagger"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$versions.dagger"
+    kapt "com.google.dagger:dagger-android-processor:$versions.dagger"
+
+    // MQTT
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.0'
+    implementation 'org.eclipse.paho:org.eclipse.paho.android.service:1.1.1', {
+        exclude module: 'support-v4'
+    }
+
+    // Stetho
+    implementation "com.facebook.stetho:stetho:$versions.stetho"
+    implementation "com.facebook.stetho:stetho-okhttp3:$versions.stetho"
+    implementation "com.facebook.stetho:stetho-urlconnection:$versions.stetho"
+
+    // Logging
+    implementation 'com.jakewharton.timber:timber:4.5.1'
+
+    // Camera Motion
+    implementation 'io.github.silvaren:easyrs:0.5.3'
+
+    // HTTP Streaming
+    implementation 'com.koushikdutta.async:androidasync:2.1.9'
+
+    // Animation
+    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+
+    // Fingerprint Identify
+    implementation 'com.wei.android.lib:fingerprintidentify:1.2.1'
+
+    // Preference Number Picker
+    implementation 'com.h6ah4i.android.preference:numberpickerprefcompat:0.2.0'
+
+    implementation 'joda-time:joda-time:2.9.9'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+}

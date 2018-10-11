@@ -1,0 +1,15 @@
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <PreferenceCategory android:title="QR Code Detection">
+
+        <SwitchPreference
+            android:defaultValue="@string/default_setting_camera_qrcodeenabled"
+            android:key="@string/key_setting_camera_qrcodeenabled"
+            android:title="@string/title_setting_camera_qrcodeenabled"
+            android:summary="@string/pref_qr_code_summary"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

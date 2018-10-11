@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (c) 2018 ThanksMister LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed
+  ~ under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <fragment
+        android:id="@+id/informationContainer"
+        android:name="com.thanksmister.iot.voicepanel.ui.fragments.InformationFragment"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        tools:layout="@layout/fragment_information" />
+
+    <FrameLayout
+        android:id="@+id/voiceAnimationContainer"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_weight="0"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/dotsIcon"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:adjustViewBounds="false"
+            android:src="@drawable/small_logo"/>
+
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/loadingIcon"
+            style="@style/SpinKitView.Large.DoubleBounce"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_gravity="center"
+            android:alpha=".8"
+            android:visibility="gone"
+            app:SpinKit_Color="@color/blue"
+            tools:visibility="visible"/>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:paddingTop="16dp"
+        android:paddingLeft="36dp"
+        android:paddingRight="36dp"
+        android:paddingBottom="24dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_centerVertical="true"
+            android:id="@+id/commandList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/textContainer"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_weight="0">
+
+        <TextView
+            android:id="@+id/textOutput"
+            style="@style/TextAppearance.TextExtraLarge.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:minLines="2"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:textAlignment="center"
+            android:textStyle="italic"
+            tools:text="Hey barista, brew me a large, strong americano and three extra sugars."/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/buttonControlsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_weight="0">
+
+        <ImageButton
+            android:id="@+id/buttonAlarm"
+            style="@style/BorderlessButtonStyle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|bottom"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_lock"
+            android:tint="@color/body_text"
+            android:visibility="gone"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/buttonSettings"
+            style="@style/BorderlessButtonStyle"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end|bottom"
+            android:padding="8dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_settings_black"
+            android:tint="@color/body_text"
+            tools:ignore="ContentDescription" />
+
+    </LinearLayout>
+
+</LinearLayout>

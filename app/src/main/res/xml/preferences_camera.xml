@@ -1,0 +1,82 @@
+<!--
+  ~ Copyright (c) 2018 ThanksMister LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed
+  ~ under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <PreferenceCategory android:title="@string/preference_camera">
+
+    <SwitchPreference
+        android:defaultValue="@string/default_setting_camera_enabled"
+        android:key="@string/key_setting_camera_enabled"
+        android:title="@string/title_setting_camera_enabled" />
+
+    <ListPreference
+        android:defaultValue="@string/default_setting_camera_cameraid"
+        android:key="@string/key_setting_camera_cameraid"
+        android:title="@string/title_setting_camera_cameraid"
+        android:dependency="@string/key_setting_camera_enabled"/>
+
+    <EditTextPreference
+        android:defaultValue="@string/default_camera_fps"
+        android:key="@string/key_setting_camera_fps"
+        android:summary="@string/pref_camera_fps_summary"
+        android:title="@string/pref_camera_fps_title"
+        android:dependency="@string/key_setting_camera_enabled"/>
+
+    <Preference
+        android:key="button_key_camera_test"
+        android:title="@string/pref_camera_test_button_title"
+        android:summary="@string/pref_button_camera_test"
+        android:dependency="@string/key_setting_camera_enabled"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Optional Settings">
+
+        <Preference
+            android:key="button_key_capture"
+            android:title="@string/preference_camera_title"
+            android:summary="@string/preference_camera_summary"
+            android:dependency="@string/key_setting_camera_enabled"/>
+
+        <Preference
+            android:key="button_key_motion"
+            android:title="@string/pref_motion_detection_title"
+            android:summary="@string/pref_motion_detection_summary"
+            android:dependency="@string/key_setting_camera_enabled"/>
+
+        <Preference
+            android:key="button_key_face"
+            android:title="@string/pref_face_detection_title"
+            android:summary="@string/pref_face_detection_summary"
+            android:dependency="@string/key_setting_camera_enabled"/>
+
+        <Preference
+            android:key="button_key_qr"
+            android:title="@string/title_setting_camera_qrcodeenabled"
+            android:summary="@string/pref_qr_code_summary"
+            android:dependency="@string/key_setting_camera_enabled"/>
+
+        <Preference
+            android:key="button_key_mjpeg"
+            android:title="@string/pref_mjpeg_streaming_title"
+            android:summary="@string/pref_mjpeg_streaming_summary"
+            android:dependency="@string/key_setting_camera_enabled"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

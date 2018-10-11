@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2018 ThanksMister LLC
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License. 
+  ~ You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software distributed 
+  ~ under the License is distributed on an "AS IS" BASIS, 
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+  ~ See the License for the specific language governing permissions and 
+  ~ limitations under the License.
+  -->
+
+<resources>
+    <string name="text_f" translatable="false">°F</string>
+    <string name="text_c" translatable="false">°C</string>
+    <string name="default_setting_mqtt_sensorfrequency" translatable="false">30</string>
+    <string name="key_setting_mqtt_sensorfrequency" translatable="false">setting_mqtt_sensorfrequency</string>
+    <string name="key_settings_sensors_light" translatable="false">setting_sensors_light</string>
+    <string name="key_setting_test_zoomlevel" translatable="false">setting_test_zoomlevel</string>
+    <string name="key_settings_sensors_magneticField" translatable="false">setting_sensors_magneticField</string>
+    <string name="key_settings_sensors_temperature" translatable="false">setting_sensors_temperature</string>
+    <string name="key_settings_sensors_pressure" translatable="false">setting_sensors_pressure</string>
+    <string name="key_settings_sensors_humidity" translatable="false">setting_sensors_humidity</string>
+    <string name="key_setting_sensors_enabled" translatable="false">setting_device_sensors_enabled</string>
+    <string name="default_setting_http_mjpegmaxstreams" translatable="false">1</string>
+    <string name="default_setting_http_mjpegenabled" translatable="false">false</string>
+    <string name="key_setting_http_mjpegmaxstreams" translatable="false">setting_http_mjpegmaxstreams</string>
+    <string name="default_setting_http_port" translatable="false">2971</string>
+    <string name="key_setting_http_mjpegenabled" translatable="false">setting_http_mjpegenabled</string>
+    <string name="key_setting_http_port" translatable="false">setting_http_port</string>
+    <string name="default_setting_camera_qrcodeenabled" translatable="false">false</string>
+    <string name="default_setting_camera_facewake" translatable="false">false</string>
+    <string name="key_setting_camera_qrcodeenabled" translatable="false">setting_camera_qrcodeenabled</string>
+    <string name="default_setting_camera_faceenabled" translatable="false">false</string>
+    <string name="key_setting_camera_facewake" translatable="false">setting_camera_facewake</string>
+    <string name="key_setting_camera_faceenabled" translatable="false">setting_camera_faceenabled</string>
+    <string name="default_setting_camera_motionwake" translatable="false">false</string>
+    <string name="default_setting_camera_motionminluma" translatable="false">1000</string>
+    <string name="key_setting_camera_motionwake" translatable="false">setting_camera_motionwake</string>
+    <string name="default_setting_camera_motionleniency" translatable="false">20</string>
+    <string name="key_setting_camera_motionminluma" translatable="false">setting_camera_motionminluma</string>
+    <string name="key_setting_camera_motionleniency" translatable="false">setting_camera_motionleniency</string>
+    <string name="default_setting_camera_cameraid" translatable="false">0</string>
+    <string name="key_setting_camera_motionenabled" translatable="false">setting_camera_motionenabled</string>
+    <string name="default_setting_camera_enabled" translatable="false">false</string>
+    <string name="key_setting_camera_cameraid" translatable="false">setting_camera_cameraid</string>
+    <string name="default_setting_app_showactivity" translatable="false">true</string>
+    <string name="key_setting_camera_enabled" translatable="false">setting_camera_enabled</string>
+    <string name="key_setting_app_showactivity" translatable="false">setting_app_showactivity</string>
+    <string name="default_setting_test_zoomlevel" translatable="false">1.0</string>
+    <string name="key_setting_browser_user_agent" translatable="false">setting_browser_header</string>
+    <string name="default_browser_user_agent" translatable="false">""</string>
+    <string name="key_setting_camera_fps" translatable="false">setting_camera_fps</string>
+    <string name="default_camera_fps" translatable="false">15</string>
+    <string name="key_setting_motion_clear" translatable="false">setting_motion_clear</string>
+    <string name="default_motion_clear" translatable="false">30</string>
+    <string name="key_setting_app_preventsleep" translatable="false">setting_app_preventsleep</string>
+    <string name="default_setting_app_preventsleep" translatable="false">false</string>
+    <string name="key_snips_hot_word">snips_hot_word</string>
+    <string name="default_snips_hot_word">true</string>
+    <string name="key_snips_watch_html">snips_watch_html</string>
+    <string name="default_snips_watch_html">false</string>
+    <string name="key_snips_dialog">snips_dialog</string>
+    <string name="default_key_snips_dialog">true</string>
+    <string name="key_snips_logs">snips_logs</string>
+    <string name="default_snips_logs">true</string>
+    <string name="key_snips_streaming">snips_streaming</string>
+    <string name="default_snips_streaming">true</string>
+    <string name="key_snips_injection">snips_injection</string>
+    <string name="default_snips_injection">true</string>
+    <string name="key_snips_hotword_sensitivity">snips_hotword_sensitivity</string>
+    <string name="default_snips_hotword_sensitivity">0.5f</string>
+
+    <string name="key_setting_mqtt_password">setting_mqtt_password</string>
+    <string name="default_setting_mqtt_password">""</string>
+    <string name="key_setting_mqtt_username">setting_mqtt_username</string>
+    <string name="default_setting_mqtt_username">""</string>
+    <string name="key_setting_mqtt_basetopic">setting_mqtt_basetopic</string>
+    <string name="key_setting_mqtt_serverport">setting_mqtt_serverport</string>
+    <string name="default_setting_mqtt_serverport">1883</string>
+    <string name="key_setting_mqtt_servername">setting_mqtt_servername</string>
+    <string name="default_setting_mqtt_servername">192.168.1.1</string>
+    <string name="key_setting_mqtt_enabled">setting_mqtt_enabled</string>
+    <string name="key_setting_mqtt_tls_enabled">setting_mqtt_tls_enabled</string>
+    <string name="default_setting_mqtt_enabled">false</string>
+    <string name="default_setting_mqtt_tts_enabled">false</string>
+    <string name="default_setting_mqtt_basetopic">voicepanel</string>
+    <string name="key_setting_mqtt_clientid">setting_mqtt_clientid</string>
+    <string name="default_setting_mqtt_clientid">""</string>
+
+    <string name="key_setting_alarm_enabled">setting_alarm_enabled</string>
+    <string name="default_setting_alarm_enabled">false</string>
+
+    <string name="license" translatable="false"><![CDATA[
+        <br><b>Copyright 2017 ThanksMister LLC</b><br>
+        <br>
+        This application contains open source libraries under the Apache License, Version 2.0 (the "License");
+        you may not use this file except in compliance with the License.
+        You may obtain a copy of the License at
+        <br>
+        <a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>
+        <br>
+        Unless required by applicable law or agreed to in writing, software
+        distributed under the License is distributed on an "AS IS" BASIS,
+        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+        See the License for the specific language governing permissions and
+        limitations under the License.
+    ]]></string>
+
+    <string name="text_sensor_mqtt_output" translatable="false">"{\"topic\":\"%1$s\",\"payload\":\"%2$s\"}"</string>
+
+    <string-array name="settings_titles">
+        <item>@string/action_settings</item>
+        <item>@string/text_alarm_settings</item>
+        <item>@string/text_mqtt_settings</item>
+        <item>@string/sensors_settings</item>
+        <item>@string/preference_title_notification</item>
+        <item>@string/preference_camera_title</item>
+        <item>@string/preference_title_display</item>
+        <item>@string/preference_title_weather_settings</item>
+        <item>@string/preference_title_web_settings</item>
+        <item>@string/text_about</item>
+    </string-array>
+
+    <string-array name="inactivity_values">
+        <item>15000</item>
+        <item>30000</item>
+        <item>60000</item>
+        <item>120000</item>
+        <item>180000</item>
+        <item>300000</item>
+        <item>600000</item>
+        <item>1800000</item>
+    </string-array>
+
+    <string-array name="flip_values">
+        <item>0F</item>
+        <item>-90f</item>
+        <item>90f</item>
+        <item>180f</item>
+    </string-array>
+
+    <string-array name="zoom_level_names">
+        <item>"50%"</item>
+        <item>"100%"</item>
+        <item>"150%"</item>
+        <item>"200%"</item>
+    </string-array>
+
+    <string-array name="zoom_level_values">
+        <item>0.5</item>
+        <item>1.0</item>
+        <item>1.5</item>
+        <item>2.0</item>
+    </string-array>
+
+</resources>

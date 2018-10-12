@@ -88,9 +88,6 @@ constructor(application: Application, private val dataSource: IntentDao, private
                 .map {messages -> messages[messages.size - 1]}
                 .map {message ->
                     Timber.d("state: " + message.payload)
-                    if(message.payload != null) {
-                        configuration.alarmMode = message.payload!!
-                    }
                     message.payload
                 }
     }

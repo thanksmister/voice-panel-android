@@ -71,6 +71,12 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
             sharedPreferences.edit().putString(context.getString(R.string.key_snips_hotword_sensitivity), value.toString()).apply()
         }
 
+    var nluProbability: Float
+        get() = sharedPreferences.getString(context.getString(R.string.key_snips_probability), context.getString(R.string.default_snips_snips_probability)).toFloat()
+        set(value) {
+            sharedPreferences.edit().putString(context.getString(R.string.key_snips_probability), value.toString()).apply()
+        }
+
     private fun getBoolPref(resId: Int, defId: Int): Boolean {
         return sharedPreferences.getBoolean(
                 context.getString(resId),

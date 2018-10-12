@@ -34,14 +34,18 @@ class ComponentUtils {
         const val COMPONENT_HA_ALARM_AWAY = "thanksmister:HaAlarmAway"
         const val COMPONENT_HA_ALARM_STATUS = "thanksmister:HaAlarmStatus"
         const val COMPONENT_STATUS = "thanksmister:getStatus"
+        const val COMPONENT_CAMERA_CAPTURE = "thanksmister:cameraCapture"
+        const val COMPONENT_CAMERA_ACTION = "thanksmister:cameraAction"
         const val COMPONENT_SNIPS_INIT = "initSnips"
         const val COMPONENT_HASS_TURN_ON = "hass:HassTurnOn"
         const val COMPONENT_HASS_TURN_OFF = "hass:HassTurnOff"
         const val COMPONENT_HASS_LIGHT_SET = "hass:HassLightSet"
         const val COMPONENT_HASS_OPEN_COVER = "hass:HassOpenCover"
         const val COMPONENT_HASS_CLOSE_COVER = "hass:HassCloseCover"
+        const val COMPONENT_HASS_SHOPPING_LIST = "hass:HassShoppingListAddItem"
         const val COMPONENT_LIGHTS_TURN_OFF = "lightsTurnOff"
         const val COMPONENT_LIGHTS_SHIFT = "lightsShift"
         const val COMPONENT_LIGHTS_SET = "lightsSet"
+        const val COMPONENT_SET_THERMOSTAT = "TSchmidty:setThermostat"
     }
 }

@@ -88,6 +88,9 @@ internal abstract class AndroidBindingModule {
     internal abstract fun notificationsSettingsFragment(): NotificationsSettingsFragment
 
     @ContributesAndroidInjector
+    internal abstract fun platformSettingsFragment(): PlatformSettingsFragment
+
+    @ContributesAndroidInjector
     internal abstract fun cameraSettingsFragment(): CameraSettingsFragment
 
     @ContributesAndroidInjector

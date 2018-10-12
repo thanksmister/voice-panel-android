@@ -48,13 +48,16 @@ import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROAD
 import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROADCAST_ACTION_LOADING_COMPLETE
 import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROADCAST_ACTION_LOADING_START
 import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROADCAST_ALERT_MESSAGE
+import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROADCAST_EVENT_ALARM_MODE
 import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROADCAST_SCREEN_WAKE
 import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROADCAST_TOAST_MESSAGE
 import com.thanksmister.iot.voicepanel.persistence.Configuration
 import com.thanksmister.iot.voicepanel.ui.adapters.CommandAdapter
 import com.thanksmister.iot.voicepanel.ui.viewmodels.VoiceViewModel
 import com.thanksmister.iot.voicepanel.ui.views.AlarmDisableView
+import com.thanksmister.iot.voicepanel.ui.views.ArmOptionsView
 import com.thanksmister.iot.voicepanel.utils.AlarmUtils
+import com.thanksmister.iot.voicepanel.utils.AlarmUtils.Companion.MODE_ARM_AWAY_PENDING
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_voice.*
@@ -143,7 +146,7 @@ class VoiceActivity : BaseActivity() {
         }
 
         buttonSettings.setOnClickListener {launchSettings()}
-        buttonAlarm.setOnClickListener {alarmDisable()}
+        buttonAlarm.setOnClickListener {alarmCommand()}
 
         commandList.setHasFixedSize(true)
         val linearLayoutManager = LinearLayoutManager(this)
@@ -361,14 +364,14 @@ class VoiceActivity : BaseActivity() {
 
     // This is used as a backup to disable the alarm in case voice assistant doesn't work or
     // the alarm is too loud to hear
-    private fun alarmDisable() {
+    private fun alarmCommand() {
         if(configuration.alarmMode == AlarmUtils.MODE_ARM_HOME || configuration.alarmMode == AlarmUtils.MODE_ARM_AWAY ||
                 configuration.alarmMode == AlarmUtils.MODE_ARM_PENDING) {
             dialogUtils.showAlarmDisableDialog(this@VoiceActivity, object : AlarmDisableView.ViewListener {
                 override fun onComplete(code: Int) {
                     dialogUtils.clearDialogs()
-                    val intent = Intent(VoicePanelService.BROADCAST_EVENT_ALARM_MODE)
-                    intent.putExtra(VoicePanelService.BROADCAST_EVENT_ALARM_MODE, AlarmUtils.COMMAND_DISARM)
+                    val intent = Intent(BROADCAST_EVENT_ALARM_MODE)
+                    intent.putExtra(BROADCAST_EVENT_ALARM_MODE, AlarmUtils.COMMAND_DISARM)
                     val bm = LocalBroadcastManager.getInstance(applicationContext)
                     bm.sendBroadcast(intent)
                 }
@@ -379,6 +382,23 @@ class VoiceActivity : BaseActivity() {
                     dialogUtils.clearDialogs()
                 }
             }, configuration.alarmCode)
+        } else if (configuration.alarmMode == AlarmUtils.MODE_DISARM) {
+            dialogUtils.showArmOptionsDialog(this@VoiceActivity, object : ArmOptionsView.ViewListener {
+                override fun onArmHome() {
+                    val intent = Intent(BROADCAST_EVENT_ALARM_MODE)
+                    intent.putExtra(BROADCAST_EVENT_ALARM_MODE, AlarmUtils.COMMAND_ARM_HOME)
+                    val bm = LocalBroadcastManager.getInstance(applicationContext)
+                    bm.sendBroadcast(intent)
+                    dialogUtils.clearDialogs()
+                }
+                override fun onArmAway() {
+                    val intent = Intent(BROADCAST_EVENT_ALARM_MODE)
+                    intent.putExtra(BROADCAST_EVENT_ALARM_MODE, AlarmUtils.COMMAND_ARM_AWAY)
+                    val bm = LocalBroadcastManager.getInstance(applicationContext)
+                    bm.sendBroadcast(intent)
+                    dialogUtils.clearDialogs()
+                }
+            })
         }
     }
 

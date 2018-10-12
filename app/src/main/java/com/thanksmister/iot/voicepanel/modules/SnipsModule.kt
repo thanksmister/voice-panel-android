@@ -35,7 +35,7 @@ import com.thanksmister.iot.voicepanel.utils.FileUtils
 import timber.log.Timber
 import java.lang.ref.WeakReference
 
-class SnipsModule (base: Context?, var options: SnipsOptions, var listener: SnipsListener) : ContextWrapper(base), LifecycleObserver {
+class SnipsModule (base: Context?, private var options: SnipsOptions, var listener: SnipsListener) : ContextWrapper(base), LifecycleObserver {
 
     @Volatile
     private var continueStreaming = true
@@ -43,6 +43,7 @@ class SnipsModule (base: Context?, var options: SnipsOptions, var listener: Snip
     private var recorder: AudioRecord? = null
     private var snipsClientTask: SnipsUnzipAssistant? = null
     private var manuallyListening: Boolean = false
+    private var lowProbability: Boolean = false
 
     interface SnipsListener {
         fun onSnipsPlatformReady()
@@ -50,10 +51,9 @@ class SnipsModule (base: Context?, var options: SnipsOptions, var listener: Snip
         fun onSnipsHotwordDetectedListener()
         fun onSnipsIntentDetectedListener(intentMessage: IntentMessage)
         fun onSnipsListeningStateChangedListener(isListening: Boolean)
-        //fun onSessionStartedListener(sessionStartedMessage: SessionStartedMessage)
-        //fun onSessionQueuedListener(sessionQueuedMessage: SessionQueuedMessage)
         fun onSessionEndedListener(sessionEndedMessage: SessionEndedMessage)
         fun onSnipsWatchListener(s: String)
+        fun onSnipsLowProbability()
     }
 
     init {
@@ -128,10 +128,6 @@ class SnipsModule (base: Context?, var options: SnipsOptions, var listener: Snip
         }
     }
 
-    fun stopManualListening() {
-
-    }
-
     fun startNotification(message: String) {
         if(snipsClient != null) {
             snipsClient!!.startNotification(message, null)
@@ -177,7 +173,18 @@ class SnipsModule (base: Context?, var options: SnipsOptions, var listener: Snip
             snipsClient!!.onIntentDetectedListener = fun(intentMessage: IntentMessage): Unit {
                 Timber.d("received an intent: $intentMessage")
                 //Timber.d("json output: $json")
-                listener.onSnipsIntentDetectedListener(intentMessage)
+                Timber.d("The probability was ${intentMessage.intent.probability}")
+                //if(intentMessage.intent.probability > .070) {
+                val lowerValue = options.nluProbability
+                val higherValue = 1.0f
+                if(intentMessage.intent.probability in lowerValue..higherValue) {
+                    lowProbability = false
+                    listener.onSnipsIntentDetectedListener(intentMessage)
+                } else {
+                    Timber.w("The probability was too low.")
+                    lowProbability = true
+                    listener.onSnipsLowProbability()
+                }
             }
             snipsClient!!.onListeningStateChangedListener = fun(isListening: Boolean): Unit {
                 Timber.d("asr listening state: " + isListening)
@@ -195,9 +202,11 @@ class SnipsModule (base: Context?, var options: SnipsOptions, var listener: Snip
             snipsClient!!.onSessionEndedListener = fun(sessionEndedMessage: SessionEndedMessage): Unit {
                 Timber.d("dialogue session ended: $sessionEndedMessage")
                 Timber.d("termination type: ${sessionEndedMessage.termination.type}")
-                if(SessionTermination.Type.INTENT_NOT_RECOGNIZED == sessionEndedMessage.termination.type && !manuallyListening) {
+                if(SessionTermination.Type.INTENT_NOT_RECOGNIZED == sessionEndedMessage.termination.type
+                        && !manuallyListening && !lowProbability) {
                     snipsClient!!.startNotification("Sorry, I didn't understand.", null)
-                } else if (SessionTermination.Type.TIMEOUT == sessionEndedMessage.termination.type) {
+                } else if (SessionTermination.Type.TIMEOUT == sessionEndedMessage.termination.type
+                        && !manuallyListening && !lowProbability) {
                     snipsClient!!.startNotification("Sorry, I don't know how to do that.", null)
                 } else if (SessionTermination.Type.NOMINAL == sessionEndedMessage.termination.type) {
                     //snipsClient!!.startNotification("Assistant initialized and ready.", null)

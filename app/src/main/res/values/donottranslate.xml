@@ -96,6 +96,9 @@
     <string name="key_setting_alarm_enabled">setting_alarm_enabled</string>
     <string name="default_setting_alarm_enabled">false</string>
 
+    <string name="key_snips_probability">snips_probability</string>
+    <string name="default_snips_snips_probability">0.7f</string>
+
     <string name="license" translatable="false"><![CDATA[
         <br><b>Copyright 2017 ThanksMister LLC</b><br>
         <br>
@@ -114,29 +117,6 @@
 
     <string name="text_sensor_mqtt_output" translatable="false">"{\"topic\":\"%1$s\",\"payload\":\"%2$s\"}"</string>
 
-    <string-array name="settings_titles">
-        <item>@string/action_settings</item>
-        <item>@string/text_alarm_settings</item>
-        <item>@string/text_mqtt_settings</item>
-        <item>@string/sensors_settings</item>
-        <item>@string/preference_title_notification</item>
-        <item>@string/preference_camera_title</item>
-        <item>@string/preference_title_display</item>
-        <item>@string/preference_title_weather_settings</item>
-        <item>@string/preference_title_web_settings</item>
-        <item>@string/text_about</item>
-    </string-array>
-
-    <string-array name="inactivity_values">
-        <item>15000</item>
-        <item>30000</item>
-        <item>60000</item>
-        <item>120000</item>
-        <item>180000</item>
-        <item>300000</item>
-        <item>600000</item>
-        <item>1800000</item>
-    </string-array>
 
     <string-array name="flip_values">
         <item>0F</item>

@@ -26,7 +26,7 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_telegram_title">
+    <!--<PreferenceCategory android:title="@string/pref_telegram_title">
 
         <EditTextPreference
             android:key="pref_telegram_chat_id"
@@ -52,6 +52,6 @@
         android:summary="@string/pref_camera_send_image_notes"
         android:textColor="@color/light_gray"
         android:textSize="12sp"
-        android:dependency="pref_module_camera"/>
+        android:dependency="pref_module_camera"/>-->
 
 </PreferenceScreen>

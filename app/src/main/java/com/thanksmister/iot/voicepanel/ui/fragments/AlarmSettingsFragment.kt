@@ -36,6 +36,7 @@ import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_
 import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_STATE_TOPIC
 import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_SYSTEM_NOTIFICATIONS
 import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_SYSTEM_SOUNDS
+import com.thanksmister.iot.voicepanel.ui.SettingsActivity
 import com.thanksmister.iot.voicepanel.ui.views.AlarmCodeView
 import com.thanksmister.iot.voicepanel.utils.DialogUtils
 import dagger.android.support.AndroidSupportInjection
@@ -82,6 +83,7 @@ class AlarmSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         super.onViewCreated(view, savedInstanceState)
         alarmPreference = findPreference(getString(R.string.key_setting_alarm_enabled)) as SwitchPreference
         stateTopicPreference = findPreference(PREF_STATE_TOPIC) as EditTextPreference
+        commandTopicPreference = findPreference(PREF_COMMAND_TOPIC) as EditTextPreference
         soundPreference = findPreference(Configuration.PREF_SYSTEM_SOUNDS) as SwitchPreference
         systemPreference = findPreference(Configuration.PREF_SYSTEM_NOTIFICATIONS) as SwitchPreference
         systemPreference!!.isChecked = configuration.hasSystemAlerts()
@@ -142,7 +144,7 @@ class AlarmSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSh
         // store the default alarm code
         defaultCode = configuration.alarmCode
         if (activity != null && isAdded) {
-            dialogUtils.showCodeDialog(activity as BaseActivity, confirmCode, object : AlarmCodeView.ViewListener {
+            dialogUtils.showCodeDialog(activity as SettingsActivity, confirmCode, object : AlarmCodeView.ViewListener {
                 override fun onComplete(code: Int) {
                     if (code == defaultCode) {
                         confirmCode = false

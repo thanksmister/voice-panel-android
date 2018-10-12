@@ -36,8 +36,8 @@ class CaptureSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.On
     @Inject lateinit var dialogUtils: DialogUtils
 
     private var activePreference: CheckBoxPreference? = null
-    private var telegramTokenPreference: EditTextPreference? = null
-    private var telegramChatIdPreference: EditTextPreference? = null
+    //private var telegramTokenPreference: EditTextPreference? = null
+    //private var telegramChatIdPreference: EditTextPreference? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -62,13 +62,13 @@ class CaptureSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.On
 
         super.onViewCreated(view, savedInstanceState)
 
-        telegramChatIdPreference = findPreference(Configuration.PREF_TELEGRAM_CHAT_ID) as EditTextPreference
-        telegramTokenPreference = findPreference(Configuration.PREF_TELEGRAM_TOKEN) as EditTextPreference
+        //telegramChatIdPreference = findPreference(Configuration.PREF_TELEGRAM_CHAT_ID) as EditTextPreference
+        //telegramTokenPreference = findPreference(Configuration.PREF_TELEGRAM_TOKEN) as EditTextPreference
         activePreference = findPreference(Configuration.PREF_CAMERA_CAPTURE) as CheckBoxPreference
 
         activePreference!!.isChecked = configuration.hasCameraCapture()
 
-        if (!TextUtils.isEmpty(configuration.telegramChatId)) {
+        /*if (!TextUtils.isEmpty(configuration.telegramChatId)) {
             telegramChatIdPreference!!.setDefaultValue(configuration.telegramChatId)
             telegramChatIdPreference!!.summary = configuration.telegramChatId
         }
@@ -76,13 +76,13 @@ class CaptureSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.On
         if (!TextUtils.isEmpty(configuration.telegramToken)) {
             telegramTokenPreference!!.setDefaultValue(configuration.telegramToken)
             telegramTokenPreference!!.summary = configuration.telegramToken
-        }
+        }*/
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
 
         when (key) {
-            Configuration.PREF_TELEGRAM_CHAT_ID -> {
+            /*Configuration.PREF_TELEGRAM_CHAT_ID -> {
                 val value = telegramChatIdPreference!!.text
                 configuration.telegramChatId = value
                 telegramChatIdPreference!!.summary = value
@@ -91,7 +91,7 @@ class CaptureSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.On
                 val value = telegramTokenPreference!!.text
                 configuration.telegramToken = value
                 telegramTokenPreference!!.summary = value
-            }
+            }*/
             Configuration.PREF_CAMERA_CAPTURE -> {
                 val checked = activePreference!!.isChecked
                 configuration.setHasCameraCapture(checked)

@@ -22,15 +22,10 @@
     <!-- Toasts, Alerts, Errors -->
     <string name="text_error_blank_entry">The value should not blank, please enter a valid value</string>
     <string name="toast_code_match">Alarm code matches current code, enter a different code.</string>
-    <string name="toast_code_alarm_set">Alarm has been set!</string>
     <string name="toast_code_unchanged">Alarm code unchanged!</string>
     <string name="toast_code_changed">Alarm code changed successfully!</string>
     <string name="toast_code_not_match">Code does not match, try again.</string>
     <string name="toast_code_invalid">Code is invalid, please try again.</string>
-    <string name="toast_camera_permission_granted">Camera permission granted.</string>
-    <string name="toast_camera_permission_denied">Camera permission not granted.</string>
-    <string name="dialog_write_permissions_title">Permissions Required</string>
-    <string name="dialog_write_permissions_description">Do you want to grant permission to modify the system settings for screen brightness?</string>
     <string name="toast_write_permissions_denied">Write settings permission denied…</string>
     <string name="toast_write_permissions_granted">Write settings permission granted…</string>
     <string name="toast_qr_code_read">QR Code Read....</string>
@@ -48,49 +43,29 @@
     <string name="dialog_message_ssl_generic">SSL certificate error.</string>
     <string name="dialog_missing_webview_warning">This device does not have the WebView component installed, please install the component from the Google Play store.</string>
     <string name="dialog_connect_mqtt_broker">Please configure your MQTT broker in the settings.  The application will not work without an MQTT connection to Home Assistant.</string>
-    <string name="dialog_select_time">Select Time</string>
 
-    <string name="service_notification_title">Voice Panel</string>
     <string name="service_notification_message">Voice Panel Running…</string>
     <string name="title_settings">Settings</string>
     <string name="title_camera_settings">Camera Settings</string>
     <string name="title_mqtt_settings">MQTT Settings</string>
-    <string name="title_http_settings">HTTP Settings</string>
     <string name="title_motion_settings">Motion Detection Settings</string>
     <string name="title_facedetection_settings">Face Detection Settings</string>
     <string name="title_qrcode_settings">QR Code Settings</string>
-    <string name="title_activity_browser">Browser</string>
-    <string name="title_setting_app_deviceid">Device ID</string>
-    <string name="title_setting_app_preventsleep">Prevent Screen Sleep</string>
-    <string name="title_setting_app_launchurl">Dashboard URL</string>
     <string name="title_setting_app_showactivity">Show Browser Activity</string>
     <string name="title_setting_camera_enabled">Camera Enabled</string>
     <string name="title_setting_camera_cameraid">Selected Camera</string>
     <string name="title_setting_camera_motionenabled">Motion Detection Enabled</string>
-    <string name="title_setting_camera_processinginterval">Image Processing Interval (ms)</string>
     <string name="title_setting_camera_motionleniency">Maximum Leniency</string>
     <string name="title_setting_camera_motionminluma">Minimum Luma</string>
     <string name="title_setting_camera_motionwake">Wakes Screen</string>
-    <string name="title_setting_camera_motionbright">Screen Brightness</string>
-    <string name="title_setting_camera_motionontime">Screen Dim Delay (Seconds)</string>
     <string name="title_setting_camera_faceenabled">Face Detection Enabled</string>
     <string name="title_setting_camera_facewake">Wakes Screen</string>
     <string name="title_setting_camera_qrcodeenabled">QR Code Reader Enabled</string>
-    <string name="title_setting_http_restenabled">REST API</string>
     <string name="title_setting_http_port">HTTP Listening Port</string>
     <string name="title_setting_http_mjpegenabled">MJPEG Camera Streaming</string>
     <string name="title_setting_http_mjpegmaxstreams">MJPEG Camera Max Streams</string>
-    <string name="title_setting_mqtt_enabled">Enabled MQTT Client</string>
-    <string name="title_setting_mqtt_servername">MQTT Broker Address</string>
-    <string name="title_setting_mqtt_serverport">Broker Port Number</string>
     <string name="title_setting_mqtt_basetopic">Base Topic</string>
-    <string name="title_setting_mqtt_clientid">Client ID</string>
-    <string name="title_setting_mqtt_username">Username (Optional)</string>
-    <string name="title_setting_mqtt_password">Password (Optional)</string>
     <string name="title_setting_mqtt_sensorfrequency">Publish Frequency (in seconds)</string>
-    <string name="title_setting_android_startonboot">Open On Device Boot</string>
-    <string name="title_setting_android_browsertype">Specify Browser Engine</string>
-    <string name="default_setting_android_browsertype">Auto</string>
     <string name="title_setting_test_zoomlevel">Browser Zoom Level</string>
     <string name="summary_setting_sensors_default">Not available</string>
     <string name="title_setting_sensors_temperature">Temperature</string>
@@ -100,86 +75,54 @@
     <string name="title_setting_sensors_humidity">Humidity</string>
 
 
-    <string name="text_seconds">%1$s seconds</string>
     <string name="title_camera_test">Camera Test</string>
-    <string name="button_launch_settings">Launch Settings</string>
 
     <string name="title_sensor_settings">Sensor Settings</string>
     <string name="title_enable_sensor_data">Enable Sensor Publishing</string>
     <string name="summary_enable_sensor_data">Publishes available device sensor data over MQTT</string>
     <string name="menu_title_help">Help</string>
-    <string name="menu_title_dashboard">Dashboard</string>
-    <string name="menu_item_help">Help</string>
     <string name="mail_to_subject_text">Feedback</string>
     <string name="mail_subject_text">Send Feedback:</string>
 
     <string name="thanks_mister_title">Thanks, Mister!</string>
     <string name="designer_developer_text">Design and development</string>
     <string name="company_url_text">thanksmister.com</string>
-    <string name="company_email">mister@thanksmister.com</string>
     <string name="text_feedback">Feedback</string>
     <string name="text_rate_application">Rate application</string>
-    <string name="text_reddit">Reddit group</string>
-    <string name="text_license_information">License information</string>
     <string name="text_github_code">GitHub code</string>
 
     <string name="error_mqtt_connection">The MQTT client connection wasn\'t established or was closed unexpectedly. Will try to reconnect.</string>
     <string name="error_mqtt_subscription">Couldn\'t subscribe to the MQTT topics, check the MQTT broker settings or your connection.</string>
     <string name="text_android_channel_name">Voice Panel Running</string>
     <string name="text_android_channel_description">Voice Panel Running…</string>
-    <string name="text_camera_front">Front</string>
-    <string name="text_camera_back">Back</string>
 
     <string name="text_front">Front</string>
     <string name="text_back">Back</string>
     <string name="text_camera_pattern">{0}: {1} Camera {3}x{4} {2}º</string>
 
-    <string name="text_loading_percent">Loading %1$s%% %2$s</string>
-    <string name="dialog_no_permissions">This application requires the certain permissions. Without them the application may not function properly. You can grant permissions by going to your device Settings -> Apps -> Voice Panel.</string>
-    <string name="toast_storage_granted">Storage permissions granted…</string>
-    <string name="toast_storage_denied">Storage permissions denied…</string>
-    <string name="button_cancel">Cancel</string>
-    <string name="button_continue">Continue</string>
     <string name="text_error_only_numbers">Be sure the value only contains numbers and is not blank.</string>
 
     <string name="text_notification_network_title">Alarm Disconnected</string>
     <string name="text_notification_network_description">The network connection is unavailable, a connection is needed for the alarm to work properly.</string>
 
-    <string name="record">Start</string>
-    <string name="NeedRecordAudioPermission">"This sample needs RECORD_AUDIO permission"</string>
-    <string name="hotword">Hotword</string>
-    <string name="start_dialog_session">Start a dialogue session</string>
-    <string name="loading">Loading…</string>
-    <string name="stop">Stop</string>
-    <string name="start">Start</string>
-
     <string name="error_missing_vision_lib">Missing appropriate libraries to process Face detection or Barcode reading. These features may not work on this device.</string>
     <string name="toast_screen_timeout">Screen timed out…</string>
     <string name="error_unzip_assistant">There was a problem unzipping the assistant file into the proper directory.</string>
 
-    <string name="title_welcome_title">Welcome to Voice Panel!</string>
     <string name="text_welcome_description">To begin, please provide the required application permissions and then configure the MQTT broker and other features in the settings.</string>
     <string name="notification_title">Notification</string>
     <string name="text_command_input">\"%1$s\"</string>
     <string name="sensors_settings">Sensors</string>
     <string name="text_about">About</string>
-    <string name="text_mqtt_settings">MQTT Settings</string>
     <string name="text_alarm_settings">Alarm Settings</string>
-    <string name="action_settings">Settings</string>
     <string name="progress_loading">Loading %1$s %%</string>
 
     <!-- Preferences -->
     <string name="pref_title_prevent_sleep">Prevent Screen Sleep</string>
     <string name="pref_summary_prevent_sleep">When active, keeps the screen on.</string>
-    <string name="pref_http_settings_title">HTTP Settings</string>
     <string name="pref_motion_detection_title">Motion Detection</string>
     <string name="pref_motion_adjustments_title">Motion Adjustments</string>
-    <string name="pref_camera_motion_time_summary">Amount of time before the screen dims after brightness is set (requires value above 0).</string>
-    <string name="pref_rest_api_title">REST API Settings</string>
-    <string name="pref_camera_test_title">Camera Test</string>
     <string name="pref_camera_test_button_title">Camera Test</string>
-    <string name="pref_camera_title">Camera</string>
-    <string name="pref_camera_brightness_title">Camera Activated Brightness</string>
     <string name="pref_user_agent_title">User Agent String (Optional)</string>
     <string name="pref_user_agent_summary">Set the browser user agent stream if needed to load the dashboard (leave blank otherwise)</string>
     <string name="pref_camera_fps_title">Camera FPS</string>
@@ -188,31 +131,19 @@
     <string name="pref_about_title">About</string>
     <string name="pref_sensor_list_summary">Below is a list of sensor data available on this device to be published as MQTT data.</string>
     <string name="pref_qr_code_summary">When active, will scan QR codes and publish the scanned code over MQTT.</string>
-    <string name="pref_mqtt_settings_title">MQTT Settings</string>
     <string name="pref_motion_detection_summary">Detects motion using the device\'s camera.</string>
     <string name="pref_motion_wake_summary">Wakes the device screen when motion detected.</string>
-    <string name="pref_camera_bright_summary">Increases the screen brightness when motion or face detected.</string>
     <string name="pref_motion_leniency_description">The maximum tolerance of the difference between images. A lower tolerance means motion is more sensitive (1 – 20).</string>
     <string name="pref_motion_luma_description">Minimum brightness level to detect motion. No motion will be detected if brightness falls below this value (1 – 1000).</string>
     <string name="pref_mjpeg_streaming_description">Use the device camera as a live MJPEG stream. Connect to the stream using the device IP address, HTTP Port, and end point: http://192.168.1.1:2971/camera/stream</string>
     <string name="pref_mjpeg_streaming_title">MJPEG Streaming</string>
-    <string name="pref_http_description">Control the application over HTTP using REST API calls. To find out which commands work with, review the help documentation.</string>
-    <string name="pref_launchurl_summary">Enter the fully qualified URL for your home automation dashboard or path to file on the local device (requires storage access permission).</string>
     <string name="pref_show_browser_activity_summary">Display browser loading progress.</string>
-    <string name="pref_prevent_sleep_summary">When active, keeps the screen on.</string>
-    <string name="pref_start_boot_summary">Will start the application upon system boot.</string>
     <string name="pref_zoom_level_summary">Zooms the browser level (experimental).</string>
     <string name="pref_additional_settings_title">Additional Settings</string>
     <string name="pref_application_settings_title">Application Settings</string>
     <string name="pref_face_detection_title">Face Detection</string>
-    <string name="pref_enable_face_detection_summary">Enables face detection.</string>
     <string name="pref_face_wake_summary">Turns on the screen when face detected.</string>
-    <string name="pref_button_motion_detection">Motion Detection</string>
-    <string name="pref_button_face_detection">Face Detection</string>
-    <string name="pref_button_qrcode_reader">QR Code Reader</string>
     <string name="pref_button_camera_test">Test the camera settings.</string>
-    <string name="pref_title_battery">Battery</string>
-    <string name="pref_summary_battery">Battery Level, USB Plugged, AC Plugged, Charging</string>
     <string name="preference_summary_security_code">Set the alarm system code (default is 1234).</string>
     <string name="preference_title_security_code">Security Code</string>
     <string name="preference_title_mqtt_server">MQTT</string>
@@ -234,129 +165,26 @@
     <string name="preference_title_password">Password</string>
     <string name="preference_summary_password">Set the service password (if needed).</string>
     <string name="preference_title_alarm">Alarm</string>
-    <string name="preference_summary_alarm">Alarm code settings</string>
-    <string name="preference_title_pending_time">Pending Time</string>
-    <string name="preference_summary_pending_time">The time in seconds of the pending time before the alarm is armed away or home). Currently %1$s seconds.</string>
-    <string name="preference_title_trigger_time">Trigger Time</string>
-    <string name="preference_summary_trigger_time">The time in seconds before triggering the alarm. Currently %1$s seconds.</string>
     <string name="preference_title_weather_settings">Weather</string>
     <string name="preference_summary_weather_settings">Once activated, the MQTT weather command values will appear on the main screen.</string>
-    <string name="preference_title_darksky">DarkSky</string>
-    <string name="preference_summary_darksky">Activate the weather module using the DarkSky service.</string>
-    <string name="preference_title_darksky_api">API Secret</string>
-    <string name="preference_summary_darksky_api">Enter your DarkSky API secret.</string>
-    <string name="preference_title_latitude">Latitude</string>
-    <string name="preference_summary_latitude_summary">Edit the location latitude.</string>
-    <string name="preference_title_longitude">Longitude</string>
-    <string name="preference_summary_longitude_summary">Edit the location longitude.</string>
-    <string name="preference_title_units">Use Celsius (°C)</string>
-    <string name="preference_summary_units">Use celsius for temperature values.</string>
     <string name="preference_title_display">Display Settings</string>
-    <string name="preference_title_screen_saver_settings">Screensaver</string>
-    <string name="preference_summary_screen_saver_settings">When active, uses a built-in clock screen saver.</string>
-    <string name="preference_title_screen_saver">Clock Screen Saver</string>
-    <string name="pref_title_image_client_id">Imgur Client Id</string>
-    <string name="preference_summary_image_client_id">Enter the client id of the Imgur account from https://api.imgur.com.</string>
-    <string name="preference_title_screen_saver_photo_settings">Photo Screen Saver Settings</string>
-    <string name="preference_summary_screen_saver_photo_settings">When active, uses rotating Imgur images for the screen saver.</string>
-    <string name="preference_title_screen_saver_photo">Image Screen Saver</string>
-    <string name="preference_summary_screen_saver">Use rotating images from Instagram as screen saver.</string>
-    <string name="preference_title_image_source">Imgur Tag</string>
-    <string name="preference_summary_image_source">Enter an Imgur tag to use for images (example: space, architecture, flowers, or landscape).</string>
-    <string name="preference_title_image_fit">Crop Images</string>
-    <string name="preference_summary_image_fit">Crop the images to fit the screen size.</string>
-    <string name="preference_title_image_rotation">Image Rotation Interval</string>
-    <string name="preference_summary_image_rotation">Time in minutes between image refresh. Currently %1$s.</string>
     <string name="preference_title_web_settings">Dashboard</string>
-    <string name="preference_summary_web_settings">Allows you to load external web page to access your home automation platform interface.</string>
-    <string name="preference_title_web">Home Automation Page</string>
-    <string name="preference_summary_web">Displays your home automation web page by swiping main screen.</string>
     <string name="preference_title_web_url">Dashboard Address</string>
     <string name="preference_summary_web_url">Enter your dashboard web page with prefix and port if needed (http://ipaddress:port).</string>
-    <string name="preference_web_description">This is an experimental feature. The web page is rendered with Android\'s version of the Chrome Browser and may render differently depending on your Android SDK and WebView versions.</string>
     <string name="preference_title_notification">Notifications</string>
     <string name="preference_summary_notification">Show a system notification if the alarm is triggered or entry detected.</string>
-    <string name="preference_title_inactivity">Start screen saver after…</string>
-    <string name="preference_summary_inactivity_seconds">After %1$s seconds of inactivity screen dims.</string>
-    <string name="preference_summary_inactivity_minutes">After %1$s minute(s) of inactivity screen dims.</string>
-    <string name="preference_title_notifications">Notifications</string>
-    <string name="preference_title_mqtt_notifications">MQTT Notifications</string>
-    <string name="preference_summary_mqtt_notifications">Display or speak notifications from MQTT messages.</string>
     <string name="preference_title_alert">Alert Notifications</string>
     <string name="preference_title_system_notifications">System Notifications</string>
     <string name="preference_title_weather">Weather MQTT</string>
     <string name="preference_summary_alert">Example format for the message topic and payload to display alert dialog: \n\n"{\"topic\":\"alarmpanel/command\", \"payload\":\"{\"alert\":\"Hello!\"}\"}"</string>
-    <string name="preference_tts_voice">TTS Voice</string>
     <string name="preference_tts">TTS Notifications</string>
-    <string name="preference_summary_tts">Use Google Text-To-Speech to speak the payload value of an MQTT message. (Note: Requires Android Lollipop or above.)</string>
-    <string name="preference_tts_topic">TTS Topic</string>
-    <string name="preference_topic_title">Set Topic Value</string>
     <string name="preference_tts_topic_summary">Example format for the message topic and payload to be spoken: \n\n"{\"topic\":\"alarmpanel/command\", \"payload\":\"{\"speak\":\"Hello!\"}\"}"</string>
     <string name="preference_camera">Camera</string>
     <string name="preference_camera_title">Camera Capture</string>
     <string name="preference_camera_summary">Use the camera to capture an image and send it when the alarm is disabled using Telegram.</string>
-    <string name="preference_camera_flip_title">Rotate Camera</string>
-    <string name="preference_camera_flip_summary">Depending on your camera, you may need to rotate or flip the camera. Currently %1$s.</string>
-    <string name="preference_mail_domain">Domain</string>
-    <string name="preference_mail_domain_summary">Enter your MailGun domain value (example: sandboxd83b1e242f934c73a471c518392df0.mailgun.org).</string>
-    <string name="preference_mail_key">Api Key</string>
-    <string name="preference_mail_key_summary">Enter your MailGun api key value (example: key-5d021926d65dc12we8ec04d7f9d0fd2c).</string>
-    <string name="preference_mail_from">Mail From</string>
-    <string name="preference_mail_from_summary">Enter an email address the email will be from (example: mister@thankmister.com).</string>
-    <string name="preference_mail_to">Mail To</string>
-    <string name="preference_mail_to_summary">Enter an email address to receive the image. You can use a comma to send to multiple addresses.((example: "mister@thankmister.com" or "mister@thankmister.com, me@thankmister.com")</string>
-    <string name="preference_mail_title">Mail Gun Settings</string>
-    <string name="preference_mail_description">To email captured images you need to setup a MailGun (mailgun.com) account and provide the domain name and api key, also enter the email address of the receipient.</string>
     <string name="pref_mqtt_settings_category">MQTT Notifications</string>
-    <string name="pref_time_update_title">Update Time</string>
-    <string name="pref_time_title">Time Settings</string>
-    <string name="pref_automatic_time_zone_title">Automatic time zone</string>
-    <string name="pref_automatic_time_zone_summary">Use network-provided time zone</string>
-    <string name="pref_time_summary">Update the device time.</string>
-    <string name="pref_time_format_title">Use 24-hour format</string>
-    <string name="text_dialog_select_time">Select Time</string>
-    <string name="pref_density_summary">Change the screen density. Currently %1$s dpi.</string>
-    <string name="pref_device_brightness_summary">Set the screen brightness between 1 and 5. Currently %1$s.</string>
-    <string name="pref_device_density_title">Screen Density</string>
-    <string name="pref_device_brightness_title">Screen Brightness</string>
-    <string name="pref_reset_category">Reset</string>
-    <string name="pref_reset_title">Clear settings</string>
-    <string name="pref_reset_summary">Clears all settings and returns device to default settings.</string>
-    <string name="pref_device_timeout_minutes_summary">After %1$s minute(s) the screen turns off.</string>
-    <string name="pref_device_timeout_seconds_summary">After %1$s second(s) the screen turns off.</string>
-    <string name="pref_device_timeout_hours_summary">After %1$s hour(s) the screen turns off.</string>
-    <string name="pref_device_timeout_title">Screen Timeout</string>
-    <string name="pref_home_pending_title">Arm Home Pending Time</string>
-    <string name="pref_home_pending_summary">The time in seconds before the alarm is set to home mode. Currently %1$s seconds.</string>
-    <string name="pref_delay_title">Disarm Delay Time</string>
-    <string name="pref_delay_summary">The time in seconds to display the disarm dialog before the alarm is triggered unless overridden by the home or away delay times. Currently %1$s seconds.</string>
-    <string name="pref_away_pending_title">Arm Away Pending Time</string>
-    <string name="pref_away_pending_summary">The time in seconds before the alarm is set to away mode. Currently %1$s seconds.</string>
-    <string name="pref_pending_times_description">These times should match those set in your home automation platform. If you do not want to use delay, pending home, pending away times, just set them all to be the same as your pending time. For Home Assistant, review the MQTT manual alarm control panel documentation at https://home-assistant.io/components/alarm_control_panel.manual_mqtt/.</string>
-    <string name="pref_home_delay_summary">The time in seconds to display the disarm dialog before the alarm is triggered in alarm home mode. Currently %1$s seconds.</string>
-    <string name="pref_home_delay_title">Disarm Home Delay Time</string>
-    <string name="pref_away_delay_summary">The time in seconds to display the disarm dialog before the alarm is triggered in alarm away mode. Currently %1$s seconds.</string>
-    <string name="pref_away_delay_title">Disarm Away Delay Time</string>
-    <string name="pref_title_platform_bar">Show Bottom Bar</string>
-    <string name="pref_description_show_platform_bar">When checked, displays a bottom navigation buttons on the platform screen.</string>
-    <string name="pref_telegram_title">Telegram</string>
-    <string name="pref_telegram_chat_id_summary">Enter your Telegram bot chat id.</string>
-    <string name="pref_telegram_token_summary">Enter your Telegram bot API token.</string>
-    <string name="pref_telegram_chat_id_title">Telegram Chat Id</string>
-    <string name="pref_telegram_api_title">Telegram API Token</string>
-    <string name="pref_camera_send_image_notes">You can use Telegram, Mailgun, or both to send captured images.</string>
     <string name="pref_system_sounds_summary">Toggle the alarm alert sound when the alarm is active and entry detected.</string>
     <string name="pref_system_sounds_title">Alarm Sounds</string>
-    <string name="pref_fingerprint_summary">User fingerprint unlock for alarm system. The alarm code will be used as backup.</string>
-    <string name="pref_fingerprint_error">First you must setup your device fingerprint unlock feature.</string>
-    <string name="pref_fingerprint_title">Fingerprint Unlock</string>
-    <string name="pref_hass_settings">Experimental Settings</string>
-    <string name="pref_hide_menu_title">Hide Menu</string>
-    <string name="pref_hide_menu_summary">Hides the administrator menu items.</string>
-    <string name="pref_back_behavior_title">Override Back Behavior</string>
-    <string name="pref_back_behavior_summary">Android button behaves like browser back button.</string>
-    <string name="pref_dark_mode_start_time">Start Time: %1$s</string>
-    <string name="pref_dark_mode_end_time">End Time: %1$s</string>
     <string name="pref_night_mode_description">Dims the display and uses a dark theme based on the MQTT sun value, above or below horizon.</string>
     <string name="summary_sun_topic">Example format for the command topic and payload for sun data: \n\n"{\"topic\": \"voicepanel/command\",\"payload\":\"{'sun':'above_horizon'}\"}"</string>
     <string name="preference_title_sun">Sun MQTT</string>
@@ -368,68 +196,29 @@
     <string name="summary_weather_topic">Example format for the command topic and payload for weather data: \n\n"{\"topic\": \"voicepanel/command\",\"payload\":\"{'weather':{'summary':'Partly Cloudy','precipitation':'0','icon':'partly-cloudy-day','temperature':'22.5','units':'°C'}}\"}"</string>
     <string name="summary_setting_mqtt_basetopic">Identifier to receive MQTT commands for this panel. Each panel should have a unique identifier.</string>
     <string name="title_voice_assistant">Voice Assistant</string>
-    <string name="pref_hotword_summary">Adjust the sensitivity when listening for the wake-word, current value is %1$s.</string>
+    <string name="pref_hotword_summary">Adjust the sensitivity when listening for the wake-word.</string>
     <string name="pref_hotword_title">Wake-Word Sensitivity</string>
-    <string name="error_hotword_sensitivity_rante">Please enter a value between 0 and 1.</string>
+    <string name="error_hotword_sensitivity">Please enter a value between 0 and 1.</string>
+    <string name="error_snips_probability">Please enter a value between 0 and 1.</string>
     <string name="text_temperature">%1$s %2$s</string>
-    <string name="text_temperature_range">H%1$s°  L%2$s°</string>
-    <string name="text_output_init_message">Hello, how may I assist you?</string>
     <string name="text_snips_welcome">Welcome, how may I help you?</string>
     <string name="text_notification_entry_title">Entry Detected</string>
     <string name="text_notification_entry_description">An entry has been detected, take the necessary action.</string>
     <string name="text_notification_trigger_title">Alarm Triggered</string>
     <string name="text_notification_trigger_description">The alarm has been triggered, take the necessary action.</string>
     <string name="pref_title_night_mode">Use Night Mode</string>
-    <string name="text_touch_sensor">Touch sensor</string>
     <string name="text_enter_alarm_code_title">Enter a new alarm code</string>
     <string name="text_renter_alarm_code_title">Please enter the new code again to verify</string>
     <string name="text_settings_code_title">To access this area, please enter your code.</string>
     <string name="text_alarm_disarm_title">Please enter your alarm code.</string>
     <string name="text_arm_home">ARM HOME</string>
     <string name="text_arm_away">ARM AWAY</string>
-    <string name="text_armed_home">ARMED HOME</string>
-    <string name="text_armed_away">ARMED AWAY</string>
     <string name="text_system">SYSTEM</string>
     <string name="text_disarmed">DISARMED</string>
-    <string name="text_alarm">ALARM</string>
-    <string name="dialog_alarm_triggered">ENTER CODE TO DISMISS</string>
     <string name="pref_face_wake_word_title">Face Detection Wakes Assistant</string>
     <string name="pref_face_wake_word_summary">When active, the assistant will listen for commands when a face is detected. Must enable camera and face detection.</string>
-
-    <string-array name="inactivity_times">
-        <item>15 seconds</item>
-        <item>30 seconds</item>
-        <item>1 minute</item>
-        <item>2 minutes</item>
-        <item>3 minutes</item>
-        <item>5 minutes</item>
-        <item>10 minutes</item>
-        <item>30 minutes</item>
-    </string-array>
-
-    <string-array name="timeout_times">
-        <item>15 seconds</item>
-        <item>30 seconds</item>
-        <item>1 minute</item>
-        <item>2 minutes</item>
-        <item>3 minutes</item>
-        <item>5 minutes</item>
-        <item>10 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>2 hours</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>12 hours</item>
-        <item>24 hours</item>
-    </string-array>
-
-    <string-array name="flip_directions">
-        <item>None</item>
-        <item>Rotate Left</item>
-        <item>Rotate Right</item>
-        <item>Flip Vertical</item>
-    </string-array>
+    <string name="pref_probability_summary">Set the probability threshold for natural language understanding. The higher the value, the better you must be understood before the assistant responds.</string>
+    <string name="pref_probability_title">Probability Threshold</string>
 
 
 </resources>

@@ -42,6 +42,7 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
 
     private var hotwordSensitivityPreference: EditTextPreference? = null
     private var faceWakeWordPreference: SwitchPreference? = null
+    private var probabilityPreference: EditTextPreference? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -75,13 +76,16 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        probabilityPreference = findPreference(getString(R.string.key_snips_probability)) as EditTextPreference
+        probabilityPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
+        probabilityPreference!!.text = snipsOptions.nluProbability.toString()
+
         faceWakeWordPreference = findPreference(PREF_FACE_WAKE_WORD) as SwitchPreference
         faceWakeWordPreference!!.isChecked = configuration.faceWakeWord
 
         hotwordSensitivityPreference = findPreference(getString(R.string.key_snips_hotword_sensitivity)) as EditTextPreference
         hotwordSensitivityPreference!!.setDefaultValue(snipsOptions.withHotwordSensitivity.toString())
         hotwordSensitivityPreference!!.text = snipsOptions.withHotwordSensitivity.toString()
-        hotwordSensitivityPreference!!.summary = getString(R.string.pref_hotword_summary, snipsOptions.withHotwordSensitivity.toString())
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -91,26 +95,41 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
                 try {
                     if(!TextUtils.isEmpty(value)) {
                         snipsOptions.withHotwordSensitivity = value.toFloat()
-                        if(value.toFloat() in 0.0..1.0) {
-                            hotwordSensitivityPreference!!.summary = getString(R.string.pref_hotword_summary,
-                                    snipsOptions.withHotwordSensitivity.toString())
-                        } else {
-                            Toast.makeText(activity, getString(R.string.error_hotword_sensitivity_rante), Toast.LENGTH_LONG).show()
+                        if(!(value.toFloat() in 0.0..1.0)) {
+                            Toast.makeText(activity, getString(R.string.error_hotword_sensitivity), Toast.LENGTH_LONG).show()
                         }
                     } else if (isAdded) {
                         Toast.makeText(activity, R.string.text_error_blank_entry, Toast.LENGTH_LONG).show()
                         hotwordSensitivityPreference!!.setDefaultValue(snipsOptions.withHotwordSensitivity.toString())
                         hotwordSensitivityPreference!!.text = snipsOptions.withHotwordSensitivity.toString()
-                        hotwordSensitivityPreference!!.summary = getString(R.string.pref_hotword_summary,
-                                snipsOptions.withHotwordSensitivity.toString())
                     }
                 } catch (e : Exception) {
                     if(isAdded) {
                         Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
                         hotwordSensitivityPreference!!.setDefaultValue(snipsOptions.withHotwordSensitivity.toString())
                         hotwordSensitivityPreference!!.text = snipsOptions.withHotwordSensitivity.toString()
-                        hotwordSensitivityPreference!!.summary = getString(R.string.pref_hotword_summary,
-                                snipsOptions.withHotwordSensitivity.toString())
+                    }
+                }
+            }
+            getString(R.string.key_snips_probability) -> {
+                val value = probabilityPreference!!.text
+                try {
+                    if(!TextUtils.isEmpty(value)) {
+                        snipsOptions.nluProbability = value.toFloat()
+                        if(!(value.toFloat() in 0.0..1.0)) {
+                           Toast.makeText(activity, getString(R.string.error_snips_probability), Toast.LENGTH_LONG).show()
+                        }
+                    } else if (isAdded) {
+                        Toast.makeText(activity, R.string.text_error_blank_entry, Toast.LENGTH_LONG).show()
+                        probabilityPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
+                        probabilityPreference!!.text = snipsOptions.nluProbability.toString()
+
+                    }
+                } catch (e : Exception) {
+                    if(isAdded) {
+                        Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
+                        probabilityPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
+                        probabilityPreference!!.text = snipsOptions.nluProbability.toString()
                     }
                 }
             }

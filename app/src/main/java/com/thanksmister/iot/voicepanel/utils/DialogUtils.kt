@@ -23,6 +23,8 @@ import android.arch.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.DialogInterface
+import android.content.res.Configuration
+import android.graphics.Rect
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
@@ -32,6 +34,7 @@ import android.widget.TextView
 import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.ui.views.AlarmCodeView
 import com.thanksmister.iot.voicepanel.ui.views.AlarmDisableView
+import com.thanksmister.iot.voicepanel.ui.views.ArmOptionsView
 import timber.log.Timber
 
 /**
@@ -170,6 +173,22 @@ class DialogUtils(base: Context?) : ContextWrapper(base), LifecycleObserver {
         alarmCodeView.setListener(listener)
         dialog = buildImmersiveDialog(activity, true, view, false)
         dialog!!.setOnCancelListener(onCancelListener)
+    }
+
+    fun showArmOptionsDialog(activity: AppCompatActivity, armListener: ArmOptionsView.ViewListener) {
+        clearDialogs()
+        val inflater = activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.dialog_alarm_options, null, false)
+        val displayRectangle = Rect()
+        val window = activity.window
+        window.decorView.getWindowVisibleDisplayFrame(displayRectangle)
+        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            view.minimumWidth = (displayRectangle.width() * 0.4f).toInt()
+            view.minimumHeight = (displayRectangle.height() * 0.4f).toInt()
+        }
+        val optionsView = view.findViewById<ArmOptionsView>(R.id.armOptionsView)
+        optionsView.setListener(armListener)
+        dialog = buildImmersiveDialog(activity, true, view, false)
     }
 
     // immersive dialogs without navigation

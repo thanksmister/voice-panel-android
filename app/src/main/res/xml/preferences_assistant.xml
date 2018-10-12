@@ -12,6 +12,13 @@
             android:summary="@string/pref_hotword_summary"
             android:title="@string/pref_hotword_title"/>
 
+        <EditTextPreference
+            android:key="@string/key_snips_probability"
+            android:negativeButtonText="@android:string/cancel"
+            android:positiveButtonText="@android:string/ok"
+            android:summary="@string/pref_probability_summary"
+            android:title="@string/pref_probability_title"/>
+
         <SwitchPreference
             android:defaultValue="false"
             android:key="pref_face_wakeword"

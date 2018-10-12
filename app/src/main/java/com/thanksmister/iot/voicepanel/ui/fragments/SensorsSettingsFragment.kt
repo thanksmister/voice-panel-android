@@ -57,7 +57,7 @@ class SensorsSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.On
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        addPreferencesFromResource(R.xml.preference_sensors)
+        addPreferencesFromResource(R.xml.preferences_sensors)
     }
 
     override fun onResume() {

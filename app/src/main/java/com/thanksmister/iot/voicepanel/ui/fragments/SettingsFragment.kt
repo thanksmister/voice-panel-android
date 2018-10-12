@@ -31,6 +31,7 @@ class SettingsFragment : BaseSettingsFragment() {
     private var displayPreference: Preference? = null
     private var notificationPreference: Preference? = null
     private var alarmPreference: Preference? = null
+    //private var dashboardPreference: Preference? = null
     private var cameraPreference: Preference? = null
     private var mqttPreference: Preference? = null
     private var weatherPreference: Preference? = null
@@ -53,7 +54,7 @@ class SettingsFragment : BaseSettingsFragment() {
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        addPreferencesFromResource(R.xml.pref_general)
+        addPreferencesFromResource(R.xml.preferences)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,6 +69,7 @@ class SettingsFragment : BaseSettingsFragment() {
         mqttPreference = findPreference("button_key_mqtt")
         sensorsPreference = findPreference("button_key_sensors")
         aboutPreference = findPreference("button_key_about")
+        //dashboardPreference = findPreference("button_key_platform")
         weatherPreference = findPreference("button_key_weather")
 
         assistantPreference!!.onPreferenceClickListener = Preference.OnPreferenceClickListener { preference ->
@@ -82,6 +84,11 @@ class SettingsFragment : BaseSettingsFragment() {
             view.let { Navigation.findNavController(it).navigate(R.id.notifications_action) }
             false
         }
+
+        /*dashboardPreference!!.onPreferenceClickListener = Preference.OnPreferenceClickListener { preference ->
+            view.let { Navigation.findNavController(it).navigate(R.id.platform_action) }
+            false
+        }*/
         cameraPreference!!.onPreferenceClickListener = Preference.OnPreferenceClickListener { preference ->
             view.let { Navigation.findNavController(it).navigate(R.id.camera_action) }
             false

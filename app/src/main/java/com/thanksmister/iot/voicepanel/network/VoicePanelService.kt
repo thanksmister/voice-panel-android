@@ -116,7 +116,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     private val mBinder = VoicePanelServiceBinder()
     private val motionClearHandler = Handler()
     private val faceClearHandler = Handler()
-    private var textToSpeechModule: TextToSpeechModule? = null
+   // private var textToSpeechModule: TextToSpeechModule? = null
     private var mqttModule: MQTTModule? = null
     private var snipsModule: SnipsModule? = null
     private var connectionLiveData: ConnectionLiveData? = null
@@ -164,7 +164,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
         startForeground()
         configureMqtt()
-        configureTextToSpeech()
+        //configureTextToSpeech()
         configureVoice()
         configurePowerOptions()
         startHttp()
@@ -384,12 +384,20 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     override fun onSnipsHotwordDetectedListener() {
         Timber.d("a hotword was detected!")
+        switchScreenOn(SCREEN_WAKE_TIME)
         val intent = Intent(BROADCAST_ACTION_LISTENING_START)
         val bm = LocalBroadcastManager.getInstance(applicationContext)
         bm.sendBroadcast(intent)
     }
 
+    override fun onSnipsLowProbability() {
+        val intent = Intent(BROADCAST_ACTION_LISTENING_END)
+        val bm = LocalBroadcastManager.getInstance(applicationContext)
+        bm.sendBroadcast(intent)
+    }
+
     // TODO let's only save this intent on success
+    // TODO check the probability is high or ask to repeat message
     override fun onSnipsIntentDetectedListener(intentMessage: IntentMessage) {
         Timber.d("intent detected!")
         val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
@@ -489,6 +497,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
                     }
                 }
             }
+            configuration.alarmMode = payload
             insertMessage(id, topic, payload, AlarmUtils.ALARM_TYPE.toLowerCase())
         } else {
             processCommand(id, topic, payload)
@@ -527,14 +536,14 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         }
     }
 
-    private fun configureTextToSpeech() {
+    /*private fun configureTextToSpeech() {
         Timber.d("configureTextToSpeach")
         if (textToSpeechModule == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mqttOptions.isValid) {
             updateSyncMap(INIT_SPEECH, true)
             textToSpeechModule = TextToSpeechModule(this, this)
             lifecycle.addObserver(textToSpeechModule!!)
         }
-    }
+    }*/
 
     override fun onTextToSpeechInitialized() {
         updateSyncMap(INIT_SPEECH, false)
@@ -807,9 +816,9 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     private fun speakMessage(message: String) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            if (textToSpeechModule != null) {
+            if (snipsModule != null) {
                 Timber.d("speakMessage $message")
-                textToSpeechModule!!.speakText(message)
+                snipsModule!!.startNotification(message)
             }
         }
     }

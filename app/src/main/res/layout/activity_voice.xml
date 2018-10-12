@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,82 +29,93 @@
         android:layout_height="72dp"
         tools:layout="@layout/fragment_information" />
 
-    <FrameLayout
-        android:id="@+id/voiceAnimationContainer"
+    <LinearLayout
+        android:layout_below="@+id/informationContainer"
+        android:layout_above="@+id/buttonControlsContainer"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_weight="0"
-        android:padding="16dp">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/dotsIcon"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_gravity="center"
-            android:adjustViewBounds="false"
-            android:src="@drawable/small_logo"/>
-
-        <com.github.ybq.android.spinkit.SpinKitView
-            android:id="@+id/loadingIcon"
-            style="@style/SpinKitView.Large.DoubleBounce"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:layout_gravity="center"
-            android:alpha=".8"
-            android:visibility="gone"
-            app:SpinKit_Color="@color/blue"
-            tools:visibility="visible"/>
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:paddingTop="16dp"
-        android:paddingLeft="36dp"
-        android:paddingRight="36dp"
-        android:paddingBottom="24dp">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_centerVertical="true"
-            android:id="@+id/commandList"
-            android:background="@color/transparent"
+        <FrameLayout
+            android:id="@+id/voiceAnimationContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="150dp"
+            android:layout_weight="0"
+            android:padding="16dp">
 
-    </FrameLayout>
+            <ImageView
+                android:id="@+id/dotsIcon"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                android:adjustViewBounds="false"
+                android:src="@drawable/small_logo"/>
 
-    <RelativeLayout
-        android:id="@+id/textContainer"
-        android:layout_width="match_parent"
-        android:layout_height="72dp"
-        android:layout_weight="0">
+            <com.github.ybq.android.spinkit.SpinKitView
+                android:id="@+id/loadingIcon"
+                style="@style/SpinKitView.Large.DoubleBounce"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:layout_gravity="center"
+                android:alpha=".8"
+                android:visibility="gone"
+                app:SpinKit_Color="@color/blue"
+                tools:visibility="visible"/>
 
-        <TextView
-            android:id="@+id/textOutput"
-            style="@style/TextAppearance.TextExtraLarge.Light"
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/listContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:minLines="2"
+            android:layout_height="match_parent"
+            tools:visibility="gone"
+            android:layout_weight="1"
+            android:paddingTop="16dp"
             android:paddingLeft="36dp"
             android:paddingRight="36dp"
-            android:textAlignment="center"
-            android:textStyle="italic"
-            tools:text="Hey barista, brew me a large, strong americano and three extra sugars."/>
+            android:paddingBottom="24dp">
 
-    </RelativeLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/commandList"
+                android:background="@color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </FrameLayout>
+
+        <RelativeLayout
+            android:id="@+id/textContainer"
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:layout_weight="0">
+
+            <TextView
+                android:id="@+id/textOutput"
+                style="@style/TextAppearance.TextExtraLarge.Light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:minLines="2"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                tools:text="Hey barista, brew me a large, strong americano and three extra sugars."/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttonControlsContainer"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_weight="0">
+        android:gravity="end">
 
         <ImageButton
             android:id="@+id/buttonAlarm"
@@ -133,4 +144,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

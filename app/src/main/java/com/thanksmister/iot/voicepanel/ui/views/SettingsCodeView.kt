@@ -19,7 +19,6 @@ package com.thanksmister.iot.voicepanel.ui.views
 import android.content.Context
 import android.text.TextUtils
 import android.util.AttributeSet
-import android.view.View
 import com.thanksmister.iot.voicepanel.R
 
 import kotlinx.android.synthetic.main.dialog_settings_code.view.*
@@ -54,15 +53,6 @@ class SettingsCodeView : BaseAlarmView {
         this.settingsListener = listener
     }
 
-    fun setUseFingerPrint(value: Boolean) {
-        useFingerprint = value
-        if(value) {
-            settings_fingerprint_layout.visibility = View.VISIBLE
-        } else {
-            settings_fingerprint_layout.visibility = View.GONE
-        }
-    }
-
     override fun onCancel() {
         if (settingsListener != null) {
             settingsListener!!.onCancel()
@@ -90,7 +80,7 @@ class SettingsCodeView : BaseAlarmView {
         if (codeComplete)
             return
 
-        enteredCode = enteredCode + code
+        enteredCode += code
         showFilledPins(enteredCode.length)
         if (enteredCode.length == BaseAlarmView.Companion.MAX_CODE_LENGTH) {
             codeComplete = true

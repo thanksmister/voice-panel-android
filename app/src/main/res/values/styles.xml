@@ -410,7 +410,7 @@
         <item name="android:textColor">@color/body_text_2</item>
     </style>
 
-    <style name="ButtonGreen" parent="ButtonStyle">
+   <!-- <style name="ButtonGreen" parent="ButtonStyle">
         <item name="android:textSize">@dimen/text_size_xlarge</item>
         <item name="android:textColor">#fff</item>
         <item name="android:background">@drawable/button_green_selector</item>
@@ -439,7 +439,7 @@
         <item name="android:paddingBottom">4dp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/button_blue_selector</item>
-    </style>
+    </style>-->
 
     <style name="TextButtonStyle" parent="BorderlessButtonStyle">
         <item name="android:textSize">@dimen/text_size_small</item>

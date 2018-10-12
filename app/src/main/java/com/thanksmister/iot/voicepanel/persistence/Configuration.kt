@@ -21,6 +21,7 @@ import android.content.SharedPreferences
 import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.utils.AlarmUtils
 import com.thanksmister.iot.voicepanel.utils.AlarmUtils.Companion.MODE_DISARM
+import com.thanksmister.iot.voicepanel.utils.AlarmUtils.Companion.STATE_DISARM
 import javax.inject.Inject
 
 class Configuration @Inject
@@ -54,9 +55,9 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         get() = getStringPref(PREF_MODE_DAY_NIGHT_END, DAY_NIGHT_END_VALUE_DEFAULT)
         set(value) = this.setStringPref(PREF_MODE_DAY_NIGHT_END, value)
 
-    var alarmMode: String
-        get() = getStringPref(PREF_ALARM_MODE, MODE_DISARM)
-        set(value) = this.setStringPref(PREF_ALARM_MODE, value)
+    var alarmState: String
+        get() = getStringPref(PREF_ALARM_STATE, STATE_DISARM)
+        set(value) = this.setStringPref(PREF_ALARM_STATE, value)
 
     var alarmStateTopic: String
         get() = getStringPref(PREF_STATE_TOPIC, AlarmUtils.ALARM_STATE_TOPIC)
@@ -125,6 +126,10 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
     var faceWakeWord: Boolean
         get() = getBoolPref(PREF_FACE_WAKE_WORD, false)
         set(value) = setBoolPref(PREF_FACE_WAKE_WORD, value)
+
+    var showIntentList: Boolean
+        get() = getBoolPref(PREF_SHOW_INTENT_LIST, true)
+        set(value) = setBoolPref(PREF_SHOW_INTENT_LIST, value)
 
     var alarmCode: Int
         get() = getPrefInt(PREF_ALARM_CODE, 1234)
@@ -341,25 +346,25 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
     }
 
     fun isAlarmTriggeredMode(): Boolean {
-        return alarmMode == AlarmUtils.MODE_TRIGGERED
-                || alarmMode == AlarmUtils.MODE_HOME_TRIGGERED_PENDING
-                || alarmMode == AlarmUtils.MODE_AWAY_TRIGGERED_PENDING
-                || alarmMode == AlarmUtils.MODE_TRIGGERED_PENDING
+        return alarmState == AlarmUtils.MODE_TRIGGERED
+                || alarmState == AlarmUtils.MODE_HOME_TRIGGERED_PENDING
+                || alarmState == AlarmUtils.MODE_AWAY_TRIGGERED_PENDING
+                || alarmState == AlarmUtils.MODE_TRIGGERED_PENDING
     }
 
     fun isAlarmPendingMode(): Boolean {
-        return (alarmMode == AlarmUtils.MODE_ARM_AWAY_PENDING
-                || alarmMode == AlarmUtils.MODE_ARM_HOME_PENDING
-                || alarmMode == AlarmUtils.MODE_AWAY_TRIGGERED_PENDING
-                || alarmMode == AlarmUtils.MODE_HOME_TRIGGERED_PENDING)
+        return (alarmState == AlarmUtils.MODE_ARM_AWAY_PENDING
+                || alarmState == AlarmUtils.MODE_ARM_HOME_PENDING
+                || alarmState == AlarmUtils.MODE_AWAY_TRIGGERED_PENDING
+                || alarmState == AlarmUtils.MODE_HOME_TRIGGERED_PENDING)
     }
 
     fun isAlarmDisableMode(): Boolean {
-        return (alarmMode == AlarmUtils.MODE_ARM_HOME
-                || alarmMode == AlarmUtils.MODE_ARM_AWAY
-                || alarmMode == AlarmUtils.MODE_HOME_TRIGGERED_PENDING
-                || alarmMode == AlarmUtils.MODE_AWAY_TRIGGERED_PENDING
-                || alarmMode == AlarmUtils.MODE_TRIGGERED_PENDING)
+        return (alarmState == AlarmUtils.MODE_ARM_HOME
+                || alarmState == AlarmUtils.MODE_ARM_AWAY
+                || alarmState == AlarmUtils.MODE_HOME_TRIGGERED_PENDING
+                || alarmState == AlarmUtils.MODE_AWAY_TRIGGERED_PENDING
+                || alarmState == AlarmUtils.MODE_TRIGGERED_PENDING)
     }
 
     private fun getStringPref(key: String, defaultValue: String?): String {
@@ -410,7 +415,7 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         const val PREF_DELAY_TIME = "pref_delay_time"
         const val PREF_HOME_DELAY_TIME = "pref_home_delay_time"
         const val PREF_AWAY_DELAY_TIME = "pref_away_delay_time"
-        const val PREF_ALARM_MODE = "pref_alarm_mode"
+        const val PREF_ALARM_STATE = "pref_alarm_state"
         const val PREF_ALARM_CODE = "pref_alarm_code"
         const val PREF_MODULE_CLOCK_SAVER = "pref_module_saver_clock"
         const val PREF_MODULE_PHOTO_SAVER = "pref_module_saver_photo"
@@ -420,11 +425,9 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         const val PREF_IMAGE_CLIENT_ID = "pref_image_client_id"
         const val PREF_INACTIVITY_TIME = "pref_inactivity_time"
         const val PREF_FULL_SCXREEN = "pref_full_screen"
-        const val PREF_MODULE_NOTIFICATION = "pref_module_notification"
         const val PREF_SYSTEM_SOUNDS = "pref_system_sounds"
         const val PREF_MODULE_TSS = "pref_module_tss"
         const val PREF_SYSTEM_NOTIFICATIONS = "pref_system_notifications"
-        const val PREF_MODULE_ALERTS = "pref_module_alerts"
 
         const val PREF_DISABLE_DIALOG_TIME = "pref_disable_dialog_time" // this isn't configurable
         const val PREF_CAMERA_CAPTURE = "pref_module_camera"
@@ -433,18 +436,7 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         const val PREF_MODULE_WEB = "pref_module_web"
         const val PREF_WEB_URL = "pref_web_url"
         const val PREF_FIRST_TIME = "pref_first_time"
-        const val PREF_DEVICE_TIME_SERVER = "pref_device_time_server"
-        const val PREF_DEVICE_TIME_FORMAT = "pref_device_time_format"
-        const val PREF_DEVICE_TIME = "pref_device_time"
-        const val PREF_DEVICE_TIME_ZONE = "pref_device_time_zone"
-        const val PREF_DEVICE_SCREEN_DENSITY = "pref_device_screen_density"
-        const val PREF_DEVICE_SCREEN_BRIGHTNESS = "pref_screen_brightness"
-        const val PREF_DEVICE_SCREEN_TIMEOUT = "pref_device_timeout"
         const val PREF_WEATHER_WEATHER = "pref_weather_module"
-        const val PREF_WEATHER_UNITS = "pref_weather_units"
-        const val PREF_WEATHER_API_KEY = "pref_weather_api_key"
-        const val PREF_WEATHER_LATITUDE = "pref_weather_latitude"
-        const val PREF_WEATHER_LONGITUDE = "pref_weather_longitude"
         const val PREF_PLATFORM_BAR = "pref_platform_bar"
         const val PREF_TELEGRAM_MODULE = "pref_telegram_module"
         const val PREF_TELEGRAM_CHAT_ID = "pref_telegram_chat_id"
@@ -463,6 +455,7 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         const val PREF_COMMAND_TOPIC = "pref_command_topic"
         const val PREF_STATE_TOPIC = "pref_alarm_topic"
         const val PREF_FACE_WAKE_WORD = "pref_face_wakeword"
+        const val PREF_SHOW_INTENT_LIST  = "pref_show_intent_list"
 
     }
 }

@@ -52,7 +52,7 @@
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
-        <TextView
+       <!-- <TextView
             android:id="@+id/settings_fingerprint_layout"
             android:textColor="@color/body_text_1"
             android:textSize="18sp"
@@ -65,7 +65,7 @@
             android:layout_gravity="center_horizontal"
             android:paddingBottom="8dp"
             android:text="@string/text_touch_sensor"/>
-
+-->
         <LinearLayout
             android:id="@+id/imageLayout"
             android:orientation="horizontal"

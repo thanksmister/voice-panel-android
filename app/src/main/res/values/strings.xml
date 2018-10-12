@@ -75,6 +75,10 @@
     <string name="title_setting_sensors_humidity">Humidity</string>
 
 
+    <string name="menu_item_help">Help</string>
+    <string name="menu_item_logs">Logs</string>
+    <string name="menu_item_clear_logs">Clear logs</string>
+
     <string name="title_camera_test">Camera Test</string>
 
     <string name="title_sensor_settings">Sensor Settings</string>

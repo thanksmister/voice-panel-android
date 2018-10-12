@@ -50,7 +50,7 @@
             android:textSize="18sp"
             tools:text="To access this area, please enter your code." />
 
-        <TextView
+        <!--<TextView
             android:id="@+id/settings_fingerprint_layout"
             android:textColor="@color/body_text_1"
             tools:visibility="visible"
@@ -65,7 +65,7 @@
             android:paddingEnd="4dp"
             android:paddingRight="4dp"
             android:paddingTop="8dp"
-            android:text="@string/text_touch_sensor"/>
+            android:text="@string/text_touch_sensor"/>-->
 
         <LinearLayout
             android:id="@+id/imageLayout"

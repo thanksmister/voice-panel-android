@@ -98,6 +98,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:tint="@color/white"
                         android:src="@drawable/ic_lock"/>
 
             </FrameLayout>
@@ -144,6 +145,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
+                        android:tint="@color/white"
                         android:src="@drawable/ic_lock"/>
 
             </FrameLayout>

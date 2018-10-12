@@ -14,7 +14,7 @@
   ~ limitations under the License.
   -->
 
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -29,76 +29,90 @@
         android:layout_height="72dp"
         tools:layout="@layout/fragment_information" />
 
-    <LinearLayout
+    <RelativeLayout
+        android:layout_below="@+id/informationContainer"
+        android:layout_above="@+id/buttonControlsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <FrameLayout
-            android:id="@+id/voiceAnimationContainer"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_weight="1"
-            android:padding="16dp">
-
-            <ImageView
-                android:id="@+id/dotsIcon"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_gravity="center"
-                android:adjustViewBounds="false"
-                android:src="@drawable/small_logo"/>
-
-            <com.github.ybq.android.spinkit.SpinKitView
-                android:id="@+id/loadingIcon"
-                style="@style/SpinKitView.Large.DoubleBounce"
-                android:layout_width="96dp"
-                android:layout_height="96dp"
-                android:layout_gravity="center"
-                android:alpha=".8"
-                android:visibility="gone"
-                app:SpinKit_Color="@color/blue"
-                tools:visibility="visible"/>
-
-        </FrameLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingRight="16dp">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/commandList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/textContainer"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:gravity="bottom"
-        android:layout_weight="0">
-
-        <TextView
-            android:id="@+id/textOutput"
-            style="@style/TextAppearance.TextExtraLarge.Light"
+        <LinearLayout
+            android:layout_above="@+id/textContainer"
+            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:minLines="1"
-            android:paddingLeft="36dp"
-            android:paddingRight="36dp"
-            android:textAlignment="center"
-            android:textStyle="italic"
-            tools:text="Hey barista, brew me a large, strong americano and three extra sugars."/>
+            android:orientation="horizontal">
+
+            <FrameLayout
+                android:id="@+id/voiceAnimationContainer"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_height="150dp"
+                android:layout_weight="1"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/dotsIcon"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center"
+                    android:adjustViewBounds="false"
+                    android:src="@drawable/small_logo"/>
+
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/loadingIcon"
+                    style="@style/SpinKitView.Large.DoubleBounce"
+                    android:layout_width="96dp"
+                    android:layout_height="96dp"
+                    android:layout_gravity="center"
+                    android:alpha=".8"
+                    android:visibility="gone"
+                    app:SpinKit_Color="@color/blue"
+                    tools:visibility="visible"/>
+
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/listContainer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:visibility="visible"
+                android:paddingRight="16dp">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/commandList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/textContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="28dp"
+            android:paddingBottom="4dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="bottom">
+
+            <TextView
+                android:id="@+id/textOutput"
+                style="@style/TextAppearance.TextExtraLarge.Light"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:minLines="1"
+                android:paddingLeft="36dp"
+                android:paddingRight="36dp"
+                android:textAlignment="center"
+                android:textStyle="italic"
+                tools:text="Hey barista, brew me a large, strong americano and three extra sugars."/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -107,8 +121,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="end"
-        android:layout_weight="0">
+        android:layout_alignParentBottom="true"
+        android:gravity="end">
 
         <ImageButton
             android:id="@+id/buttonAlarm"
@@ -137,4 +151,4 @@
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

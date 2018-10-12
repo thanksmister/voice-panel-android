@@ -29,6 +29,7 @@ import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.modules.SnipsOptions
 import com.thanksmister.iot.voicepanel.persistence.Configuration
 import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_FACE_WAKE_WORD
+import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_SHOW_INTENT_LIST
 import com.thanksmister.iot.voicepanel.ui.SettingsActivity
 import com.thanksmister.iot.voicepanel.utils.DialogUtils
 import dagger.android.support.AndroidSupportInjection
@@ -42,6 +43,7 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
 
     private var hotwordSensitivityPreference: EditTextPreference? = null
     private var faceWakeWordPreference: SwitchPreference? = null
+    private var intentListPreference: SwitchPreference? = null
     private var probabilityPreference: EditTextPreference? = null
 
     override fun onAttach(context: Context) {
@@ -82,6 +84,9 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
 
         faceWakeWordPreference = findPreference(PREF_FACE_WAKE_WORD) as SwitchPreference
         faceWakeWordPreference!!.isChecked = configuration.faceWakeWord
+
+        intentListPreference = findPreference(PREF_SHOW_INTENT_LIST) as SwitchPreference
+        intentListPreference!!.isChecked = configuration.showIntentList
 
         hotwordSensitivityPreference = findPreference(getString(R.string.key_snips_hotword_sensitivity)) as EditTextPreference
         hotwordSensitivityPreference!!.setDefaultValue(snipsOptions.withHotwordSensitivity.toString())
@@ -135,6 +140,9 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
             }
             PREF_FACE_WAKE_WORD -> {
                 configuration.faceWakeWord = faceWakeWordPreference!!.isChecked
+            }
+            PREF_SHOW_INTENT_LIST -> {
+                configuration.showIntentList = intentListPreference!!.isChecked
             }
         }
     }

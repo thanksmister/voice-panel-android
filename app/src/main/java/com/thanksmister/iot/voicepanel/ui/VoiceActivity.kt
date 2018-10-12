@@ -57,7 +57,6 @@ import com.thanksmister.iot.voicepanel.ui.viewmodels.VoiceViewModel
 import com.thanksmister.iot.voicepanel.ui.views.AlarmDisableView
 import com.thanksmister.iot.voicepanel.ui.views.ArmOptionsView
 import com.thanksmister.iot.voicepanel.utils.AlarmUtils
-import com.thanksmister.iot.voicepanel.utils.AlarmUtils.Companion.MODE_ARM_AWAY_PENDING
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_voice.*
@@ -171,6 +170,12 @@ class VoiceActivity : BaseActivity() {
             buttonAlarm.visibility = View.VISIBLE
         } else {
             buttonAlarm.visibility = View.GONE
+        }
+
+        if(configuration.showIntentList) {
+            listContainer.visibility = View.VISIBLE
+        } else {
+            listContainer.visibility = View.GONE
         }
     }
 
@@ -365,8 +370,9 @@ class VoiceActivity : BaseActivity() {
     // This is used as a backup to disable the alarm in case voice assistant doesn't work or
     // the alarm is too loud to hear
     private fun alarmCommand() {
-        if(configuration.alarmMode == AlarmUtils.MODE_ARM_HOME || configuration.alarmMode == AlarmUtils.MODE_ARM_AWAY ||
-                configuration.alarmMode == AlarmUtils.MODE_ARM_PENDING) {
+        Timber.d("alarmCommand alarm state: ${configuration.alarmState}")
+        if(configuration.alarmState == AlarmUtils.STATE_ARM_HOME || configuration.alarmState == AlarmUtils.STATE_ARM_AWAY ||
+                configuration.alarmState == AlarmUtils.STATE_PENDING || configuration.alarmState == AlarmUtils.STATE_TRIGGERED) {
             dialogUtils.showAlarmDisableDialog(this@VoiceActivity, object : AlarmDisableView.ViewListener {
                 override fun onComplete(code: Int) {
                     dialogUtils.clearDialogs()
@@ -382,7 +388,7 @@ class VoiceActivity : BaseActivity() {
                     dialogUtils.clearDialogs()
                 }
             }, configuration.alarmCode)
-        } else if (configuration.alarmMode == AlarmUtils.MODE_DISARM) {
+        } else if (configuration.alarmState == AlarmUtils.STATE_DISARM) {
             dialogUtils.showArmOptionsDialog(this@VoiceActivity, object : ArmOptionsView.ViewListener {
                 override fun onArmHome() {
                     val intent = Intent(BROADCAST_EVENT_ALARM_MODE)

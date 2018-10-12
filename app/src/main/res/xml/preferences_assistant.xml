@@ -25,6 +25,13 @@
             android:title="@string/pref_face_wake_word_title"
             android:summary="@string/pref_face_wake_word_summary"/>
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_show_intent_list"
+            android:title="Display Commands"
+            android:summary="When active, displays the list of commands on the main screen."/>
+
+
     </PreferenceCategory>
 
 </PreferenceScreen>

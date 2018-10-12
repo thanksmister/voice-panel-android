@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2018 ThanksMister LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,151 +14,150 @@
   ~ limitations under the License.
   -->
 
-<com.thanksmister.iot.voicepanel.ui.views.ArmOptionsView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/armOptionsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:gravity="center"
-        android:orientation="vertical">
+<com.thanksmister.iot.voicepanel.ui.views.ArmOptionsView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/armOptionsView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp">
 
         <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:tint="@color/green"
-                android:src="@drawable/ic_unlock"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:src="@drawable/ic_unlock"
+            android:tint="@color/green" />
 
         <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="left"
+            android:orientation="vertical"
+            android:paddingLeft="12dp">
+
+            <TextView
+                style="@style/TextAppearance.SubTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="12dp"
-                android:gravity="left">
+                android:text="@string/text_system"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
             <TextView
-                    style="@style/TextAppearance.SubTitle"
-                    android:textSize="22sp"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_system"/>
-
-            <TextView
-                    style="@style/TextAppearance.SubTitle"
-                    android:textSize="22sp"
-                    android:textColor="@color/green"
-                    android:textStyle="bold"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_disarmed"/>
+                style="@style/TextAppearance.SubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_disarmed"
+                android:textColor="@color/green"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
     </LinearLayout>
-    
+
     <android.support.v4.widget.Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp"/>
-    
+        android:layout_width="match_parent"
+        android:layout_height="16dp" />
+
     <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:gravity="center|bottom"
-            android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:gravity="center|bottom"
+        android:orientation="horizontal">
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:layout_weight="1"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <FrameLayout
-                    android:id="@+id/armStayButton"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
-                    android:padding="34dp"
-                    android:background="@drawable/button_round_yellow">
+                android:id="@+id/armStayButton"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:background="@drawable/button_round_yellow"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="34dp">
 
                 <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_lock"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_lock"
+                    android:tint="@color/white" />
 
             </FrameLayout>
 
             <android.support.v4.widget.Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
 
             <TextView
-                    style="@style/TextAppearance.SubTitle"
-                    android:textStyle="bold"
-                    android:textSize="22sp"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/yellow"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_arm_home"/>
+                style="@style/TextAppearance.SubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@string/text_arm_home"
+                android:textColor="@color/yellow"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <android.support.v4.widget.Space
-                android:layout_width="48dp"
-                android:layout_height="match_parent"/>
+            android:layout_width="48dp"
+            android:layout_height="match_parent" />
 
         <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
 
             <FrameLayout
-                    android:id="@+id/armAwayButton"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:layout_width="180dp"
-                    android:layout_height="180dp"
-                    android:padding="34dp"
-                    android:background="@drawable/button_round_red">
+                android:id="@+id/armAwayButton"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:background="@drawable/button_round_red"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:padding="34dp">
 
                 <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_lock"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_lock"
+                    android:tint="@color/white" />
 
             </FrameLayout>
 
             <android.support.v4.widget.Space
-                    android:layout_width="match_parent"
-                    android:layout_height="8dp"/>
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
 
             <TextView
-                    style="@style/TextAppearance.SubTitle"
-                    android:textStyle="bold"
-                    android:textSize="22sp"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/red"
-                    android:layout_gravity="center"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/text_arm_away"/>
+                style="@style/TextAppearance.SubTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="@string/text_arm_away"
+                android:textColor="@color/red"
+                android:textSize="22sp"
+                android:textStyle="bold" />
 
         </LinearLayout>
 

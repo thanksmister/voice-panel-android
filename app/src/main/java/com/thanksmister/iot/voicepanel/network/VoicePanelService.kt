@@ -484,20 +484,20 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
                 }
                 AlarmUtils.STATE_TRIGGERED -> {
                     switchScreenOn(TRIGGERED_AWAKE_TIME) // 3 hours
-                    if(configuration.alarmMode == AlarmUtils.MODE_TRIGGERED && configuration.hasSystemAlerts()){
+                    if(configuration.alarmState == AlarmUtils.MODE_TRIGGERED && configuration.hasSystemAlerts()){
                         notifications.createAlarmNotification(getString(R.string.text_notification_trigger_title), getString(R.string.text_notification_trigger_description))
                         playContinuousAlarm()
                     }
                 }
                 AlarmUtils.STATE_PENDING -> {
                     switchScreenOn(SCREEN_WAKE_TIME)
-                    if((configuration.alarmMode == AlarmUtils.MODE_ARM_HOME || configuration.alarmMode == AlarmUtils.MODE_ARM_AWAY) && configuration.hasSystemAlerts()){
+                    if((configuration.alarmState == AlarmUtils.MODE_ARM_HOME || configuration.alarmState == AlarmUtils.MODE_ARM_AWAY) && configuration.hasSystemAlerts()){
                         notifications.createAlarmNotification(getString(R.string.text_notification_entry_title), getString(R.string.text_notification_entry_description))
                         playContinuousAlarm()
                     }
                 }
             }
-            configuration.alarmMode = payload
+            configuration.alarmState = payload
             insertMessage(id, topic, payload, AlarmUtils.ALARM_TYPE.toLowerCase())
         } else {
             processCommand(id, topic, payload)

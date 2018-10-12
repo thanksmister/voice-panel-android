@@ -154,7 +154,7 @@ class DialogUtils(base: Context?) : ContextWrapper(base), LifecycleObserver {
         alarmCodeView.setListener(alarmCodeListener)
         alarmCodeView.setCode(code)
         dialog = buildImmersiveDialog(activity, true, view, false)
-        dialog!!.setOnDismissListener { alarmCodeView.destroySoundUtils() }
+        //dialog!!.setOnDismissListener { alarmCodeView.destroySoundUtils() }
     }
 
     fun showCodeDialog(activity: AppCompatActivity, confirmCode: Boolean, listener: AlarmCodeView.ViewListener,
@@ -168,7 +168,6 @@ class DialogUtils(base: Context?) : ContextWrapper(base), LifecycleObserver {
             titleTextView.setText(R.string.text_renter_alarm_code_title)
         }
         alarmCodeView.setListener(listener)
-        alarmCodeView.setUseSound(systemSounds)
         dialog = buildImmersiveDialog(activity, true, view, false)
         dialog!!.setOnCancelListener(onCancelListener)
     }

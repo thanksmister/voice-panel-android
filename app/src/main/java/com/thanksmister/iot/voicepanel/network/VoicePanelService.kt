@@ -738,6 +738,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
                 }, { error -> Timber.e("Database error" + error.message) }))
     }
 
+    // TODO we may want to only add intents that are successful
     private fun insertHermes(input: String, intentName: String, intent: String) {
         disposable.add(Completable.fromAction {
             val createdAt = DateUtils.generateCreatedAtDate()
@@ -870,15 +871,30 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     private fun publishFaceDetected() {
         Timber.d("publishFaceDetected")
         if (!faceDetected) {
+
+            faceDetected = true
+
+            if (configuration.cameraFaceWake) {
+                configurePowerOptions()
+                switchScreenOn(SCREEN_WAKE_TIME)
+            }
+
+            if(configuration.faceWakeWord && snipsModule != null) {
+                Timber.d("Let's manually start listening because we found a face")
+                val intent = Intent(BROADCAST_ACTION_LISTENING_START)
+                val bm = LocalBroadcastManager.getInstance(applicationContext)
+                bm.sendBroadcast(intent)
+                snipsModule!!.startManualListening()
+            }
+
             val data = JSONObject()
             try {
                 data.put(MqttUtils.VALUE, true)
             } catch (ex: JSONException) {
                 ex.printStackTrace()
             }
-            faceDetected = true
             publishMessage(mqttOptions.getBaseTopic() + COMMAND_SENSOR_FACE, data)
-            faceClearHandler.postDelayed({ clearFaceDetected() }, 1000)
+            faceClearHandler.postDelayed({ clearFaceDetected() }, FACE_DETECTION_INTERVAL)
         }
     }
 
@@ -1101,10 +1117,6 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         }
         override fun onFaceDetected() {
             Timber.i("Face detected")
-            if (configuration.cameraFaceWake) {
-                configurePowerOptions()
-                switchScreenOn(SCREEN_WAKE_TIME)
-            }
             publishFaceDetected()
         }
         override fun onQRCode(data: String) {
@@ -1115,6 +1127,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     companion object {
+        const val FACE_DETECTION_INTERVAL: Long = 3000L // 30 SECONDS
         const val SCREEN_WAKE_TIME: Long = 30000L // 30 SECONDS
         const val TRIGGERED_AWAKE_TIME: Long = 10800000L // 3 HOURS
         const val INIT_SPEECH = "com.thanksmister.iot.voicepanel.INIT_SPEECH"

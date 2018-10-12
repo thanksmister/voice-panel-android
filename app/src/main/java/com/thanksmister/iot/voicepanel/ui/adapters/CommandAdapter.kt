@@ -68,6 +68,7 @@ class CommandAdapter(private val items: List<Intent>?, private val listener: OnI
 
             itemView.commandListItem.alpha = 0.9f
 
+            // TODO we need to add more intent information here
             when {
                 item.type == ComponentUtils.COMPONENT_WEATHER_FORECAST_TYPE ||
                 item.type == ComponentUtils.COMPONENT_WEATHER_FORECAST_CONDITION_TYPE ||
@@ -83,8 +84,16 @@ class CommandAdapter(private val items: List<Intent>?, private val listener: OnI
                         item.type == ComponentUtils.COMPONENT_HA_ALARM_STATUS ||
                         item.type == ComponentUtils.COMPONENT_HA_ALARM_DISARM_CODE ||
                         item.type == ComponentUtils.COMPONENT_HA_ALARM_AWAY  -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_lock)
+                    itemView.typeIcon.setImageResource(R.drawable.ic_lock_outline)
                     itemView.commandTitle.text = "Alarm"
+                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                    itemView.commandDate.text = date
+                }
+                item.type == ComponentUtils.COMPONENT_LIGHTS_TURN_OFF ||
+                        item.type == ComponentUtils.COMPONENT_LIGHTS_SHIFT ||
+                        item.type == ComponentUtils.COMPONENT_LIGHTS_SET-> {
+                    itemView.typeIcon.setImageResource(R.drawable.ic_lightbulb)
+                    itemView.commandTitle.text = "Lights"
                     val date = DateUtils.parseLocaleDateTime(item.createdAt)
                     itemView.commandDate.text = date
                 }
@@ -112,7 +121,6 @@ class CommandAdapter(private val items: List<Intent>?, private val listener: OnI
                     val date = DateUtils.parseLocaleDateTime(item.createdAt)
                     itemView.commandDate.text = date
                 }
-                // TODO add item name
                 item.type == ComponentUtils.COMPONENT_HASS_TURN_OFF  -> {
                     itemView.typeIcon.setImageResource(R.drawable.ic_light_switch)
                     itemView.commandTitle.text = "Turn Off"
@@ -121,13 +129,19 @@ class CommandAdapter(private val items: List<Intent>?, private val listener: OnI
                 }
                 item.type == ComponentUtils.COMPONENT_SNIPS_INIT -> {
                     itemView.typeIcon.setImageResource(R.drawable.small_logo)
-                    itemView.commandTitle.text = "Assistant Initialized"//itemView.context.getString(R.string.text_sensor_topic)
+                    itemView.commandTitle.text = "Assistant Initialized"
+                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                    itemView.commandDate.text = date
+                }
+                item.type == ComponentUtils.COMPONENT_STATUS -> {
+                    itemView.typeIcon.setImageResource(R.drawable.ic_info_outline)
+                    itemView.commandTitle.text = "Status"
                     val date = DateUtils.parseLocaleDateTime(item.createdAt)
                     itemView.commandDate.text = date
                 }
                 else -> {
                     itemView.typeIcon.setImageResource(R.drawable.ic_hearing) // generic sensor icon
-                    itemView.commandTitle.text = item.type
+                    itemView.commandTitle.text = "What?"
                     val date = DateUtils.parseLocaleDateTime(item.createdAt)
                     itemView.commandDate.text = date
                 }

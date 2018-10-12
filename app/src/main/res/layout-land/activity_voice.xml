@@ -32,6 +32,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="horizontal">
 
         <FrameLayout
@@ -66,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:padding="16dp">
+            android:paddingRight="16dp">
 
             <android.support.v7.widget.RecyclerView
                 android:layout_centerVertical="true"
@@ -83,7 +84,8 @@
     <RelativeLayout
         android:id="@+id/textContainer"
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="42dp"
+        android:gravity="bottom"
         android:layout_weight="0">
 
         <TextView
@@ -93,8 +95,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:ellipsize="end"
-            android:maxLines="2"
-            android:minLines="2"
+            android:maxLines="1"
+            android:minLines="1"
             android:paddingLeft="36dp"
             android:paddingRight="36dp"
             android:textAlignment="center"

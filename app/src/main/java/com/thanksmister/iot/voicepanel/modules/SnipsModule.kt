@@ -42,6 +42,7 @@ class SnipsModule (base: Context?, var options: SnipsOptions, var listener: Snip
     private var snipsClient: SnipsPlatformClient? = null
     private var recorder: AudioRecord? = null
     private var snipsClientTask: SnipsUnzipAssistant? = null
+    private var manuallyListening: Boolean = false
 
     interface SnipsListener {
         fun onSnipsPlatformReady()
@@ -119,6 +120,18 @@ class SnipsModule (base: Context?, var options: SnipsOptions, var listener: Snip
         }
     }
 
+    // Start a session manually
+    fun startManualListening() {
+        if(snipsClient != null && !manuallyListening) {
+            manuallyListening = true
+            snipsClient?.startSession(null, ArrayList<String>(), false, null)
+        }
+    }
+
+    fun stopManualListening() {
+
+    }
+
     fun startNotification(message: String) {
         if(snipsClient != null) {
             snipsClient!!.startNotification(message, null)
@@ -158,12 +171,12 @@ class SnipsModule (base: Context?, var options: SnipsOptions, var listener: Snip
                 Timber.d("a hotword was detected !")
                 // Do your magic here :D
                 // TODO play a sound or make some icon change
+                manuallyListening = false
                 listener.onSnipsHotwordDetectedListener()
             }
             snipsClient!!.onIntentDetectedListener = fun(intentMessage: IntentMessage): Unit {
                 Timber.d("received an intent: $intentMessage")
                 //Timber.d("json output: $json")
-                //listener.onSnipsIntentDetectedListener(intentMessage.intent.intentName, json)
                 listener.onSnipsIntentDetectedListener(intentMessage)
             }
             snipsClient!!.onListeningStateChangedListener = fun(isListening: Boolean): Unit {
@@ -182,13 +195,14 @@ class SnipsModule (base: Context?, var options: SnipsOptions, var listener: Snip
             snipsClient!!.onSessionEndedListener = fun(sessionEndedMessage: SessionEndedMessage): Unit {
                 Timber.d("dialogue session ended: $sessionEndedMessage")
                 Timber.d("termination type: ${sessionEndedMessage.termination.type}")
-                if(SessionTermination.Type.INTENT_NOT_RECOGNIZED == sessionEndedMessage.termination.type) {
+                if(SessionTermination.Type.INTENT_NOT_RECOGNIZED == sessionEndedMessage.termination.type && !manuallyListening) {
                     snipsClient!!.startNotification("Sorry, I didn't understand.", null)
                 } else if (SessionTermination.Type.TIMEOUT == sessionEndedMessage.termination.type) {
                     snipsClient!!.startNotification("Sorry, I don't know how to do that.", null)
                 } else if (SessionTermination.Type.NOMINAL == sessionEndedMessage.termination.type) {
                     //snipsClient!!.startNotification("Assistant initialized and ready.", null)
                 }
+                manuallyListening = false
                 listener.onSessionEndedListener(sessionEndedMessage)
             }
             snipsClient!!.onSnipsWatchListener = fun(s: String): Unit {

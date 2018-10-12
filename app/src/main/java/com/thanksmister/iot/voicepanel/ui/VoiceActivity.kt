@@ -20,7 +20,10 @@ import android.Manifest
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
-import android.content.*
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -51,10 +54,7 @@ import com.thanksmister.iot.voicepanel.persistence.Configuration
 import com.thanksmister.iot.voicepanel.ui.adapters.CommandAdapter
 import com.thanksmister.iot.voicepanel.ui.viewmodels.VoiceViewModel
 import com.thanksmister.iot.voicepanel.ui.views.AlarmDisableView
-import com.thanksmister.iot.voicepanel.ui.views.ArmOptionsView
 import com.thanksmister.iot.voicepanel.utils.AlarmUtils
-import com.thanksmister.iot.voicepanel.utils.AlarmUtils.Companion.MODE_ARM_AWAY_PENDING
-import com.thanksmister.iot.voicepanel.utils.AlarmUtils.Companion.MODE_ARM_HOME_PENDING
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_voice.*

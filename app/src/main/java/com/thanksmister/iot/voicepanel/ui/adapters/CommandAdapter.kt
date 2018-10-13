@@ -16,17 +16,16 @@
 
 package com.thanksmister.iot.voicepanel.ui.adapters
 
-import ai.snips.hermes.IntentMessage
 import android.annotation.SuppressLint
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.google.gson.GsonBuilder
 import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.persistence.Intent
 import com.thanksmister.iot.voicepanel.utils.ComponentUtils
+import com.thanksmister.iot.voicepanel.utils.ComponentUtils.Companion.COMPONENT_HASS_SHOPPING_LIST_LAST_ITEMS
 import com.thanksmister.iot.voicepanel.utils.DateUtils
 import com.thanksmister.iot.voicepanel.utils.IntentUtils
 import kotlinx.android.synthetic.main.adapter_commands.view.*
@@ -170,9 +169,10 @@ class CommandAdapter(private val items: List<Intent>?, private val listener: OnI
                         itemView.commandItem.visibility = View.GONE
                     }
                 }
-                item.type == ComponentUtils.COMPONENT_HASS_SHOPPING_LIST -> {
+                item.type == ComponentUtils.COMPONENT_HASS_SHOPPING_LIST_ADD_ITEM ||
+                item.type == COMPONENT_HASS_SHOPPING_LIST_LAST_ITEMS -> {
                     itemView.typeIcon.setImageResource(R.drawable.ic_cart_outline)
-                    itemView.commandTitle.text = "Shopping List"
+                    itemView.commandTitle.text = "Add Item"
                     val date = DateUtils.parseLocaleDateTime(item.createdAt)
                     if(!TextUtils.isEmpty(itemValue)) {
                         itemView.commandItem.visibility = View.VISIBLE
@@ -207,6 +207,19 @@ class CommandAdapter(private val items: List<Intent>?, private val listener: OnI
                         item.type == ComponentUtils.COMPONENT_CAMERA_ACTION-> {
                     itemView.typeIcon.setImageResource(R.drawable.ic_cctv)
                     itemView.commandTitle.text = "Camera"
+                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                    if(!TextUtils.isEmpty(itemValue)) {
+                        itemView.commandItem.visibility = View.VISIBLE
+                        itemView.commandItem.text = itemValue
+                    } else {
+                        itemView.commandItem.visibility = View.GONE
+                    }
+                }
+                item.type == ComponentUtils.COMPONENT_GET_CURRENT_TIME ||
+                        item.type == ComponentUtils.COMPONENT_GET_CURRENT_DAY ||
+                        item.type == ComponentUtils.COMPONENT_GET_CURRENT_DATE -> {
+                    itemView.typeIcon.setImageResource(R.drawable.ic_access_time)
+                    itemView.commandTitle.text = "Time/Date"
                     val date = DateUtils.parseLocaleDateTime(item.createdAt)
                     if(!TextUtils.isEmpty(itemValue)) {
                         itemView.commandItem.visibility = View.VISIBLE

@@ -42,10 +42,14 @@ class ComponentUtils {
         const val COMPONENT_HASS_LIGHT_SET = "hass:HassLightSet"
         const val COMPONENT_HASS_OPEN_COVER = "hass:HassOpenCover"
         const val COMPONENT_HASS_CLOSE_COVER = "hass:HassCloseCover"
-        const val COMPONENT_HASS_SHOPPING_LIST = "hass:HassShoppingListAddItem"
+        const val COMPONENT_HASS_SHOPPING_LIST_ADD_ITEM = "hass:HassShoppingListAddItem"
+        const val COMPONENT_HASS_SHOPPING_LIST_LAST_ITEMS = "hass:HassShoppingListLastItems"
         const val COMPONENT_LIGHTS_TURN_OFF = "lightsTurnOff"
         const val COMPONENT_LIGHTS_SHIFT = "lightsShift"
         const val COMPONENT_LIGHTS_SET = "lightsSet"
         const val COMPONENT_SET_THERMOSTAT = "TSchmidty:setThermostat"
+        const val COMPONENT_GET_CURRENT_TIME = "rgholmes:getCurrentTime"
+        const val COMPONENT_GET_CURRENT_DATE = "rgholmes:getCurrentDate"
+        const val COMPONENT_GET_CURRENT_DAY = "rgholmes:getCurrentDay"
     }
 }

@@ -71,7 +71,7 @@ constructor(application: Application, private val dataSource: IntentDao, private
         }
     }
 
-    fun getCommands(): Flowable<List<Intent>> {
+    fun getIntentMessages(): Flowable<List<IntentMessage>> {
         return dataSource.getItems()
                 .filter {items -> items.isNotEmpty()}
     }
@@ -83,7 +83,7 @@ constructor(application: Application, private val dataSource: IntentDao, private
     }
 
     fun getAlarmState():Flowable<String> {
-        return messageDataSource.getMessages(ALARM_TYPE.toLowerCase())
+        return messageDataSource.getMessages(ALARM_TYPE)
                 .filter {messages -> messages.isNotEmpty()}
                 .map {messages -> messages[messages.size - 1]}
                 .map {message ->

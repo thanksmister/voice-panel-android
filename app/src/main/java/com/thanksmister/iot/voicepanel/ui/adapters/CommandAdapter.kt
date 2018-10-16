@@ -24,6 +24,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.persistence.Intent
+import com.thanksmister.iot.voicepanel.persistence.IntentMessage
 import com.thanksmister.iot.voicepanel.utils.ComponentUtils
 import com.thanksmister.iot.voicepanel.utils.ComponentUtils.Companion.COMPONENT_HASS_SHOPPING_LIST_LAST_ITEMS
 import com.thanksmister.iot.voicepanel.utils.DateUtils
@@ -31,10 +32,10 @@ import com.thanksmister.iot.voicepanel.utils.IntentUtils
 import kotlinx.android.synthetic.main.adapter_commands.view.*
 import timber.log.Timber
 
-class CommandAdapter(private val items: List<Intent>?, private val listener: OnItemClickListener?) : RecyclerView.Adapter<CommandAdapter.ViewHolder>() {
+class CommandAdapter(private val items: List<IntentMessage>?, private val listener: OnItemClickListener?) : RecyclerView.Adapter<CommandAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(item: Intent)
+        fun onItemClick(item: IntentMessage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommandAdapter.ViewHolder {
@@ -54,189 +55,186 @@ class CommandAdapter(private val items: List<Intent>?, private val listener: OnI
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
-        fun bindItems(item: Intent, position: Int, listener: OnItemClickListener?) {
-
-            var itemValue = ""
+        fun bindItems(item: IntentMessage, position: Int, listener: OnItemClickListener?) {
             if(item.intent != null) {
-                itemValue = IntentUtils.getIntentRawValue(item.intent!!)
-            }
-
-            when {
-                item.type == ComponentUtils.COMPONENT_WEATHER_FORECAST_TYPE ||
-                item.type == ComponentUtils.COMPONENT_WEATHER_FORECAST_CONDITION_TYPE ||
-                item.type == ComponentUtils.COMPONENT_WEATHER_FORECAST_ITEM_TYPE ||
-                item.type == ComponentUtils.COMPONENT_WEATHER_FORECAST_TEMPERATURE_TYPE -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_cloudy)
-                    itemView.commandTitle.text = "Weather"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    itemView.commandItem.visibility = View.GONE
-                }
-                item.type == ComponentUtils.COMPONENT_HA_ALARM_DISARM ||
-                        item.type == ComponentUtils.COMPONENT_HA_ALARM_HOME ||
-                        item.type == ComponentUtils.COMPONENT_HA_ALARM_DISARM_CODE ||
-                        item.type == ComponentUtils.COMPONENT_HA_ALARM_AWAY  -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_lock_outline)
-                    itemView.commandTitle.text = "Alarm"
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
+                val itemValue = "Slot values"
+                when {
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_WEATHER_FORECAST_TYPE ||
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_WEATHER_FORECAST_CONDITION_TYPE ||
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_WEATHER_FORECAST_ITEM_TYPE ||
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_WEATHER_FORECAST_TEMPERATURE_TYPE -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_cloudy)
+                        itemView.commandTitle.text = "Weather"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
                         itemView.commandItem.visibility = View.GONE
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_HA_ALARM_STATUS -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_lock_outline)
-                    itemView.commandTitle.text = "Alarm"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    itemView.commandItem.visibility = View.VISIBLE
-                    itemView.commandItem.text = "status"
-                }
-                item.type == ComponentUtils.COMPONENT_LIGHTS_TURN_OFF ||
-                        item.type == ComponentUtils.COMPONENT_LIGHTS_SHIFT ||
-                        item.type == ComponentUtils.COMPONENT_LIGHTS_SET-> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_lightbulb)
-                    itemView.commandTitle.text = "Lights"
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_DISARM ||
+                            item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_HOME ||
+                            item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_DISARM_CODE ||
+                            item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_AWAY  -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_lock_outline)
+                        itemView.commandTitle.text = "Alarm"
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_HASS_OPEN_COVER -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_window_open)
-                    itemView.commandTitle.text = "Open Cover"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_STATUS -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_lock_outline)
+                        itemView.commandTitle.text = "Alarm"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
                         itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                        itemView.commandItem.text = "status"
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_HASS_CLOSE_COVER  -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_window_closed)
-                    itemView.commandTitle.text = "Close Cover"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_LIGHTS_TURN_OFF ||
+                            item.intent!!.intentName == ComponentUtils.COMPONENT_LIGHTS_SHIFT ||
+                            item.intent!!.intentName == ComponentUtils.COMPONENT_LIGHTS_SET-> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_lightbulb)
+                        itemView.commandTitle.text = "Lights"
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_HASS_LIGHT_SET   -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_lightbulb)
-                    itemView.commandTitle.text = "Light Set"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_OPEN_COVER -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_window_open)
+                        itemView.commandTitle.text = "Open Cover"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_HASS_TURN_ON   -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_light_switch)
-                    itemView.commandTitle.text = "Turn On"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_CLOSE_COVER  -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_window_closed)
+                        itemView.commandTitle.text = "Close Cover"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_HASS_TURN_OFF  -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_light_switch)
-                    itemView.commandTitle.text = "Turn Off"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_LIGHT_SET   -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_lightbulb)
+                        itemView.commandTitle.text = "Light Set"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_SNIPS_INIT -> {
-                    itemView.typeIcon.setImageResource(R.drawable.small_logo)
-                    itemView.commandTitle.text = "Assistant Initialized"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_TURN_ON   -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_light_switch)
+                        itemView.commandTitle.text = "Turn On"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_HASS_SHOPPING_LIST_ADD_ITEM ||
-                item.type == COMPONENT_HASS_SHOPPING_LIST_LAST_ITEMS -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_cart_outline)
-                    itemView.commandTitle.text = "Add Item"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_TURN_OFF  -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_light_switch)
+                        itemView.commandTitle.text = "Turn Off"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_STATUS -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_info_outline)
-                    itemView.commandTitle.text = "Status"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_SNIPS_INIT -> {
+                        itemView.typeIcon.setImageResource(R.drawable.small_logo)
+                        itemView.commandTitle.text = "Assistant Initialized"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_SET_THERMOSTAT -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_thermometer_lines)
-                    itemView.commandTitle.text = "Thermostat"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_SHOPPING_LIST_ADD_ITEM ||
+                    item.intent!!.intentName == COMPONENT_HASS_SHOPPING_LIST_LAST_ITEMS -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_cart_outline)
+                        itemView.commandTitle.text = "Add Item"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_CAMERA_CAPTURE ||
-                        item.type == ComponentUtils.COMPONENT_CAMERA_ACTION-> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_cctv)
-                    itemView.commandTitle.text = "Camera"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_STATUS -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_info_outline)
+                        itemView.commandTitle.text = "Status"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                item.type == ComponentUtils.COMPONENT_GET_CURRENT_TIME ||
-                        item.type == ComponentUtils.COMPONENT_GET_CURRENT_DAY ||
-                        item.type == ComponentUtils.COMPONENT_GET_CURRENT_DATE -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_access_time)
-                    itemView.commandTitle.text = "Time/Date"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_SET_THERMOSTAT -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_thermometer_lines)
+                        itemView.commandTitle.text = "Thermostat"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
-                }
-                else -> {
-                    itemView.typeIcon.setImageResource(R.drawable.ic_hearing) // generic sensor icon
-                    itemView.commandTitle.text = "What?"
-                    val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                    if(!TextUtils.isEmpty(itemValue)) {
-                        itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = itemValue
-                    } else {
-                        itemView.commandItem.visibility = View.GONE
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_CAMERA_CAPTURE ||
+                            item.intent!!.intentName == ComponentUtils.COMPONENT_CAMERA_ACTION-> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_cctv)
+                        itemView.commandTitle.text = "Camera"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
+                    }
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_GET_CURRENT_TIME ||
+                            item.intent!!.intentName == ComponentUtils.COMPONENT_GET_CURRENT_DAY ||
+                            item.intent!!.intentName == ComponentUtils.COMPONENT_GET_CURRENT_DATE -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_access_time)
+                        itemView.commandTitle.text = "Time/Date"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
+                    }
+                    else -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_hearing) // generic sensor icon
+                        itemView.commandTitle.text = "What?"
+                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
                     }
                 }
             }

@@ -5,6 +5,12 @@
 
     <PreferenceCategory android:title="@string/title_voice_assistant">
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="pref_show_intent_list"
+            android:title="@string/pref_show_intent_list_title"
+            android:summary="@string/pref_show_intent_list_summary"/>
+
         <EditTextPreference
             android:key="@string/key_snips_hotword_sensitivity"
             android:negativeButtonText="@android:string/cancel"
@@ -25,12 +31,15 @@
             android:title="@string/pref_face_wake_word_title"
             android:summary="@string/pref_face_wake_word_summary"/>
 
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="pref_show_intent_list"
-            android:title="Display Commands"
-            android:summary="When active, displays the list of commands on the main screen."/>
-
+        <EditTextPreference
+            android:text="@string/default_snips_face_wake_interval"
+            android:defaultValue="@string/default_snips_face_wake_interval"
+            android:dependency="pref_face_wake_word"
+            android:key="@string/key_snips_face_wake_interval"
+            android:negativeButtonText="@android:string/cancel"
+            android:positiveButtonText="@android:string/ok"
+            android:summary="@string/pref_face_wake_interval_summary"
+            android:title="@string/pref_face_wake_interval_title"/>
 
     </PreferenceCategory>
 

@@ -42,7 +42,7 @@ class AlarmUtils {
 
         const val PORT = "1883"
 
-        const val ALARM_TYPE = "ALARM"
+        const val ALARM_TYPE = "alarm"
 
         const val COMMAND_ARM_HOME = "ARM_HOME"
         const val COMMAND_ARM_AWAY = "ARM_AWAY"

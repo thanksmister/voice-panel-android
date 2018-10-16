@@ -204,8 +204,9 @@
     <string name="pref_hotword_title">Wake-Word Sensitivity</string>
     <string name="error_hotword_sensitivity">Please enter a value between 0 and 1.</string>
     <string name="error_snips_probability">Please enter a value between 0 and 1.</string>
+    <string name="error_snips_wake_interval">Please enter a value in seconds between 1 and 60.</string>
     <string name="text_temperature">%1$s %2$s</string>
-    <string name="text_snips_welcome">Welcome, how may I help you?</string>
+    <string name="text_snips_welcome">Welcome, how may I help?</string>
     <string name="text_notification_entry_title">Entry Detected</string>
     <string name="text_notification_entry_description">An entry has been detected, take the necessary action.</string>
     <string name="text_notification_trigger_title">Alarm Triggered</string>
@@ -223,6 +224,10 @@
     <string name="pref_face_wake_word_summary">When active, the assistant will listen for commands when a face is detected. Must enable camera and face detection.</string>
     <string name="pref_probability_summary">Set the probability threshold for natural language understanding. The higher the value, the better you must be understood before the assistant responds.</string>
     <string name="pref_probability_title">Probability Threshold</string>
+    <string name="pref_show_intent_list_summary">When active, displays the list of commands on the main screen.</string>
+    <string name="pref_show_intent_list_title">Display Commands</string>
+    <string name="pref_face_wake_interval_title">Face Wake Delay</string>
+    <string name="pref_face_wake_interval_summary">The delay, in seconds, between initiating listening after face detected. This prevents continuous listening while facing of panel.</string>
 
 
 </resources>

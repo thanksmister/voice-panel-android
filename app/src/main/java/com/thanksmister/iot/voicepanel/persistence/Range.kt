@@ -19,12 +19,13 @@ package com.thanksmister.iot.voicepanel.persistence
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class Intent {
+class Range {
 
-    @SerializedName("intentName")
+    @SerializedName("end")
     @Expose
-    var intentName: String? = null
-    @SerializedName("probability")
+    var end: Int? = null
+    @SerializedName("start")
     @Expose
-    var probability: Double? = null
+    var start: Int? = null
+
 }

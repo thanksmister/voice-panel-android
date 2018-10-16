@@ -17,6 +17,7 @@
 package com.thanksmister.iot.voicepanel.utils;
 
 import android.annotation.SuppressLint;
+import android.text.TextUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -56,14 +57,16 @@ public final class ISO8601 {
     public static Calendar toCalendar(final String iso8601string)
             throws ParseException {
         Calendar calendar = GregorianCalendar.getInstance();
-        String s = iso8601string.replace("Z", "+00:00");
-        try {
-            s = s.substring(0, 22) + s.substring(23);
-        } catch (IndexOutOfBoundsException e) {
-            throw new ParseException("Invalid length", 0);
+        if(!TextUtils.isEmpty(iso8601string)) {
+            String s = iso8601string.replace("Z", "+00:00");
+            try {
+                s = s.substring(0, 22) + s.substring(23);
+            } catch (IndexOutOfBoundsException e) {
+                throw new ParseException("Invalid length", 0);
+            }
+            Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
+            calendar.setTime(date);
         }
-        Date date = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").parse(s);
-        calendar.setTime(date);
         return calendar;
     }
 }

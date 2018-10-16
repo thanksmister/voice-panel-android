@@ -16,7 +16,7 @@
 
 package com.thanksmister.iot.voicepanel.network
 
-import ai.snips.hermes.IntentMessage
+
 import ai.snips.hermes.SessionEndedMessage
 import android.Manifest
 import android.annotation.SuppressLint
@@ -79,6 +79,7 @@ import java.nio.ByteBuffer
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         SnipsModule.SnipsListener, TextToSpeechModule.TextToSpeechListener {
@@ -102,6 +103,8 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     @Inject
     lateinit var sunDao: SunDao
     @Inject
+    lateinit var initDao: IntentDao
+    @Inject
     lateinit var notifications: NotificationUtils
 
     private val disposable = CompositeDisposable()
@@ -116,6 +119,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     private val mBinder = VoicePanelServiceBinder()
     private val motionClearHandler = Handler()
     private val faceClearHandler = Handler()
+
    // private var textToSpeechModule: TextToSpeechModule? = null
     private var mqttModule: MQTTModule? = null
     private var snipsModule: SnipsModule? = null
@@ -161,6 +165,8 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         }
 
         this.appLaunchUrl = configuration.webUrl
+
+        initializeCommandList()
 
         startForeground()
         configureMqtt()
@@ -284,6 +290,16 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
             return state
         }
 
+    // Initialize the command list when we initialize the assistant
+    private fun initializeCommandList() {
+        disposable.add(Completable.fromAction {
+            initDao.deleteAllItems()
+        } .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                }, { error -> Timber.e("Database error" + error.message) }))
+    }
+
     private fun startForeground() {
         Timber.d("startForeground")
         val notification = notifications.createOngoingNotification(getString(R.string.app_name), getString(R.string.service_notification_message))
@@ -398,13 +414,14 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     // TODO let's only save this intent on success
     // TODO check the probability is high or ask to repeat message
-    override fun onSnipsIntentDetectedListener(intentMessage: IntentMessage) {
+    override fun onSnipsIntentDetectedListener(intentJson: String) {
         Timber.d("intent detected!")
+        Timber.d("intent json: $intentJson")
         val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
-        var json = gson.toJson(intentMessage, IntentMessage::class.java)
-        json = json.replace("type", "kind")
-        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent.intentName, json)
-        insertHermes(intentMessage.input, intentMessage.intent.intentName, json)
+        val intentMessage = gson.fromJson<IntentMessage>(intentJson, IntentMessage::class.java)
+        intentMessage.createdAt = DateUtils.generateCreatedAtDate()
+        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent!!.intentName, intentJson)
+        insertHermes(intentMessage)
     }
 
     override fun onSnipsListeningStateChangedListener(isListening: Boolean) {
@@ -462,43 +479,46 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         }
     }
 
+    // TODO don't pass alarm mqtt as command
     override fun onMQTTMessage(id: String, topic: String, payload: String) {
         Timber.i("onMQTTMessage id: $id")
         Timber.i("onMQTTMessage topic: $topic")
         Timber.i("onMQTTMessage payload: $payload")
         if(SUBSCRIBE_TOPIC_HERMES == topic) {
             processHermes(payload)
-        } else if (configuration.alarmEnabled && AlarmUtils.ALARM_STATE_TOPIC == topic && AlarmUtils.hasSupportedStates(payload)) {
-            when (payload) {
-                AlarmUtils.STATE_DISARM -> {
-                    switchScreenOn(SCREEN_WAKE_TIME)
-                    if(configuration.hasSystemAlerts()) {
-                        notifications.clearNotification()
+        } else if(AlarmUtils.hasSupportedStates(payload)) {
+            if (configuration.alarmEnabled && AlarmUtils.ALARM_STATE_TOPIC == topic && AlarmUtils.hasSupportedStates(payload)) {
+                when (payload) {
+                    AlarmUtils.STATE_DISARM -> {
+                        switchScreenOn(SCREEN_WAKE_TIME)
+                        if (configuration.hasSystemAlerts()) {
+                            notifications.clearNotification()
+                        }
+                        stopContinuousAlarm()
                     }
-                    stopContinuousAlarm()
-                }
-                AlarmUtils.STATE_ARM_AWAY,
-                AlarmUtils.STATE_ARM_HOME -> {
-                    switchScreenOn(SCREEN_WAKE_TIME)
-                    stopContinuousAlarm()
-                }
-                AlarmUtils.STATE_TRIGGERED -> {
-                    switchScreenOn(TRIGGERED_AWAKE_TIME) // 3 hours
-                    if(configuration.alarmState == AlarmUtils.MODE_TRIGGERED && configuration.hasSystemAlerts()){
-                        notifications.createAlarmNotification(getString(R.string.text_notification_trigger_title), getString(R.string.text_notification_trigger_description))
-                        playContinuousAlarm()
+                    AlarmUtils.STATE_ARM_AWAY,
+                    AlarmUtils.STATE_ARM_HOME -> {
+                        switchScreenOn(SCREEN_WAKE_TIME)
+                        stopContinuousAlarm()
+                    }
+                    AlarmUtils.STATE_TRIGGERED -> {
+                        switchScreenOn(TRIGGERED_AWAKE_TIME) // 3 hours
+                        if (configuration.alarmState == AlarmUtils.MODE_TRIGGERED && configuration.hasSystemAlerts()) {
+                            notifications.createAlarmNotification(getString(R.string.text_notification_trigger_title), getString(R.string.text_notification_trigger_description))
+                            playContinuousAlarm()
+                        }
+                    }
+                    AlarmUtils.STATE_PENDING -> {
+                        switchScreenOn(SCREEN_WAKE_TIME)
+                        if ((configuration.alarmState == AlarmUtils.MODE_ARM_HOME || configuration.alarmState == AlarmUtils.MODE_ARM_AWAY) && configuration.hasSystemAlerts()) {
+                            notifications.createAlarmNotification(getString(R.string.text_notification_entry_title), getString(R.string.text_notification_entry_description))
+                            playContinuousAlarm()
+                        }
                     }
                 }
-                AlarmUtils.STATE_PENDING -> {
-                    switchScreenOn(SCREEN_WAKE_TIME)
-                    if((configuration.alarmState == AlarmUtils.MODE_ARM_HOME || configuration.alarmState == AlarmUtils.MODE_ARM_AWAY) && configuration.hasSystemAlerts()){
-                        notifications.createAlarmNotification(getString(R.string.text_notification_entry_title), getString(R.string.text_notification_entry_description))
-                        playContinuousAlarm()
-                    }
-                }
+                configuration.alarmState = payload
+                insertMessage(id, topic, payload, AlarmUtils.ALARM_TYPE)
             }
-            configuration.alarmState = payload
-            insertMessage(id, topic, payload, AlarmUtils.ALARM_TYPE.toLowerCase())
         } else {
             processCommand(id, topic, payload)
         }
@@ -748,19 +768,14 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     // TODO we may want to only add intents that are successful
-    private fun insertHermes(input: String, intentName: String, intent: String) {
+    private fun insertHermes(intentMessage: IntentMessage) {
+        Timber.d("intentMessage: $intentMessage")
         disposable.add(Completable.fromAction {
-            val createdAt = DateUtils.generateCreatedAtDate()
-            val item = com.thanksmister.iot.voicepanel.persistence.Intent()
-            item.type = intentName
-            item.input = input
-            item.intent = intent
-            item.createdAt = createdAt
-            commandDataSource.insertItem(item)
+            commandDataSource.insertItem(intentMessage)
         } .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                }, { error -> Timber.e("Commands error" + error.message) }))
+                }, { error -> Timber.e("Commands error: " + error.message) }))
     }
 
     private fun insertSun(payload: String) {
@@ -889,10 +904,6 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
             }
 
             if(configuration.faceWakeWord && snipsModule != null) {
-                Timber.d("Let's manually start listening because we found a face")
-                val intent = Intent(BROADCAST_ACTION_LISTENING_START)
-                val bm = LocalBroadcastManager.getInstance(applicationContext)
-                bm.sendBroadcast(intent)
                 snipsModule!!.startManualListening()
             }
 
@@ -973,11 +984,17 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         val intent = Intent(BROADCAST_ACTION_LOADING_COMPLETE)
         val bm = LocalBroadcastManager.getInstance(applicationContext)
         bm.sendBroadcast(intent)
-
-        if(!configuration.initializedVoice) {
+        val intentMessage = IntentMessage()
+        intentMessage.slots = ArrayList<Slot>()
+        intentMessage.intent = com.thanksmister.iot.voicepanel.persistence.Intent()
+        intentMessage.intent!!.intentName =  ComponentUtils.COMPONENT_SNIPS_INIT
+        intentMessage.input = getString(R.string.text_snips_welcome)
+        intentMessage.createdAt = DateUtils.generateCreatedAtDate()
+        insertHermes(intentMessage)
+        /*if(!configuration.initializedVoice) {
             configuration.initializedVoice = true;
             insertHermes(getString(R.string.text_snips_welcome), ComponentUtils.COMPONENT_SNIPS_INIT, "")
-        }
+        }*/
     }
 
     private fun sendToastMessage(message: String) {
@@ -1136,14 +1153,13 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     companion object {
-        const val FACE_DETECTION_INTERVAL: Long = 3000L // 30 SECONDS
+        const val FACE_DETECTION_INTERVAL: Long = 5000L // 3 SECONDS
         const val SCREEN_WAKE_TIME: Long = 30000L // 30 SECONDS
         const val TRIGGERED_AWAKE_TIME: Long = 10800000L // 3 HOURS
         const val INIT_SPEECH = "com.thanksmister.iot.voicepanel.INIT_SPEECH"
         const val INIT_VOICE = "com.thanksmister.iot.voicepanel.INIT_VOICE"
         const val INIT_MQTT = "com.thanksmister.iot.voicepanel.INIT_MQTT"
         const val INIT_CAMERA = "com.thanksmister.iot.voicepanel.INIT_CAMERA"
-        const val INIT_AUDIO = "com.thanksmister.iot.voicepanel.INIT_AUDIO"
         const val INIT_HTTP_SERVER = "om.thanksmister.iot.voicepanel.INIT_HTTP_SERVER"
         const val ONGOING_NOTIFICATION_ID = 19
         const val BROADCAST_EVENT_URL_CHANGE = "BROADCAST_EVENT_URL_CHANGE"

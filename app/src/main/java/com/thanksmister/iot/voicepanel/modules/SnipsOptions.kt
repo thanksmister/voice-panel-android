@@ -77,6 +77,13 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
             sharedPreferences.edit().putString(context.getString(R.string.key_snips_probability), value.toString()).apply()
         }
 
+    // The time between face wake detection hot word activation
+    var faceWakeDelayTime: Int
+        get() = sharedPreferences.getString(context.getString(R.string.key_snips_face_wake_interval), context.getString(R.string.default_snips_face_wake_interval)).toInt()
+        set(value) {
+            sharedPreferences.edit().putString(context.getString(R.string.key_snips_face_wake_interval), value.toString()).apply()
+        }
+
     private fun getBoolPref(resId: Int, defId: Int): Boolean {
         return sharedPreferences.getBoolean(
                 context.getString(resId),

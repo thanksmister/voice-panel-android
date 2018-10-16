@@ -27,12 +27,15 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.AsyncTask
+import android.os.Handler
 import android.os.Process
 import android.text.TextUtils
+import com.google.gson.GsonBuilder
 import com.thanksmister.iot.voicepanel.BuildConfig
 import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.utils.FileUtils
 import timber.log.Timber
+import java.lang.Exception
 import java.lang.ref.WeakReference
 
 class SnipsModule (base: Context?, private var options: SnipsOptions, var listener: SnipsListener) : ContextWrapper(base), LifecycleObserver {
@@ -44,12 +47,14 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
     private var snipsClientTask: SnipsUnzipAssistant? = null
     private var manuallyListening: Boolean = false
     private var lowProbability: Boolean = false
+    private var faceWakeIntervalActive: Boolean = false
+    private val faceWakeWordClearHandler = Handler()
 
     interface SnipsListener {
         fun onSnipsPlatformReady()
         fun onSnipsPlatformError(error: String)
         fun onSnipsHotwordDetectedListener()
-        fun onSnipsIntentDetectedListener(intentMessage: IntentMessage)
+        fun onSnipsIntentDetectedListener(intentJson: String)
         fun onSnipsListeningStateChangedListener(isListening: Boolean)
         fun onSessionEndedListener(sessionEndedMessage: SessionEndedMessage)
         fun onSnipsWatchListener(s: String)
@@ -118,11 +123,14 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
         if (snipsClient != null) {
             snipsClient!!.disconnect()
         }
+        faceWakeWordClearHandler.removeCallbacks(clearFaceWakeWord)
     }
 
     // Start a session manually
     fun startManualListening() {
-        if(snipsClient != null && !manuallyListening) {
+        if(snipsClient != null && !faceWakeIntervalActive) {
+            listener.onSnipsHotwordDetectedListener()
+            faceWakeIntervalActive = true
             manuallyListening = true
             snipsClient?.startSession(null, ArrayList<String>(), false, null)
         }
@@ -138,6 +146,17 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
         if(snipsClient != null) {
             snipsClient!!.endSession(sessionId, message)
         }
+    }
+
+    private fun clearFaceWakeWordActive() {
+        if(faceWakeIntervalActive) {
+            val wakeInterval = (options.faceWakeDelayTime * 1000)
+            faceWakeWordClearHandler.postDelayed(clearFaceWakeWord, wakeInterval.toLong())
+        }
+    }
+
+    private val clearFaceWakeWord = Runnable {
+        faceWakeIntervalActive = false
     }
 
     private fun initClient() {
@@ -167,8 +186,10 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                 Timber.d("a hotword was detected !")
                 // Do your magic here :D
                 // TODO play a sound or make some icon change
-                manuallyListening = false
                 listener.onSnipsHotwordDetectedListener()
+                manuallyListening = false
+                faceWakeIntervalActive = false
+                faceWakeWordClearHandler.removeCallbacks(clearFaceWakeWord)
             }
             snipsClient!!.onIntentDetectedListener = fun(intentMessage: IntentMessage): Unit {
                 Timber.d("received an intent: $intentMessage")
@@ -178,12 +199,20 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                 val lowerValue = options.nluProbability
                 val higherValue = 1.0f
                 if(intentMessage.intent.probability in lowerValue..higherValue) {
+                    val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
+                    var json = gson.toJson(intentMessage, IntentMessage::class.java)
+                    json = json.replace("type", "kind")
                     lowProbability = false
-                    listener.onSnipsIntentDetectedListener(intentMessage)
+                    listener.onSnipsIntentDetectedListener(json)
+
                 } else {
                     Timber.w("The probability was too low.")
                     lowProbability = true
                     listener.onSnipsLowProbability()
+                }
+                if(manuallyListening) {
+                    clearFaceWakeWordActive() // interval until next face wake
+                    manuallyListening = false
                 }
             }
             snipsClient!!.onListeningStateChangedListener = fun(isListening: Boolean): Unit {
@@ -211,7 +240,10 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                 } else if (SessionTermination.Type.NOMINAL == sessionEndedMessage.termination.type) {
                     //snipsClient!!.startNotification("Assistant initialized and ready.", null)
                 }
-                manuallyListening = false
+                if(manuallyListening) {
+                    clearFaceWakeWordActive() // interval until next face wake
+                    manuallyListening = false
+                }
                 listener.onSessionEndedListener(sessionEndedMessage)
             }
             snipsClient!!.onSnipsWatchListener = fun(s: String): Unit {
@@ -249,7 +281,11 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                     val buffer = ShortArray(minBufferSizeInBytes / 2)
                     recorder!!.read(buffer, 0, buffer.size)
                     if (snipsClient != null) {
-                        snipsClient!!.sendAudioBuffer(buffer)
+                        try {
+                            snipsClient!!.sendAudioBuffer(buffer)
+                        } catch (e: Exception) {
+                            Timber.w(e.message)
+                        }
                     }
                 }
                 recorder!!.stop()

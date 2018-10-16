@@ -45,6 +45,7 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
     private var faceWakeWordPreference: SwitchPreference? = null
     private var intentListPreference: SwitchPreference? = null
     private var probabilityPreference: EditTextPreference? = null
+    private var faceWakeIntervalPreference: EditTextPreference? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -81,6 +82,10 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
         probabilityPreference = findPreference(getString(R.string.key_snips_probability)) as EditTextPreference
         probabilityPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
         probabilityPreference!!.text = snipsOptions.nluProbability.toString()
+
+        faceWakeIntervalPreference = findPreference(getString(R.string.key_snips_face_wake_interval)) as EditTextPreference
+        faceWakeIntervalPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
+        faceWakeIntervalPreference!!.text = snipsOptions.nluProbability.toString()
 
         faceWakeWordPreference = findPreference(PREF_FACE_WAKE_WORD) as SwitchPreference
         faceWakeWordPreference!!.isChecked = configuration.faceWakeWord
@@ -135,6 +140,28 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
                         Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
                         probabilityPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
                         probabilityPreference!!.text = snipsOptions.nluProbability.toString()
+                    }
+                }
+            }
+            getString(R.string.key_snips_face_wake_interval) -> {
+                val value = faceWakeIntervalPreference!!.text
+                try {
+                    if(!TextUtils.isEmpty(value)) {
+                        snipsOptions.faceWakeDelayTime = value.toInt()
+                        if(!(value.toInt() in 0..60)) {
+                            Toast.makeText(activity, getString(R.string.error_snips_wake_interval), Toast.LENGTH_LONG).show()
+                        }
+                    } else if (isAdded) {
+                        Toast.makeText(activity, R.string.text_error_blank_entry, Toast.LENGTH_LONG).show()
+                        faceWakeIntervalPreference!!.setDefaultValue(snipsOptions.faceWakeDelayTime.toString())
+                        faceWakeIntervalPreference!!.text = snipsOptions.faceWakeDelayTime.toString()
+
+                    }
+                } catch (e : Exception) {
+                    if(isAdded) {
+                        Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
+                        faceWakeIntervalPreference!!.setDefaultValue(snipsOptions.faceWakeDelayTime.toString())
+                        faceWakeIntervalPreference!!.text = snipsOptions.faceWakeDelayTime.toString()
                     }
                 }
             }

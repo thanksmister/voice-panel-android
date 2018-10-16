@@ -19,12 +19,14 @@ package com.thanksmister.iot.voicepanel.persistence
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
+import android.arch.persistence.room.TypeConverters
 import android.content.Context
 
 /**
  * The Room database
  */
-@Database(entities = arrayOf(Intent::class, MessageMqtt::class, Weather::class, Sun::class), version = 5, exportSchema = false)
+@Database(entities = arrayOf(IntentMessage::class, MessageMqtt::class, Weather::class, Sun::class), version = 1, exportSchema = false)
+@TypeConverters(IntentConverter::class, SlotsConverter::class, StringConverter::class)
 abstract class VoicePanelDatabase : RoomDatabase() {
 
     abstract fun indentDao(): IntentDao

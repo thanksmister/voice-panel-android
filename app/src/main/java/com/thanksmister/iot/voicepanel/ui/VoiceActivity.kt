@@ -268,7 +268,7 @@ class VoiceActivity : BaseActivity() {
                     }
                 }, { error -> Timber.e("Unable to get alarm state: " + error)}))
 
-        disposable.add(viewModel.getCommands()
+        disposable.add(viewModel.getIntentMessages()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({commands ->

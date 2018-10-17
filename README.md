@@ -1,6 +1,6 @@
 # Voice Panel
 
-Voice Panel is an Android Voice Assistant for Home Assistant powered by the [Snips Voice Playtform](https://snips.ai/), a private, powerful and customizable voice assistant technology. Snips processes all language input on the device and nothing is ever sent to the cloud.
+Voice Panel is an Android Voice Assistant for Home Assistant powered by the [Snips Voice Playtform](https://snips.ai/). Snips is a private, powerful and customizable voice assistant technology that can run on Android, iOS, or Raspberry Pi. Snips processes all language input on the device, nothing is ever sent to the cloud.
 
 Voice Panel uses Snips to acta as a voice interface for your Home Assistant components. At this time, you can control your alarm system, lights, windows, blinds, switches and retrieve the weather.  You wake the application by using the wake-word "Hey, Snips" or by using face detection, which acts at the wake-word.  Then simply ask the to "turn off the living room lights" for example.
 

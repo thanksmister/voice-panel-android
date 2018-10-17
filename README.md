@@ -4,7 +4,7 @@ Voice Panel is an Android Voice Assistant for Home Assistant powered by the [Sni
 
 Voice Panel uses Snips to acta as a voice interface for your Home Assistant components. At this time, you can control your alarm system, lights, windows, blinds, switches and retrieve the weather.  You wake the application by using the wake-word "Hey, Snips" or by using face detection, which acts at the wake-word.  Then simply ask the to "turn off the living room lights" for example.
 
-Currently the application has several limitations.  First, the Snips Android SDK does not work as a satelite.  The Android SDK also does not support custom wake-words.  You must always use "Hey, Snips" with Voice Panel until the Snips team updates the SDK.  Optionally, you can try the face detection wake-word feature which starts listening when it sees a face in the camera. 
+Currently the application has several limitations.  The Snips Android SDK does not work as a satelite, all messages must be forworded to Home Assistant using MQTT and speach processed on the device using TTS.  The Android SDK also does not support custom wake-words at this time.  You must always use "Hey, Snips" with Voice Panel unless you want to try the face detection wake-word feature which starts listening when it sees a face in the camera. 
 
 
 ## Support

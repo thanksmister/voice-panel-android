@@ -149,10 +149,8 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
     }
 
     private fun clearFaceWakeWordActive() {
-        if(faceWakeIntervalActive) {
-            val wakeInterval = (options.faceWakeDelayTime * 1000)
-            faceWakeWordClearHandler.postDelayed(clearFaceWakeWord, wakeInterval.toLong())
-        }
+        val wakeInterval = (options.faceWakeDelayTime * 1000)
+        faceWakeWordClearHandler.postDelayed(clearFaceWakeWord, wakeInterval.toLong())
     }
 
     private val clearFaceWakeWord = Runnable {
@@ -193,9 +191,7 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
             }
             snipsClient!!.onIntentDetectedListener = fun(intentMessage: IntentMessage): Unit {
                 Timber.d("received an intent: $intentMessage")
-                //Timber.d("json output: $json")
                 Timber.d("The probability was ${intentMessage.intent.probability}")
-                //if(intentMessage.intent.probability > .070) {
                 val lowerValue = options.nluProbability
                 val higherValue = 1.0f
                 if(intentMessage.intent.probability in lowerValue..higherValue) {
@@ -204,16 +200,13 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                     json = json.replace("type", "kind")
                     lowProbability = false
                     listener.onSnipsIntentDetectedListener(json)
-
                 } else {
                     Timber.w("The probability was too low.")
                     lowProbability = true
                     listener.onSnipsLowProbability()
                 }
-                if(manuallyListening) {
-                    clearFaceWakeWordActive() // interval until next face wake
-                    manuallyListening = false
-                }
+                clearFaceWakeWordActive() // interval until next face wake
+                manuallyListening = false
             }
             snipsClient!!.onListeningStateChangedListener = fun(isListening: Boolean): Unit {
                 Timber.d("asr listening state: " + isListening)
@@ -240,10 +233,8 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                 } else if (SessionTermination.Type.NOMINAL == sessionEndedMessage.termination.type) {
                     //snipsClient!!.startNotification("Assistant initialized and ready.", null)
                 }
-                if(manuallyListening) {
-                    clearFaceWakeWordActive() // interval until next face wake
-                    manuallyListening = false
-                }
+                clearFaceWakeWordActive() // interval until next face wake
+                manuallyListening = false
                 listener.onSessionEndedListener(sessionEndedMessage)
             }
             snipsClient!!.onSnipsWatchListener = fun(s: String): Unit {
@@ -270,28 +261,32 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
 
     // TODO we need to check permissions granted for audio recording first before calling this
     private fun runStreaming() {
-        Timber.d("starting audio streaming")
-        val minBufferSizeInBytes = AudioRecord.getMinBufferSize(FREQUENCY, CHANNEL, ENCODING)
-        Timber.d("minBufferSizeInBytes: $minBufferSizeInBytes")
-        object : Thread() {
-            override fun run() {
-                recorder = AudioRecord(MediaRecorder.AudioSource.MIC, FREQUENCY, CHANNEL, ENCODING, minBufferSizeInBytes)
-                recorder!!.startRecording()
-                while (continueStreaming) {
-                    val buffer = ShortArray(minBufferSizeInBytes / 2)
-                    recorder!!.read(buffer, 0, buffer.size)
-                    if (snipsClient != null) {
-                        try {
-                            snipsClient!!.sendAudioBuffer(buffer)
-                        } catch (e: Exception) {
-                            Timber.w(e.message)
+        try {
+            Timber.d("starting audio streaming")
+            val minBufferSizeInBytes = AudioRecord.getMinBufferSize(FREQUENCY, CHANNEL, ENCODING)
+            Timber.d("minBufferSizeInBytes: $minBufferSizeInBytes")
+            object : Thread() {
+                override fun run() {
+                    recorder = AudioRecord(MediaRecorder.AudioSource.MIC, FREQUENCY, CHANNEL, ENCODING, minBufferSizeInBytes)
+                    recorder!!.startRecording()
+                    while (continueStreaming) {
+                        val buffer = ShortArray(minBufferSizeInBytes / 2)
+                        recorder!!.read(buffer, 0, buffer.size)
+                        if (snipsClient != null) {
+                            try {
+                                snipsClient!!.sendAudioBuffer(buffer)
+                            } catch (e: Exception) {
+                                Timber.w(e.message)
+                            }
                         }
                     }
+                    recorder!!.stop()
+                    Timber.d("audio streaming stopped")
                 }
-                recorder!!.stop()
-                Timber.d("audio streaming stopped")
-            }
-        }.start()
+            }.start()
+        } catch (e: Exception) {
+            Timber.w(e.message)
+        }
     }
 
     interface SnipsTaskListener {

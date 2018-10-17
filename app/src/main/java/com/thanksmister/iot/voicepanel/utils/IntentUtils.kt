@@ -16,6 +16,8 @@
 
 package com.thanksmister.iot.voicepanel.utils
 
+import android.text.TextUtils
+import com.thanksmister.iot.voicepanel.persistence.Slot
 import org.json.JSONArray
 import timber.log.Timber
 import org.json.JSONObject
@@ -38,6 +40,38 @@ class IntentUtils {
                 Timber.e("JSON parse error: " + e.message)
             }
             return ""
+        }
+
+        fun getStatusSlotText(slots: ArrayList<Slot>?):String {
+            var slotText = ""
+            Timber.d("slots: $slots")
+            if(slots != null) {
+                for(slot in slots) {
+                    Timber.d("slot.entity: ${slot.entity}")
+                    Timber.d("slot.rawValue: ${slot.rawValue}")
+                    if(slot.entity == "entity_locale" && !TextUtils.isEmpty(slot.rawValue)) {
+                        slotText = slot.rawValue!! + " " + slotText
+                    } else if (slot.entity == "entity_id" && !TextUtils.isEmpty(slot.rawValue)) {
+                        slotText = slotText +  " " + slot.rawValue!!
+                    }
+                }
+            }
+            return slotText
+        }
+
+        fun getHomeAssistantSlotText(slots: ArrayList<Slot>?):String  {
+            var slotText = ""
+            Timber.d("slots: $slots")
+            if(slots != null) {
+                for(slot in slots) {
+                    Timber.d("slot.entity: ${slot.entity}")
+                    Timber.d("slot.rawValue: ${slot.rawValue}")
+                    if(slot.entity == "hass_entity" && !TextUtils.isEmpty(slot.rawValue)) {
+                        slotText = slot.rawValue!!
+                    }
+                }
+            }
+            return slotText
         }
     }
 }

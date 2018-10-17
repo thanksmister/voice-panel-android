@@ -29,6 +29,7 @@ import com.thanksmister.iot.voicepanel.utils.ComponentUtils
 import com.thanksmister.iot.voicepanel.utils.ComponentUtils.Companion.COMPONENT_HASS_SHOPPING_LIST_LAST_ITEMS
 import com.thanksmister.iot.voicepanel.utils.DateUtils
 import com.thanksmister.iot.voicepanel.utils.IntentUtils
+import com.thanksmister.iot.voicepanel.utils.StringUtils
 import kotlinx.android.synthetic.main.adapter_commands.view.*
 import timber.log.Timber
 
@@ -57,23 +58,41 @@ class CommandAdapter(private val items: List<IntentMessage>?, private val listen
         @SuppressLint("SetTextI18n")
         fun bindItems(item: IntentMessage, position: Int, listener: OnItemClickListener?) {
             if(item.intent != null) {
-                val itemValue = "Slot values"
+                val itemValue = ""
                 when {
                     item.intent!!.intentName == ComponentUtils.COMPONENT_WEATHER_FORECAST_TYPE ||
                     item.intent!!.intentName == ComponentUtils.COMPONENT_WEATHER_FORECAST_CONDITION_TYPE ||
                     item.intent!!.intentName == ComponentUtils.COMPONENT_WEATHER_FORECAST_ITEM_TYPE ||
                     item.intent!!.intentName == ComponentUtils.COMPONENT_WEATHER_FORECAST_TEMPERATURE_TYPE -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_cloudy)
-                        itemView.commandTitle.text = "Weather"
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_weather)
                         val date = DateUtils.parseLocaleDateTime(item.createdAt)
                         itemView.commandItem.visibility = View.GONE
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_DISARM ||
-                            item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_HOME ||
-                            item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_DISARM_CODE ||
-                            item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_AWAY  -> {
+                            item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_DISARM_CODE -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_lock_outline)
-                        itemView.commandTitle.text = "Alarm"
+                        itemView.commandTitle.text = StringUtils.toTitleCase(itemView.context.getString(R.string.text_disarmed))
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
+                    }
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_HOME -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_lock_outline)
+                        itemView.commandTitle.text = StringUtils.toTitleCase(itemView.context.getString(R.string.text_arm_home))
+                        if(!TextUtils.isEmpty(itemValue)) {
+                            itemView.commandItem.visibility = View.VISIBLE
+                            itemView.commandItem.text = itemValue
+                        } else {
+                            itemView.commandItem.visibility = View.GONE
+                        }
+                    }
+                    item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_AWAY  -> {
+                        itemView.typeIcon.setImageResource(R.drawable.ic_lock_outline)
+                        itemView.commandTitle.text = StringUtils.toTitleCase(itemView.context.getString(R.string.text_arm_away))
                         if(!TextUtils.isEmpty(itemValue)) {
                             itemView.commandItem.visibility = View.VISIBLE
                             itemView.commandItem.text = itemValue
@@ -83,16 +102,16 @@ class CommandAdapter(private val items: List<IntentMessage>?, private val listen
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_HA_ALARM_STATUS -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_lock_outline)
-                        itemView.commandTitle.text = "Alarm"
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_alarm)
                         val date = DateUtils.parseLocaleDateTime(item.createdAt)
                         itemView.commandItem.visibility = View.VISIBLE
-                        itemView.commandItem.text = "status"
+                        itemView.commandItem.text = itemView.context.getString(R.string.text_command_status).toLowerCase()
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_LIGHTS_TURN_OFF ||
                             item.intent!!.intentName == ComponentUtils.COMPONENT_LIGHTS_SHIFT ||
                             item.intent!!.intentName == ComponentUtils.COMPONENT_LIGHTS_SET-> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_lightbulb)
-                        itemView.commandTitle.text = "Lights"
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_lights)
                         if(!TextUtils.isEmpty(itemValue)) {
                             itemView.commandItem.visibility = View.VISIBLE
                             itemView.commandItem.text = itemValue
@@ -102,62 +121,62 @@ class CommandAdapter(private val items: List<IntentMessage>?, private val listen
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_OPEN_COVER -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_window_open)
-                        itemView.commandTitle.text = "Open Cover"
-                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                        if(!TextUtils.isEmpty(itemValue)) {
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_open_cover)
+                        val slotText = IntentUtils.getHomeAssistantSlotText(item.slots)
+                        if(!TextUtils.isEmpty(slotText)) {
                             itemView.commandItem.visibility = View.VISIBLE
-                            itemView.commandItem.text = itemValue
+                            itemView.commandItem.text = slotText
                         } else {
                             itemView.commandItem.visibility = View.GONE
                         }
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_CLOSE_COVER  -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_window_closed)
-                        itemView.commandTitle.text = "Close Cover"
-                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                        if(!TextUtils.isEmpty(itemValue)) {
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_close_cover)
+                        val slotText = IntentUtils.getHomeAssistantSlotText(item.slots)
+                        if(!TextUtils.isEmpty(slotText)) {
                             itemView.commandItem.visibility = View.VISIBLE
-                            itemView.commandItem.text = itemValue
+                            itemView.commandItem.text = slotText
                         } else {
                             itemView.commandItem.visibility = View.GONE
                         }
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_LIGHT_SET   -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_lightbulb)
-                        itemView.commandTitle.text = "Light Set"
-                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                        if(!TextUtils.isEmpty(itemValue)) {
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_light_set)
+                        val slotText = IntentUtils.getHomeAssistantSlotText(item.slots)
+                        if(!TextUtils.isEmpty(slotText)) {
                             itemView.commandItem.visibility = View.VISIBLE
-                            itemView.commandItem.text = itemValue
+                            itemView.commandItem.text = slotText
                         } else {
                             itemView.commandItem.visibility = View.GONE
                         }
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_TURN_ON   -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_light_switch)
-                        itemView.commandTitle.text = "Turn On"
-                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                        if(!TextUtils.isEmpty(itemValue)) {
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_turn_on)
+                        val slotText = IntentUtils.getHomeAssistantSlotText(item.slots)
+                        if(!TextUtils.isEmpty(slotText)) {
                             itemView.commandItem.visibility = View.VISIBLE
-                            itemView.commandItem.text = itemValue
+                            itemView.commandItem.text = slotText
                         } else {
                             itemView.commandItem.visibility = View.GONE
                         }
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_TURN_OFF  -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_light_switch)
-                        itemView.commandTitle.text = "Turn Off"
-                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                        if(!TextUtils.isEmpty(itemValue)) {
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_turn_off)
+                        val slotText = IntentUtils.getHomeAssistantSlotText(item.slots)
+                        if(!TextUtils.isEmpty(slotText)) {
                             itemView.commandItem.visibility = View.VISIBLE
-                            itemView.commandItem.text = itemValue
+                            itemView.commandItem.text = slotText
                         } else {
                             itemView.commandItem.visibility = View.GONE
                         }
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_SNIPS_INIT -> {
                         itemView.typeIcon.setImageResource(R.drawable.small_logo)
-                        itemView.commandTitle.text = "Assistant Initialized"
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_assistant)
                         val date = DateUtils.parseLocaleDateTime(item.createdAt)
                         if(!TextUtils.isEmpty(itemValue)) {
                             itemView.commandItem.visibility = View.VISIBLE
@@ -169,8 +188,7 @@ class CommandAdapter(private val items: List<IntentMessage>?, private val listen
                     item.intent!!.intentName == ComponentUtils.COMPONENT_HASS_SHOPPING_LIST_ADD_ITEM ||
                     item.intent!!.intentName == COMPONENT_HASS_SHOPPING_LIST_LAST_ITEMS -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_cart_outline)
-                        itemView.commandTitle.text = "Add Item"
-                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_add_item)
                         if(!TextUtils.isEmpty(itemValue)) {
                             itemView.commandItem.visibility = View.VISIBLE
                             itemView.commandItem.text = itemValue
@@ -180,18 +198,18 @@ class CommandAdapter(private val items: List<IntentMessage>?, private val listen
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_STATUS -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_info_outline)
-                        itemView.commandTitle.text = "Status"
-                        val date = DateUtils.parseLocaleDateTime(item.createdAt)
-                        if(!TextUtils.isEmpty(itemValue)) {
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_status)
+                        val slotText = IntentUtils.getStatusSlotText(item.slots)
+                        if(!TextUtils.isEmpty(slotText)) {
                             itemView.commandItem.visibility = View.VISIBLE
-                            itemView.commandItem.text = itemValue
+                            itemView.commandItem.text = slotText
                         } else {
                             itemView.commandItem.visibility = View.GONE
                         }
                     }
                     item.intent!!.intentName == ComponentUtils.COMPONENT_SET_THERMOSTAT -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_thermometer_lines)
-                        itemView.commandTitle.text = "Thermostat"
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_thermostat)
                         val date = DateUtils.parseLocaleDateTime(item.createdAt)
                         if(!TextUtils.isEmpty(itemValue)) {
                             itemView.commandItem.visibility = View.VISIBLE
@@ -203,7 +221,7 @@ class CommandAdapter(private val items: List<IntentMessage>?, private val listen
                     item.intent!!.intentName == ComponentUtils.COMPONENT_CAMERA_CAPTURE ||
                             item.intent!!.intentName == ComponentUtils.COMPONENT_CAMERA_ACTION-> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_cctv)
-                        itemView.commandTitle.text = "Camera"
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_camera)
                         val date = DateUtils.parseLocaleDateTime(item.createdAt)
                         if(!TextUtils.isEmpty(itemValue)) {
                             itemView.commandItem.visibility = View.VISIBLE
@@ -216,7 +234,7 @@ class CommandAdapter(private val items: List<IntentMessage>?, private val listen
                             item.intent!!.intentName == ComponentUtils.COMPONENT_GET_CURRENT_DAY ||
                             item.intent!!.intentName == ComponentUtils.COMPONENT_GET_CURRENT_DATE -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_access_time)
-                        itemView.commandTitle.text = "Time/Date"
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_time)
                         val date = DateUtils.parseLocaleDateTime(item.createdAt)
                         if(!TextUtils.isEmpty(itemValue)) {
                             itemView.commandItem.visibility = View.VISIBLE
@@ -227,7 +245,7 @@ class CommandAdapter(private val items: List<IntentMessage>?, private val listen
                     }
                     else -> {
                         itemView.typeIcon.setImageResource(R.drawable.ic_hearing) // generic sensor icon
-                        itemView.commandTitle.text = "What?"
+                        itemView.commandTitle.text = itemView.context.getString(R.string.text_command_what)
                         val date = DateUtils.parseLocaleDateTime(item.createdAt)
                         if(!TextUtils.isEmpty(itemValue)) {
                             itemView.commandItem.visibility = View.VISIBLE

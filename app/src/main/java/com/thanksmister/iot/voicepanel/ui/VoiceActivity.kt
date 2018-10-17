@@ -275,8 +275,9 @@ class VoiceActivity : BaseActivity() {
                     this@VoiceActivity.runOnUiThread {
                         Timber.d("commands: " + commands)
                         commandList.adapter = CommandAdapter(commands, null)
+                        commandList.background = null
                         commandList.invalidate()
-                        if(!TextUtils.isEmpty(commands[0].input)) {
+                        if(commands.isNotEmpty() && !TextUtils.isEmpty(commands[0].input)) {
                             textOutput.text = getString(R.string.text_command_input, commands[0].input)
                         }
                     }

@@ -65,7 +65,7 @@
 
         </FrameLayout>
 
-        <FrameLayout
+        <RelativeLayout
             android:id="@+id/listContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -78,11 +78,11 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/commandList"
-                android:background="@color/transparent"
+                android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-        </FrameLayout>
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/textContainer"

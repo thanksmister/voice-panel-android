@@ -229,5 +229,21 @@
     <string name="pref_face_wake_interval_title">Face Wake Delay</string>
     <string name="pref_face_wake_interval_summary">The delay, in seconds, between initiating listening after face detected. This prevents continuous listening while facing of panel.</string>
 
-
+    <string name="pref_summary_battery">Battery Level, USB Plugged, AC Plugged, Charging</string>
+    <string name="pref_title_battery">Battery</string>
+    <string name="text_command_turn_off">Turn Off</string>
+    <string name="text_command_turn_on">Turn On</string>
+    <string name="text_command_light_set">Light Set</string>
+    <string name="text_command_close_cover">Close Cover</string>
+    <string name="text_command_open_cover">Open Cover</string>
+    <string name="text_command_lights">Lights</string>
+    <string name="text_command_alarm">Alarm</string>
+    <string name="text_command_weather">Weather</string>
+    <string name="text_command_assistant">Assistant Initialized</string>
+    <string name="text_command_add_item">Add Item</string>
+    <string name="text_command_status">Status</string>
+    <string name="text_command_thermostat">Thermostat</string>
+    <string name="text_command_camera">Camera</string>
+    <string name="text_command_time">Time/Date</string>
+    <string name="text_command_what">What?</string>
 </resources>

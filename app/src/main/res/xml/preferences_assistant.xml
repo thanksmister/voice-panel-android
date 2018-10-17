@@ -34,7 +34,7 @@
         <EditTextPreference
             android:text="@string/default_snips_face_wake_interval"
             android:defaultValue="@string/default_snips_face_wake_interval"
-            android:dependency="pref_face_wake_word"
+            android:dependency="pref_face_wakeword"
             android:key="@string/key_snips_face_wake_interval"
             android:negativeButtonText="@android:string/cancel"
             android:positiveButtonText="@android:string/ok"

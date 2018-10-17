@@ -73,7 +73,6 @@ constructor(application: Application, private val dataSource: IntentDao, private
 
     fun getIntentMessages(): Flowable<List<IntentMessage>> {
         return dataSource.getItems()
-                .filter {items -> items.isNotEmpty()}
     }
 
     fun getSun(): Flowable<Sun> {

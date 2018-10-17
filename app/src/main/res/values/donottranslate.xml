@@ -99,9 +99,9 @@
     <string name="key_snips_probability">snips_probability</string>
     <string name="default_snips_snips_probability">0.7f</string>
 
-    <string name="key_snips_face_wake_interval">snips_face_wake_interval</string>
+    <string name="key_snips_face_wake_interval">snips_face_wake_pause</string>
     <string name="default_snips_face_wake_interval">5</string>
-
+    <string name="key_setting_battery">setting_battery</string>
 
     <string name="license" translatable="false"><![CDATA[
         <br><b>Copyright 2017 ThanksMister LLC</b><br>

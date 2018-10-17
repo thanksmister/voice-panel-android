@@ -15,7 +15,7 @@
   ~ limitations under the License.
   -->
 
-<com.thanksmister.iot.mqtt.alarmpanel.ui.views.AlarmCodeView
+<com.thanksmister.iot.voicepanel.ui.views.AlarmCodeView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -108,4 +108,4 @@
 
     </RelativeLayout>
     
-</com.thanksmister.iot.mqtt.alarmpanel.ui.views.AlarmCodeView>
+</com.thanksmister.iot.voicepanel.ui.views.AlarmCodeView>

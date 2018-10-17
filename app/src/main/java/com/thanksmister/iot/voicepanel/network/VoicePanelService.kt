@@ -278,7 +278,6 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     private val state: JSONObject
         get() {
-            Timber.d("getState")
             val state = JSONObject()
             try {
                 state.put(MqttUtils.STATE_CURRENT_URL, appLaunchUrl)
@@ -481,9 +480,9 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     // TODO don't pass alarm mqtt as command
     override fun onMQTTMessage(id: String, topic: String, payload: String) {
-        Timber.i("onMQTTMessage id: $id")
+        /*Timber.i("onMQTTMessage id: $id")
         Timber.i("onMQTTMessage topic: $topic")
-        Timber.i("onMQTTMessage payload: $payload")
+        Timber.i("onMQTTMessage payload: $payload")*/
         if(SUBSCRIBE_TOPIC_HERMES == topic) {
             processHermes(payload)
         } else if(AlarmUtils.hasSupportedStates(payload)) {
@@ -540,9 +539,9 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     private fun publishMessage(command: String, message: String) {
         if(mqttModule != null) {
-            Timber.d("publishMessage")
+            /*Timber.d("publishMessage")
             Timber.d("topic $command")
-            Timber.d("payload: $message")
+            Timber.d("payload: $message")*/
             mqttModule!!.publishState(command, message)
         }
     }
@@ -680,8 +679,8 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun processCommand(id: String, topic: String, commandJson: JSONObject) {
-        Timber.d("processCommand topic $topic")
-        Timber.d("processCommand commandJson ${commandJson.toString()}")
+       /* Timber.d("processCommand topic $topic")
+        Timber.d("processCommand commandJson ${commandJson.toString()}")*/
         var payload: String = ""
         try {
             if (commandJson.has(COMMAND_WAKE)) {
@@ -734,7 +733,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun processCommand(id: String, topic: String, command: String) {
-        Timber.d("processCommand")
+        //Timber.d("processCommand")
         return try {
             processCommand(id, topic, JSONObject(command))
         } catch (ex: JSONException) {
@@ -750,8 +749,8 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun insertMessage(messageId: String, topic: String, payload: String, type: String) {
-        Timber.d("insertMessage: " + topic)
-        Timber.d("insertMessage: " + payload)
+        /*Timber.d("insertMessage: " + topic)
+        Timber.d("insertMessage: " + payload)*/
         disposable.add(Completable.fromAction {
             val createdAt = DateUtils.generateCreatedAtDate()
             val message = MessageMqtt()
@@ -779,7 +778,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun insertSun(payload: String) {
-        Timber.d("insertSun $payload")
+        //Timber.d("insertSun $payload")
         disposable.add(Completable.fromAction {
             val sun = Sun()
             sun.sun = payload
@@ -792,7 +791,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun insertWeather(payload: String) {
-        Timber.d("insertWeather")
+        //Timber.d("insertWeather")
         val gson = GsonBuilder().serializeNulls().create()
         val weather = gson.fromJson<Weather>(payload, Weather::class.java)
         disposable.add(Completable.fromAction {
@@ -879,7 +878,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     private fun publishMotionDetected() {
         val delay = (configuration.motionResetTime * 1000).toLong()
         if (!motionDetected) {
-            Timber.d("publishMotionDetected")
+            //Timber.d("publishMotionDetected")
             val data = JSONObject()
             try {
                 data.put(MqttUtils.VALUE, true)
@@ -893,20 +892,15 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun publishFaceDetected() {
-        Timber.d("publishFaceDetected")
         if (!faceDetected) {
-
             faceDetected = true
-
             if (configuration.cameraFaceWake) {
                 configurePowerOptions()
                 switchScreenOn(SCREEN_WAKE_TIME)
             }
-
             if(configuration.faceWakeWord && snipsModule != null) {
                 snipsModule!!.startManualListening()
             }
-
             val data = JSONObject()
             try {
                 data.put(MqttUtils.VALUE, true)
@@ -919,7 +913,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun clearMotionDetected() {
-        Timber.d("Clearing motion detected status")
+        //Timber.d("Clearing motion detected status")
         if(motionDetected) {
             motionDetected = false
             val data = JSONObject()
@@ -934,7 +928,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     private fun clearFaceDetected() {
         if(faceDetected) {
-            Timber.d("Clearing face detected status")
+            //Timber.d("Clearing face detected status")
             val data = JSONObject()
             try {
                 data.put(VALUE, false)

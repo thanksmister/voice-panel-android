@@ -29,8 +29,13 @@ import android.widget.Toast
 import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.network.VoicePanelService
 import com.thanksmister.iot.voicepanel.persistence.Configuration
+import com.thanksmister.iot.voicepanel.persistence.IntentDao
 import com.thanksmister.iot.voicepanel.utils.DialogUtils
 import dagger.android.support.DaggerAppCompatActivity
+import io.reactivex.Completable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -38,6 +43,8 @@ class SettingsActivity : DaggerAppCompatActivity() {
 
     @Inject lateinit var configuration: Configuration
     @Inject lateinit var dialogUtils: DialogUtils
+    @Inject lateinit var initDao: IntentDao
+    private val disposable = CompositeDisposable()
     private val inactivityHandler: Handler = Handler()
     private val inactivityCallback = Runnable {
         Toast.makeText(this@SettingsActivity, getString(R.string.toast_screen_timeout), Toast.LENGTH_LONG).show()
@@ -64,6 +71,8 @@ class SettingsActivity : DaggerAppCompatActivity() {
         configuration.isFirstTime = false
 
         lifecycle.addObserver(dialogUtils)
+
+        initializeCommandList()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -98,6 +107,9 @@ class SettingsActivity : DaggerAppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         inactivityHandler.removeCallbacks(inactivityCallback)
+        if(!disposable.isDisposed) {
+            disposable.clear()
+        }
     }
 
     override fun onUserInteraction() {
@@ -121,6 +133,17 @@ class SettingsActivity : DaggerAppCompatActivity() {
             Timber.e(ex.message)
         }
     }
+
+    // Initialize the command list when we initialize the assistant
+    private fun initializeCommandList() {
+        disposable.add(Completable.fromAction {
+            initDao.deleteAllItems()
+        } .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                }, { error -> Timber.e("Database error" + error.message) }))
+    }
+
 
     companion object {
         fun createStartIntent(context: Context): Intent {

@@ -84,8 +84,8 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
         probabilityPreference!!.text = snipsOptions.nluProbability.toString()
 
         faceWakeIntervalPreference = findPreference(getString(R.string.key_snips_face_wake_interval)) as EditTextPreference
-        faceWakeIntervalPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
-        faceWakeIntervalPreference!!.text = snipsOptions.nluProbability.toString()
+        faceWakeIntervalPreference!!.setDefaultValue(snipsOptions.faceWakeDelayTime.toString())
+        faceWakeIntervalPreference!!.text = snipsOptions.faceWakeDelayTime.toString()
 
         faceWakeWordPreference = findPreference(PREF_FACE_WAKE_WORD) as SwitchPreference
         faceWakeWordPreference!!.isChecked = configuration.faceWakeWord

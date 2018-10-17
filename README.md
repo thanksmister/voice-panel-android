@@ -23,7 +23,8 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ## Screen Shots:
 
-![Night](https://user-images.githubusercontent.com/142340/47120939-17497080-d247-11e8-9bfe-1ec86a6450c9.png)
+![night2](https://user-images.githubusercontent.com/142340/47121015-5d9ecf80-d247-11e8-81a6-0a3ade48d212.png)
+![settings](https://user-images.githubusercontent.com/142340/47121039-70190900-d247-11e8-8ec6-35f471f46b12.png)
 
 ## Hardware & Software 
 

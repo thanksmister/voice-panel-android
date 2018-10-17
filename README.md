@@ -23,6 +23,7 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ## Screen Shots:
 
+![Night](https://user-images.githubusercontent.com/142340/47120939-17497080-d247-11e8-9bfe-1ec86a6450c9.png)
 
 ## Hardware & Software 
 

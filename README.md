@@ -23,10 +23,8 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ## Screen Shots:
 
+![ui](https://user-images.githubusercontent.com/142340/47121221-42808f80-d248-11e8-813a-72b3be85eae3.png)
 ![landscape](https://user-images.githubusercontent.com/142340/47121143-e3227f80-d247-11e8-979a-3bdf19ceb998.png)
-![day](https://user-images.githubusercontent.com/142340/47121097-ac4c6980-d247-11e8-9591-9009d3246c11.png)
-![night2](https://user-images.githubusercontent.com/142340/47121015-5d9ecf80-d247-11e8-81a6-0a3ade48d212.png)
-![settings](https://user-images.githubusercontent.com/142340/47121039-70190900-d247-11e8-8ec6-35f471f46b12.png)
 
 ## Hardware & Software 
 

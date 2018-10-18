@@ -61,10 +61,10 @@ You will place intents scripts within the new "intents.yaml" file to work with t
 
 To control a Home Assistant alarm control panel using voice, you need to add the alarm intents scripts to your "intents.yaml" file. This will allow you to set the alarm status, disarm the alarm, and set the alarm to home or away modes by voice.  Here are sample voice commands: 
 
-  "Set the alarm to home"
-  "Disable the alarm"
-  "Set the alarm to away mode"
-  "What's the status of the alarm?"
+  * "Set the alarm to home"
+  * "Disable the alarm"
+  * "Set the alarm to away mode"
+  * "What's the status of the alarm?"
 
 #### Alarm Panel Intents
 
@@ -115,7 +115,7 @@ HaAlarmDisarm:
 
 If you would like to get weather updates, you will need to add a [weather component](https://www.home-assistant.io/components/sensor.darksky/) to Home Assistant. Voice Panel can report the weather by adding a new intent that will speak the current weather conditions to your "intents.yaml" file.  Here are sample voice commands: 
 
-  "What's the weather today?"
+  * "What's the weather today?"
 
 #### Example Darksky Weather 
 
@@ -138,7 +138,11 @@ searchWeatherForecast:
 
 You can get the status of Home Assistant components using voice commands.  First you need to add the intent scripts to the "intents.yaml" file to handle script information.   The status intent has two slots, one for the entity location (such as kitchen, living room, deck, upstairs, etc.) and one for entity id (door, camera, light, etc.).   These slots can be used to provide a specific response for the item status.   
 
-Here ix an example of the status intent script:
+* "What's the staus of the main door"
+* "Main door state?"
+* "Are the doors secure?"
+
+#### Example Status Intent Script
 
 ```
 getStatus:
@@ -151,13 +155,11 @@ getStatus:
       {% endif %} 
  ```
  
- In the above example, "entity_locale" and "entity_id" are used to provide a sepcific sensor status.  In this case we asked "what is the status of the main door?" and Snips responsed with "The main door is closed", which is the status of the sensor.main_door entity.  
-
+In the above example, "entity_locale" and "entity_id" are used to provide a sepcific sensor status.  In this case we asked "what is the status of the main door?" and Snips responsed with "The main door is closed", which is the status of the sensor.main_door entity.  
 
 ## MQTT Communication
 
 In addition to voice commands, the Voice Panel application can display and control components using the MQTT protocal.  Voice Panel and Home Assistant work together to control the Home Assistant Alarm Control Panel, display weather data, receive sensor data, control the application Day/Night mode, and send various remote commands to the application. 
-
 
 ### MQTT Alarm Panel Control
 
@@ -221,7 +223,7 @@ The resulting payload will look like this:
 {"topic": "voicepanel/command","payload":"{'weather':{'summary':'Partly Cloudy','precipitation':'0','icon':'partly-cloudy-day','temperature':'22.5','units':'°C'}}
 ```
 
-### Day/Night Mode
+### MQTT Day/Night Mode
 
 Similar to how weather works, you can control the Voice Panel to display the day or night mode by sending a formatted MQTT message with the sun's position (above or below the horizon).  To do this add the [sun component](https://www.home-assistant.io/components/sun/) to Home Assistant, then setup an automation to publish an MQTT message on an interval:
 

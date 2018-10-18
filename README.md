@@ -45,7 +45,7 @@ For the Voice Assistant to control Home Assistant components, you neeed to insta
 
 -[Snips Add-On](https://www.home-assistant.io/addons/snips/)
 
-Home Assistant already has [bundled scripts](https://github.com/tschmidty69/hass-snips-bundle-intents) included when you add the Snips platform to Home Assistant.  These scripts will allow you to turn on/off components (lights, switches, etc.), open/close components (garage, blinds, etc.), set the color of lights, add items to your shopping list, and retrieve items from your shopping list.   So you can say "Turn on the kitchen lights" to control a the component lights.kitchen. 
+Home Assistant already has [bundled scripts](https://developers.home-assistant.io/docs/en/intent_builtin.html) included when you add the Snips platform to Home Assistant.  These scripts will allow you to turn on/off components (lights, switches, etc.), open/close components (garage, blinds, etc.), set the color of lights, add items to your shopping list, and retrieve items from your shopping list.   So you can say "Turn on the kitchen lights" to control a the component lights.kitchen. 
 
 ### Custom Assistant Commands
 

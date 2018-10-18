@@ -151,8 +151,7 @@ getStatus:
     type: plain
     text: >
       {% if entity_locale == 'main' and  entity_id == 'door'  %}
-        {% set entity_name = "sensor." + entity_locale + "_" + entity_id %}
-        The {{ entity_locale }} {{ entity_id }} is {{states(entity_name)}}
+        The {{ entity_locale }} {{ entity_id }} is {{states(sensor.main_door)}}
       {% endif %} 
  ```
  

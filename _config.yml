@@ -1,4 +1,4 @@
 theme: jekyll-theme-minimal
-title: Voice Panel
-logo: https://user-images.githubusercontent.com/142340/47177018-9a250680-d2ed-11e8-91f2-8fb241cf19f8.png
-description: Voice Panel is an Anroid Voice Assistant application for Home Assistant built using the Snips platform.
+title: "Voice Panel"
+logo: "https://user-images.githubusercontent.com/142340/47177018-9a250680-d2ed-11e8-91f2-8fb241cf19f8.png"
+description: "Voice Panel is a Voice Assistant for Home Assistant built using the Snips AI for Android devices."

@@ -164,6 +164,8 @@ In addition to voice commands, the Voice Panel application can display and contr
 
 ### MQTT Alarm Panel Control
 
+![alarm](https://user-images.githubusercontent.com/142340/47173519-a5276900-d2e4-11e8-84e9-db623b461020.png)
+
 The alarm panel can be controlled using only voice, however included is a manual way to set and disable the alarm which works using MQTT messaging.  To use this feature, you need to install the [Manual Alarm Control Panel with MQTT Support](https://www.home-assistant.io/components/alarm_control_panel.manual_mqtt/).  This component allows for two-way control of the Home Assistant alarm panel component using MQTT messaging.
 
 To enable the MQTT alarm feature, under settings (the gear icon) select Alarm Settings. Once active, you will see a lock icon at the bottom of the main screen which displays the current alarm mode and provide a manual means for arming and disarming the alarm in addition to the voice controls.  The Alarm Settings has options to change the MQTT topic and commands if you do not wish to use the defaults. 
@@ -200,6 +202,8 @@ alarm_control_panel:
 
 
 ### MQTT Weather
+
+![weather](https://user-images.githubusercontent.com/142340/47173511-a193e200-d2e4-11e8-8cbc-f2d57cdb6346.png)
 
 You can also use MQTT to publish the weather to the Voice Panel application, which it will then display on the main view. To do this you need to setup an automation that publishes a formatted MQTT message on an interval.  Then in the application settings, enable the weather feature. Here is a sample automation that uses Darksky data to publish an MQTT message: 
 

@@ -12,8 +12,8 @@ Currently the application has several limitations.  The Snips Android SDK does n
 For issues, feature requests, comments or questions, use the [Github issues tracker](https://github.com/thanksmister/vioce-panel-android/issues).  
 
 ## Features
-- Face activated wake-word (no need to say "Hey, Snips".
-- Basic control over Home Assistant components
+- Face activated wake-word (no need to say "Hey, Snips").
+- Control over Home Assistant components using voice
 - Stream video, detect motion, detect faces, and read QR Codes.
 - Capture and emailing images when the alarm is disabled.
 - MQTT commands to remotely control the application (speak text, play audio, display notifications, alerts, etc.).
@@ -28,40 +28,49 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ## Hardware & Software 
 
-- Android Device running Android OS 5.0.1 (SDK 21) or greater. Though performance on older devices may not be ideal for use. 
+- Android Device running Android OS 5.0.1 (SDK 21) or greater. Though performance on older devices may not be ideal. 
 
 ## Installation
 
 You can download and install the latest release from the [release section](https://github.com/thanksmister/voice-panel-android/releases). 
 
-## Home Assistant Setup
+## Assistant Setup
 
-For the Voice Assistant to work with Home Assistant, you neeed to install the Snips component or the Snips add-on. 
+You first need to setup MQTT by adding the HASS MQTT Broker add-on to Home Assistant.  This allows the two-way communication between Home Assistant and Voice Panel using the MQTT messaging protocal. 
+
+-[MQTT Broker](https://www.home-assistant.io/addons/)
+
+For the Voice Assistant to control Home Assistant components, you neeed to install either the Snips component or the Snips AI add-on. 
 
 -[Snips Component ](https://www.home-assistant.io/components/snips/)
 -[Snips Add-On](https://www.home-assistant.io/addons/snips/)
 
-Additionally, you need to create a file to store your [intent scripts](https://www.home-assistant.io/components/intent_script/) and customize the assistants behavior.  Create an "intents.yaml" file in your confi directory, then link this from the configuration.yaml file by adding this line at the bottom: 
+Home Assistant already has [bundled scripts](https://github.com/tschmidty69/hass-snips-bundle-intents) included when you add the Snips platform to Home Assistant.  These scripts will allow you to turn on/off components (lights, switches, etc.), open/close components (garage, blinds, etc.), set the color of lights, add items to your shopping list, and retrieve items from your shopping list.   So you can say "Turn on the kitchen lights" to control a the component lights.kitchen. 
+
+
+### Custom Assistant Commands
+
+Voice Panel also has custom scripts that extend upon the basic functionality. Currently Voice Panel can control your the MQTT alarm panel in Home Assistant, get the status for any component by name ("What's the status of the front door?"), get the time/date, get the weather, and control the thermostate.  
+
+To use custom scripts you need to create a file to store your [intent scripts](https://www.home-assistant.io/components/intent_script/) and customize the assistants behavior.  Create an "intents.yaml" file in your confi directory, then link this from the configuration.yaml file by adding this line at the bottom: 
 
 ```intent_script: !include intents.yaml```
 
 You will place intents scripts within the new "intents.yaml" file to work with the various components currently supported by application.  Home Assistant already has a [bundled scripts](https://github.com/tschmidty69/hass-snips-bundle-intents) included when you add the Snips platform to Home Assistant.  Voice Panel also has custom scripts to extend upon the basic functionality.  The additional scripts can be added to your intents yaml file to use these features. 
 
-Here is an example of scripts to report the weather (using Darksky) and to use the MQTt Manual Alarm Componet:
+
+## Alarm Panel Control
+
+To control a Home Assistant alarm control panel using voice, you need to add the alarm intents scripts to your "intents.yaml" file. This will allow you to set the alarm status, disarm the alarm, and set the alarm to home or away modes by voice.  Here are sample voice commands: 
+
+  "Set the alarm to home"
+  "Disable the alarm"
+  "Set the alarm to away mode"
+  "What's the status of the alarm?"
+
+### Alarm Panel Intents
 
 ```
-searchWeatherForecast:
-  speech:
-    type: plain
-    text: >
-      The weather is currently 
-      {{states('sensor.dark_sky_temperature') | round(0)}} 
-      degrees outside and 
-      {{states('sensor.dark_sky_daily_summary')}} 
-      The high today will be 
-      {{ states('sensor.dark_sky_daytime_high_temperature') | round(0)}}
-      and 
-      {{ states('sensor.dark_sky_hourly_summary')}}
 HaAlarmStatus:
   speech:
     type: plain
@@ -104,17 +113,11 @@ HaAlarmDisarm:
         entity_id: alarm_control_panel.ha_alarm
 ```
 
+## MQTT Alarm Panel Control
 
-## MQTT Alarm 
+The alarm panel can be controlled using only voice, however included is a manual way to set and disable the alarm which works using MQTT messaging.  To use this feature, you need to install the [Manual Alarm Control Panel with MQTT Support](https://www.home-assistant.io/components/alarm_control_panel.manual_mqtt/).  This component allows for two-way control of the Home Assistant alarm panel component using MQTT messaging.
 
-To use the Alarm feature of Home Assistant with Voice Panel, you need to install the MQTT Manual Alarm Component in Home Assistant.
-
--[Manual Alarm Control Panel with MQTT Support](https://www.home-assistant.io/components/alarm_control_panel.manual_mqtt/)
-
-Then under settings (gear icon) enter the MQTT information that you configured in Home Assistant for your MQTT service.  Then under the Alarm setting, enable the MQTT Alarm control.  
-
-You will see a lock icon at the bottom of the screen which will display the current alarm mode and provide a manual means for arming and disarming the alarm in addition to the voice controls.
-
+To enable the MQTT alarm feature, under settings (the gear icon) select Alarm Settings. Once active, you will see a lock icon at the bottom of the main screen which displays the current alarm mode and provide a manual means for arming and disarming the alarm in addition to the voice controls.  The Alarm Settings has options to change the MQTT topic and commands if you do not wish to use the defaults. 
 
 ### Supported Command and Publish States
 
@@ -146,12 +149,13 @@ alarm_control_panel:
 
 -- Notice that my trigger_time is 1800 and disarm_after_trigger is false, this means the alarm runs for 1800 seconds until it    stops and it doesn't reset after its triggerd. 
 
-## Weather Updates (Darksky)
+## Weather Updates 
 
-If you would like to get weather updates, you will need to add thje Darksky component to Home Assistant and enter your 
-your [Dark Sky API](https://darksky.net/dev/) key. You would then setup an automation to send the updated weather data to Voice Panel using MQTT. 
+If you would like to get weather updates, you will need to add a [weather component](https://www.home-assistant.io/components/sensor.darksky/) to Home Assistant. Voice Panel can report the weather by adding a new intent that will speak the current weather conditions to your "intents.yaml" file.  Here are sample voice commands: 
 
-If you want to have Voice Panel report the weather as well, you can set up a new intent that will speak the current weather conditions in your "intents.yaml" file.  Here is an example intent used to get today's weather: 
+  "What's the weather today?"
+
+### Example Darksky Weather 
 
 ```
 searchWeatherForecast:
@@ -167,6 +171,59 @@ searchWeatherForecast:
       and 
       {{ states('sensor.dark_sky_hourly_summary')}}
 ```
+
+## MQTT Weather
+
+You can also use MQTT to publish the weather to the Voice Panel application, which it will then display on the main view. To do this you need to setup an automation that publishes a formatted MQTT message on an interval.  Then in the application settings, enable the weather feature. Here is a sample automation that uses Darksky data to publish an MQTT message: 
+
+```
+- id: '1538595661244'
+  alias: MQTT Weather
+  trigger:
+  - minutes: /5
+    platform: time
+  condition: []
+  action:
+  - data:
+      payload_template: '{''weather'':{''summary'':''{{states(''sensor.dark_sky_summary'')}}'',''precipitation'':''{{states(''sensor.dark_sky_precip_probability'')}}'',''icon'':''{{states(''sensor.dark_sky_icon'')}}'',''temperature'':''{{states(''sensor.dark_sky_apparent_temperature'')}}'',''units'':''{{states.sensor.dark_sky_apparent_temperature.attributes.unit_of_measurement}}''}}'
+      topic: voicepanel/command
+      retain: true
+    service: mqtt.publish
+```
+
+The resulting payload will look like this:
+
+```
+{"topic": "voicepanel/command","payload":"{'weather':{'summary':'Partly Cloudy','precipitation':'0','icon':'partly-cloudy-day','temperature':'22.5','units':'°C'}}
+```
+
+## Day/Night Mode
+
+Similar to how weather works, you can control the Voice Panel to display the day or night mode by sending a formatted MQTT message with the sun's position (above or below the horizon).  To do this add the [sun component](https://www.home-assistant.io/components/sun/) to Home Assistant, then setup an automation to publish an MQTT message on an interval:
+
+```
+- id: '1539017708085'
+  alias: MQTT Sun
+  trigger:
+  - minutes: /5
+    platform: time
+  condition: []
+  action:
+  - data:
+      payload_template: '{''sun'':''{{states(''sun.sun'')}}''}'
+      retain: true
+      topic: voicepanel/command
+    service: mqtt.publish
+```
+
+The resulting payload will look like this:
+
+```
+{"topic": "voicepanel/command","payload":"{'sun':'above_horizon'}}
+```
+
+If you wish, you can use an offset to change the day or night mode values or send a MQTT message at the desired time with "above_horizon" to show day mode or "below_horizon" to show night mode.  If you wish to always be night, you need only send one MQTT message with "below_horizon" and the app will not switch back to day mode.  Be sure to turn on the Day/Night mode under the Display settings in the application.  
+
 
 ## MQTT Sensor and State Data
 If MQTT is properly configured, the application can publish data and states for various device sensors, camera detections, and application states. Each device required a unique base topic which you set in the MQTT settings, the default is "voicepanel".  This distinguishes your device if you are running multiple devices.  

@@ -145,7 +145,7 @@ You can get the status of Home Assistant components using voice commands.  First
 
 #### Example Status Intent Script
 
-```
+``` 
 getStatus:
   speech:
     type: plain

@@ -45,6 +45,7 @@
     <string name="dialog_connect_mqtt_broker">Please configure your MQTT broker in the settings.  The application will not work without an MQTT connection to Home Assistant.</string>
 
     <string name="service_notification_message">Voice Panel Running…</string>
+    <string name="activity_logs_title">Data Logs</string>
     <string name="title_settings">Settings</string>
     <string name="title_camera_settings">Camera Settings</string>
     <string name="title_mqtt_settings">MQTT Settings</string>
@@ -77,7 +78,7 @@
 
     <string name="menu_item_help">Help</string>
     <string name="menu_item_logs">Logs</string>
-    <string name="menu_item_clear_logs">Clear logs</string>
+
 
     <string name="title_camera_test">Camera Test</string>
 
@@ -246,4 +247,10 @@
     <string name="text_command_camera">Camera</string>
     <string name="text_command_time">Time/Date</string>
     <string name="text_command_what">What?</string>
+
+    <string name="dialog_clear_logs">Do you want to clear the logs?</string>
+    <string name="dialog_clear_commands">Do you want to clear the command list?</string>
+    <string name="menu_item_clear_logs">Clear logs</string>
+    <string name="text_message_logs">Message Logs</string>
+
 </resources>

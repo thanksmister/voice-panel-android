@@ -25,15 +25,14 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        tools:ignore="UselessParent">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/typeText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="12sp"
+            android:textSize="14sp"
             tools:text="Type"/>
 
         <TextView
@@ -41,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="12sp"
+            android:textSize="14sp"
             tools:text="Topic"/>
 
         <TextView
@@ -49,7 +48,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="12sp"
+            android:textSize="14sp"
             tools:text="Message"/>
 
         <TextView
@@ -58,7 +57,7 @@
             android:gravity="end"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textSize="12sp"
+            android:textSize="14sp"
             tools:text="11/11/2017"/>
 
     </LinearLayout>

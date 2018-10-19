@@ -22,10 +22,12 @@ import com.thanksmister.iot.voicepanel.BaseActivity
 import com.thanksmister.iot.voicepanel.BaseFragment
 import com.thanksmister.iot.voicepanel.network.VoicePanelService
 import com.thanksmister.iot.voicepanel.ui.LiveCameraActivity
+import com.thanksmister.iot.voicepanel.ui.LogActivity
 import com.thanksmister.iot.voicepanel.ui.SettingsActivity
 import com.thanksmister.iot.voicepanel.ui.viewmodels.DetectionViewModel
 import com.thanksmister.iot.voicepanel.ui.VoiceActivity
 import com.thanksmister.iot.voicepanel.ui.fragments.*
+import com.thanksmister.iot.voicepanel.ui.viewmodels.LogsViewModel
 import com.thanksmister.iot.voicepanel.ui.viewmodels.VoiceViewModel
 import com.thanksmister.iot.voicepanel.ui.viewmodels.WeatherViewModel
 import dagger.Binds
@@ -51,6 +53,11 @@ internal abstract class AndroidBindingModule {
     @ViewModelKey(WeatherViewModel::class)
     abstract fun bindsWeatherViewModel(viewModel: WeatherViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(LogsViewModel::class)
+    abstract fun bindsLogsViewModel(viewModel: LogsViewModel): ViewModel
+
     @ContributesAndroidInjector
     internal abstract fun service(): VoicePanelService
 
@@ -67,6 +74,9 @@ internal abstract class AndroidBindingModule {
     internal abstract fun liveCameraActivity(): LiveCameraActivity
 
     @ContributesAndroidInjector
+    internal abstract fun logActivity(): LogActivity
+
+    @ContributesAndroidInjector
     internal abstract fun baseFragment(): BaseFragment
 
     @ContributesAndroidInjector
@@ -80,6 +90,9 @@ internal abstract class AndroidBindingModule {
 
     @ContributesAndroidInjector
     internal abstract fun settingsFragment(): SettingsFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun logFragment(): LogFragment
 
     @ContributesAndroidInjector
     internal abstract fun alarmSettingsFragment(): AlarmSettingsFragment

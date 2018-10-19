@@ -47,6 +47,11 @@ class IntentMessage {
     @TypeConverters(IntentConverter::class)
     var intent: Intent? = null
 
+    @ColumnInfo(name = "response")
+    @SerializedName("response")
+    @TypeConverters(IntentResponseConverter::class)
+    var response: IntentResponse? = null
+
     @ColumnInfo(name = "sessionId")
     @SerializedName("sessionId")
     var sessionId: String? = null

@@ -82,6 +82,8 @@ class SettingsActivity : DaggerAppCompatActivity() {
             return true
         } else if (id == R.id.action_help) {
             support()
+        } else if (id == R.id.action_logs) {
+            logs()
         }
         return super.onOptionsItemSelected(item)
     }
@@ -134,8 +136,13 @@ class SettingsActivity : DaggerAppCompatActivity() {
         }
     }
 
+    private fun logs() {
+        startActivity(Intent(LogActivity.createStartIntent(this@SettingsActivity)))
+    }
+
     // Initialize the command list when we initialize the assistant
     private fun initializeCommandList() {
+        configuration.initializedVoice = false
         disposable.add(Completable.fromAction {
             initDao.deleteAllItems()
         } .subscribeOn(Schedulers.computation())
@@ -144,11 +151,10 @@ class SettingsActivity : DaggerAppCompatActivity() {
                 }, { error -> Timber.e("Database error" + error.message) }))
     }
 
-
     companion object {
         fun createStartIntent(context: Context): Intent {
             return Intent(context, SettingsActivity::class.java)
         }
-        const val SUPPORT_URL:String = "https://thanksmister.com/android-mqtt-alarm-panel/"
+        const val SUPPORT_URL:String = "https://thanksmister.com/voice-panel-android/"
     }
 }

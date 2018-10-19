@@ -35,7 +35,15 @@ interface IntentDao {
      */
     @Query("SELECT * FROM Intents ORDER BY createdAt DESC")
     fun getItems(): Flowable<List<IntentMessage>>
-    
+
+
+    /**
+     * Get a message by id.
+     * @return the message from the table with a specific id.
+     */
+    @Query("SELECT * FROM Intents WHERE sessionId = :id")
+    fun getItemById(id: String): Flowable<IntentMessage>
+
     /**
      * Insert a item in the database. If the item already exists, replace it.
      * @param user the message to be inserted.

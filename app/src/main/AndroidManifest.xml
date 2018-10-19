@@ -55,6 +55,7 @@
 
         <activity android:name="com.thanksmister.iot.voicepanel.ui.SettingsActivity"/>
         <activity android:name="com.thanksmister.iot.voicepanel.ui.LiveCameraActivity" />
+        <activity android:name=".ui.LogActivity" />
 
         <service android:name="com.thanksmister.iot.voicepanel.network.VoicePanelService"
             android:enabled="true"

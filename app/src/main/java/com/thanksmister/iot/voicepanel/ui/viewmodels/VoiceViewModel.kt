@@ -36,7 +36,7 @@ import javax.inject.Inject
  */
 class VoiceViewModel @Inject
 constructor(application: Application, private val dataSource: IntentDao, private val sunSource: SunDao,
-            private val messageDataSource: MessageDao, private val configuration: Configuration) : AndroidViewModel(application) {
+            private val messageDataSource: MessageDao) : AndroidViewModel(application) {
 
     private val toastText = ToastMessage()
     private val alertText = AlertMessage()
@@ -51,7 +51,6 @@ constructor(application: Application, private val dataSource: IntentDao, private
     }
 
     init {
-        //clearCommands()
     }
 
     private fun showAlertMessage(message: String?) {
@@ -64,7 +63,6 @@ constructor(application: Application, private val dataSource: IntentDao, private
         toastText.value = message
     }
 
-    //prevents memory leaks by disposing pending observable objects
     public override fun onCleared() {
         if (!disposable.isDisposed) {
             disposable.clear()
@@ -98,12 +96,6 @@ constructor(application: Application, private val dataSource: IntentDao, private
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                 }, { error -> Timber.e("Database error" + error.message) }))
-    }
-
-    fun clearMessages(): Completable {
-        return Completable.fromAction {
-            dataSource.deleteAllItems()
-        }
     }
 
     companion object {

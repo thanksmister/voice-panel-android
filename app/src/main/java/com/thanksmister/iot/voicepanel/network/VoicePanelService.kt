@@ -39,6 +39,7 @@ import android.provider.Settings
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.LocalBroadcastManager
+import android.text.TextUtils
 import android.widget.Toast
 import com.google.gson.GsonBuilder
 import com.koushikdutta.async.AsyncServer
@@ -49,6 +50,7 @@ import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.modules.*
 import com.thanksmister.iot.voicepanel.modules.SnipsOptions.Companion.SUBSCRIBE_TOPIC_HERMES
 import com.thanksmister.iot.voicepanel.persistence.*
+import com.thanksmister.iot.voicepanel.ui.adapters.MessageAdapter
 import com.thanksmister.iot.voicepanel.utils.*
 import com.thanksmister.iot.voicepanel.utils.MqttUtils.Companion.COMMAND_ALERT
 import com.thanksmister.iot.voicepanel.utils.MqttUtils.Companion.COMMAND_AUDIO
@@ -70,6 +72,7 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.fragment_logs.*
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
@@ -103,8 +106,6 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     @Inject
     lateinit var sunDao: SunDao
     @Inject
-    lateinit var initDao: IntentDao
-    @Inject
     lateinit var notifications: NotificationUtils
 
     private val disposable = CompositeDisposable()
@@ -132,6 +133,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     private var localBroadCastManager: LocalBroadcastManager? = null
     private var syncMap = HashMap<String, Boolean>() // init sync map
     private var mediaPlayer: MediaPlayer? = null
+    private var lastSessionId: String? = null
 
     inner class VoicePanelServiceBinder : Binder() {
         val service: VoicePanelService
@@ -165,8 +167,6 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         }
 
         this.appLaunchUrl = configuration.webUrl
-
-        initializeCommandList()
 
         startForeground()
         configureMqtt()
@@ -289,16 +289,6 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
             return state
         }
 
-    // Initialize the command list when we initialize the assistant
-    private fun initializeCommandList() {
-        disposable.add(Completable.fromAction {
-            initDao.deleteAllItems()
-        } .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                }, { error -> Timber.e("Database error" + error.message) }))
-    }
-
     private fun startForeground() {
         Timber.d("startForeground")
         val notification = notifications.createOngoingNotification(getString(R.string.app_name), getString(R.string.service_notification_message))
@@ -419,7 +409,9 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
         val intentMessage = gson.fromJson<IntentMessage>(intentJson, IntentMessage::class.java)
         intentMessage.createdAt = DateUtils.generateCreatedAtDate()
+        intentMessage.response = IntentResponse()
         publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent!!.intentName, intentJson)
+        lastSessionId = intentMessage.sessionId
         insertHermes(intentMessage)
     }
 
@@ -458,7 +450,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         Timber.w("onMQTTDisconnect")
         if(hasNetwork()) {
             sendToastMessage(getString(R.string.error_mqtt_connection))
-            reconnectHandler.postDelayed(restartMqttRunnable, 3000)
+            //reconnectHandler.postDelayed(restartMqttRunnable, 3000)
         }
         updateSyncMap(INIT_MQTT, false)
     }
@@ -467,7 +459,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         Timber.w("onMQTTException: $message")
         if(hasNetwork()) {
             sendToastMessage(message)
-            reconnectHandler.postDelayed(restartMqttRunnable, 3000)
+            //reconnectHandler.postDelayed(restartMqttRunnable, 3000)
         }
         updateSyncMap(INIT_MQTT, false)
     }
@@ -741,11 +733,30 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         }
     }
 
+    // TODO update the saved intent and check that the session Id matches
     private fun processHermes(payload:String) {
-        val jsonObject = JSONObject(payload)
-        if(snipsModule != null && jsonObject.has("sessionId") && jsonObject.has("text")) {
-            snipsModule!!.endSession(jsonObject.getString("sessionId"), jsonObject.getString("text"))
+        val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
+        val response = gson.fromJson<IntentResponse>(payload, IntentResponse::class.java)
+        if(snipsModule != null && !TextUtils.isEmpty(response.sessionId) && lastSessionId == response.sessionId) {
+            insertIntentResponse(response.sessionId!!, response)
+            if(!TextUtils.isEmpty(response.text)) {
+                snipsModule!!.endSession(response.sessionId!!, response.text!!)
+            }
         }
+    }
+
+    private fun insertIntentResponse(sessionId: String, response: IntentResponse) {
+        Timber.d("Session Id: $sessionId")
+        disposable.add(Completable.fromAction {
+            commandDataSource.getItemById(sessionId)
+                    .subscribe({
+                        it.response = response
+                        commandDataSource.insertItem(it)
+                    }, { error -> Timber.e("Unable to insert response: " + error)})
+        } .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                }, { error -> Timber.e("Intent Response error" + error.message) }))
     }
 
     private fun insertMessage(messageId: String, topic: String, payload: String, type: String) {
@@ -766,7 +777,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
                 }, { error -> Timber.e("Database error" + error.message) }))
     }
 
-    // TODO we may want to only add intents that are successful
+    // TODO add the intent response
     private fun insertHermes(intentMessage: IntentMessage) {
         Timber.d("intentMessage: $intentMessage")
         disposable.add(Completable.fromAction {
@@ -978,17 +989,17 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         val intent = Intent(BROADCAST_ACTION_LOADING_COMPLETE)
         val bm = LocalBroadcastManager.getInstance(applicationContext)
         bm.sendBroadcast(intent)
-        val intentMessage = IntentMessage()
-        intentMessage.slots = ArrayList<Slot>()
-        intentMessage.intent = com.thanksmister.iot.voicepanel.persistence.Intent()
-        intentMessage.intent!!.intentName =  ComponentUtils.COMPONENT_SNIPS_INIT
-        intentMessage.input = getString(R.string.text_snips_welcome)
-        intentMessage.createdAt = DateUtils.generateCreatedAtDate()
-        insertHermes(intentMessage)
-        /*if(!configuration.initializedVoice) {
-            configuration.initializedVoice = true;
-            insertHermes(getString(R.string.text_snips_welcome), ComponentUtils.COMPONENT_SNIPS_INIT, "")
-        }*/
+        //if(!configuration.initializedVoice) {
+            //configuration.initializedVoice = true;
+            val intentMessage = IntentMessage()
+            intentMessage.slots = ArrayList<Slot>()
+            intentMessage.intent = com.thanksmister.iot.voicepanel.persistence.Intent()
+            intentMessage.response = IntentResponse()
+            intentMessage.intent!!.intentName =  ComponentUtils.COMPONENT_SNIPS_INIT
+            intentMessage.input = getString(R.string.text_snips_welcome)
+            intentMessage.createdAt = DateUtils.generateCreatedAtDate()
+            insertHermes(intentMessage)
+        //}
     }
 
     private fun sendToastMessage(message: String) {

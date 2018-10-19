@@ -4,7 +4,7 @@ Voice Panel is an Android Voice Assistant for Home Assistant powered by the [Sni
 
 Voice Panel uses Snips to acta as a voice interface for your Home Assistant components. At this time, you can control your alarm system, lights, windows, blinds, switches and retrieve the weather.  You wake the application by using the wake-word "Hey, Snips" or by using face detection, which acts at the wake-word.  Then simply ask the to "turn off the living room lights" for example.
 
-Currently the application has several limitations.  The Snips Android SDK does not work as a satelite, all messages must be forworded to Home Assistant using MQTT and speach processed on the device using TTS.  The Android SDK also does not support custom wake-words at this time.  You must always use "Hey, Snips" with Voice Panel unless you want to try the face detection wake-word feature which starts listening when it sees a face in the camera. 
+Currently the application has several limitations.  The Snips Android SDK does not work as a satelite, all messages must be forworded to Home Assistant using MQTT and speach is processed on the device using TTS.  The Android SDK also does not support custom wake-words at this time.  You must always use "Hey, Snips" with Voice Panel unless you want to try the face detection wake-word feature which starts listening when it sees a face in the camera. 
 
 ## Support
 
@@ -156,6 +156,33 @@ getStatus:
  ```
  
 In the above example, "entity_locale" and "entity_id" are used to provide a sepcific sensor status.  In this case we asked "what is the status of the main door?" and Snips responsed with "The main door is closed", which is the status of the sensor.main_door entity.  
+
+### Time/Date 
+
+You can get the current time and date from Home Assistant components using voice commands.  Add the follwing intent scripts to the "intents.yaml" file to handle intents for Time/Date.  
+
+* "What's the date?"
+* "What day is it?"
+* "What time is it?"
+
+#### Example Status Intent Script
+```
+getCurrentTime:
+  speech:
+    type: plain
+    text: > 
+      The time is {{ now().hour}}  {{ "%0.02d" | format(now().strftime("%-M") | int) }}
+getCurrentDate:
+  speech:
+    type: plain
+    text: > 
+      It is {{ now().weekday }}, the {{ now().day }} of {{ now().month }}, {{ now().year }}
+getCurrentDay:
+  speech:
+    type: plain
+    text: > 
+      Today is { {now().weekday }}
+```
 
 ## MQTT Communication
 

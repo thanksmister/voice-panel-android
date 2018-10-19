@@ -252,6 +252,15 @@ The resulting payload will look like this:
 {"topic": "voicepanel/command","payload":"{'sun':'above_horizon'}}
 ```
 
+You can also test this from the using the "mqtt.publish" service under the Home Assistant Developer Tools:
+
+```
+{
+  "payload_template": "{'sun':'{{states('sun.sun') }}'}",
+  "topic": "voicepanel/command"
+}
+```
+
 If you wish, you can use an offset to change the day or night mode values or send a MQTT message at the desired time with "above_horizon" to show day mode or "below_horizon" to show night mode.  If you wish to always be night, you need only send one MQTT message with "below_horizon" and the app will not switch back to day mode.  Be sure to turn on the Day/Night mode under the Display settings in the application.  
 
 

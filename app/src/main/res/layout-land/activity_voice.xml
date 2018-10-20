@@ -72,21 +72,22 @@
 
             </FrameLayout>
 
-            <RelativeLayout
+            <android.support.v4.widget.NestedScrollView
                 android:id="@+id/listContainer"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                tools:visibility="visible"
-                android:paddingRight="16dp">
+                android:paddingStart="0dp"
+                android:paddingEnd="36dp">
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/commandList"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
                     android:background="@null"/>
 
-            </RelativeLayout>
+            </android.support.v4.widget.NestedScrollView>
 
         </LinearLayout>
 

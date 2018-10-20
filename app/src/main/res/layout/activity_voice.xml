@@ -65,7 +65,7 @@
 
         </FrameLayout>
 
-        <RelativeLayout
+        <android.support.v4.widget.NestedScrollView
             android:id="@+id/listContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -80,9 +80,10 @@
                 android:id="@+id/commandList"
                 android:background="@null"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"/>
 
-        </RelativeLayout>
+        </android.support.v4.widget.NestedScrollView>
 
         <RelativeLayout
             android:id="@+id/textContainer"

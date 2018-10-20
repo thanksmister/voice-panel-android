@@ -72,7 +72,7 @@ class SettingsActivity : DaggerAppCompatActivity() {
 
         lifecycle.addObserver(dialogUtils)
 
-        initializeCommandList()
+        //initializeCommandList()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

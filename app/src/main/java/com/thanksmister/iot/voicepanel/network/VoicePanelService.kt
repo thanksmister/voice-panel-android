@@ -106,6 +106,8 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     @Inject
     lateinit var sunDao: SunDao
     @Inject
+    lateinit var initDao: IntentDao
+    @Inject
     lateinit var notifications: NotificationUtils
 
     private val disposable = CompositeDisposable()
@@ -169,8 +171,8 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         this.appLaunchUrl = configuration.webUrl
 
         startForeground()
+        //initializeCommandList()
         configureMqtt()
-        //configureTextToSpeech()
         configureVoice()
         configurePowerOptions()
         startHttp()
@@ -360,6 +362,16 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         if (configuration.sensorsEnabled && mqttOptions.isValid) {
             sensorReader.startReadings(configuration.mqttSensorFrequency, sensorCallback)
         }
+    }
+
+    private fun initializeCommandList() {
+        configuration.initializedVoice = false
+        disposable.add(Completable.fromAction {
+            initDao.deleteAllItems()
+        } .subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                }, { error -> Timber.e("Database error" + error.message) }))
     }
 
     // TODO we need to first make sure we have audio record permission
@@ -989,8 +1001,8 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         val intent = Intent(BROADCAST_ACTION_LOADING_COMPLETE)
         val bm = LocalBroadcastManager.getInstance(applicationContext)
         bm.sendBroadcast(intent)
-        //if(!configuration.initializedVoice) {
-            //configuration.initializedVoice = true;
+        if(!configuration.initializedVoice) {
+            configuration.initializedVoice = true;
             val intentMessage = IntentMessage()
             intentMessage.slots = ArrayList<Slot>()
             intentMessage.intent = com.thanksmister.iot.voicepanel.persistence.Intent()
@@ -999,7 +1011,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
             intentMessage.input = getString(R.string.text_snips_welcome)
             intentMessage.createdAt = DateUtils.generateCreatedAtDate()
             insertHermes(intentMessage)
-        //}
+        }
     }
 
     private fun sendToastMessage(message: String) {

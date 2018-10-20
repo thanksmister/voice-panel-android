@@ -17,6 +17,7 @@
 package com.thanksmister.iot.voicepanel.ui
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
@@ -233,6 +234,7 @@ class VoiceActivity : BaseActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun observeViewModel() {
 
         disposable.add(viewModel.getAlarmState()
@@ -284,6 +286,8 @@ class VoiceActivity : BaseActivity() {
                         commandList.invalidate()
                         if(commands.isNotEmpty() && !TextUtils.isEmpty(commands[0].input)) {
                             textOutput.text = getString(R.string.text_command_input, commands[0].input)
+                        } else {
+                            textOutput.text = getString(R.string.text_initializing)
                         }
                     }
                 }, { error -> Timber.e("Database error: " + error)}))

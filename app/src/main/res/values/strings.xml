@@ -252,5 +252,6 @@
     <string name="dialog_clear_commands">Do you want to clear the command list?</string>
     <string name="menu_item_clear_logs">Clear logs</string>
     <string name="text_message_logs">Message Logs</string>
+    <string name="text_initializing">Initializing...</string>
 
 </resources>

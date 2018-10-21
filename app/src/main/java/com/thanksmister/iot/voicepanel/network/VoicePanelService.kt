@@ -171,7 +171,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         this.appLaunchUrl = configuration.webUrl
 
         startForeground()
-        //initializeCommandList()
+        initializeCommandList()
         configureMqtt()
         configureVoice()
         configurePowerOptions()

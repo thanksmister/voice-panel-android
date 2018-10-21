@@ -35,15 +35,9 @@ You can download and install the latest release from the [release section](https
 
 ## Assistant Setup
 
-You first need to setup MQTT by adding the HASS MQTT Broker add-on to Home Assistant.  This allows the two-way communication between Home Assistant and Voice Panel using the MQTT messaging protocal. 
+You first need to setup a [MQTT Broker](https://www.home-assistant.io/addons/)in Home Assistant by adding the HASS MQTT Broker add-on to Home Assistant.  This allows the two-way communication between Home Assistant and Voice Panel using the MQTT messaging protocal. 
 
--[MQTT Broker](https://www.home-assistant.io/addons/)
-
-For the Voice Assistant to control Home Assistant components, you neeed to install either the Snips component or the Snips AI add-on. 
-
--[Snips Component ](https://www.home-assistant.io/components/snips/)
-
--[Snips Add-On](https://www.home-assistant.io/addons/snips/)
+For the Voice Assistant to control Home Assistant components, you neeed to install either the [Snips component](https://www.home-assistant.io/components/snips/) or the [Snips Add-On](https://www.home-assistant.io/addons/snips/). 
 
 Home Assistant already has [bundled scripts](https://developers.home-assistant.io/docs/en/intent_builtin.html) included when you add the Snips platform to Home Assistant.  These scripts will allow you to turn on/off components (lights, switches, etc.), open/close components (garage, blinds, etc.), set the color of lights, add items to your shopping list, and retrieve items from your shopping list.   So you can say "Turn on the kitchen lights" to control a the component lights.kitchen. 
 

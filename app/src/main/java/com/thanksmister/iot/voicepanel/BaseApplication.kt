@@ -19,11 +19,14 @@ package com.thanksmister.iot.voicepanel
 import android.content.Context
 import android.os.Process
 import android.support.multidex.MultiDex
+import com.crashlytics.android.Crashlytics
 import com.facebook.stetho.Stetho
 import com.thanksmister.iot.voicepanel.di.DaggerApplicationComponent
+import com.thanksmister.iot.voicepanel.utils.CrashlyticsTree
 
 import dagger.android.AndroidInjector
 import dagger.android.DaggerApplication
+import io.fabric.sdk.android.Fabric
 
 import timber.log.Timber
 import java.io.BufferedReader
@@ -47,8 +50,8 @@ class BaseApplication : DaggerApplication() {
                     .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
                     .build())
         } else {
-            /*Fabric.with(this, Crashlytics())
-            Timber.plant(CrashlyticsTree())*/
+            Fabric.with(this, Crashlytics())
+            Timber.plant(CrashlyticsTree())
         }
 
         // Snips launches a second process to run the platform, this allows to completely free the memory used by Snips

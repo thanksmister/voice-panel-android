@@ -18,11 +18,17 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
+}
 
 def versionMajor = 0
 def versionMinor = 1
 def versionPatch = 0
-def versionBuild = 3 // bump for dog food builds, public betas, etc.
+def versionBuild = 4 // bump for dog food builds, public betas, etc.
 
 def ALARM_CODE() {
     Properties properties = new Properties()
@@ -199,6 +205,10 @@ dependencies {
     implementation 'com.h6ah4i.android.preference:numberpickerprefcompat:0.2.0'
 
     implementation 'joda-time:joda-time:2.9.9'
+
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
+        transitive = true;
+    }
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'

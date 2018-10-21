@@ -12,13 +12,13 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ## Features
 - Face activated wake-word (no need to say "Hey, Snips").
-- Control over Home Assistant components using voice
+- Control Home Assistant components using voice commands ("Turn on the kitchen lights").
 - Stream video, detect motion, detect faces, and read QR Codes.
-- Capture and emailing images when the alarm is disabled.
-- MQTT commands to remotely control the application (speak text, play audio, display notifications, alerts, etc.).
+- Suport for MQTT Alarm Panel Control to control your alarm system.
+- MQTT commands to remotely control the application (speak text, play audio, send notifications, alerts, etc.).
 - Device sensor data reporting over MQTT (temperature, light, pressure, battery, etc.).
-- MQTT Day/Night mode based on the sun from Home Assistant
-- MQTT weather data to display weather from Home Assistant
+- MQTT Day/Night mode based on the sun value reported from Home Assistant.
+- MQTT weather data to display weather reported from Home Assistant.
 
 ## Screen Shots:
 
@@ -27,7 +27,7 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ## Hardware & Software 
 
-- Android Device running Android OS 5.0.1 (SDK 21) or greater. Though performance on older devices may not be ideal. 
+- Android Device running Android OS 5.0.1 (SDK 21) or greater. Though performance on older devices may vary. Google Play services may also be required, this may affect some Amazon Fire Tablet devices. 
 
 ### Installation
 

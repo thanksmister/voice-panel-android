@@ -1,10 +1,10 @@
 # Voice Panel
 
-Voice Panel is an Android Voice Assistant for [Home Assistant](https://www.home-assistant.io/) powered by the [Snips Voice Playtform](https://snips.ai/). Snips provides a private, powerful, and customizable voice assistant technology that processes all language input on the device, nothing is ever sent to the cloud.
+Voice Panel is an Android Voice Assistant for [Home Assistant](https://www.home-assistant.io/) powered by the [Snips Voice Platform](https://snips.ai/). Snips provides a private, powerful, and customizable voice assistant technology that processes all language input on the device, nothing is ever sent to the cloud.
 
-Voice Panel uses Snips to act as a voice interface for Home Assistant. At this time, you can control your alarm system, lights, windows, blinds, switches, check status, get the date/time, and retrieve the weather information. You initiate a conversation with Voice Panel by using speaking wake-word, "Hey, Snips".  Alternatively, you can use face detection to initiate a conversation simply by looking at the device. 
+Voice Panel uses Snips to act as a voice interface for Home Assistant. At this time, you can control your alarm system, lights, windows, blinds, switches, check status, get the date/time, and retrieve the weather information. You initiate a conversation with Voice Panel by using speaking wake-word, “Hey, Snips”. Alternatively, you can use face detection to initiate a conversation simply by looking at the device.
 
-Currently the application has a few limitations.  The Snips Android SDK does not work as a satelite, all messages must be forworded to Home Assistant using MQTT and speach is processed on the Android device using TTS.  The Snips Android SDK does not support custom wake-words at this time.  To initiate a conversation, you must say "Hey, Snips" or you can try the face detection wake-word feature which starts listening when the camera recognizes a face. 
+Currently the application has a few limitations. The Snips Android SDK does not work as a satellite, all messages must be forwarded to Home Assistant using MQTT and speech is processed on the Android device using TTS. The Snips Android SDK does not support custom wake-words at this time. To initiate a conversation, you must say “Hey, Snips” or you can try the face detection wake-word feature which starts listening when the camera recognizes a face.
 
 ## Support
 

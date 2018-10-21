@@ -1,10 +1,10 @@
 # Voice Panel
 
-Voice Panel is an Android Voice Assistant for [Home Assistant] (https://www.home-assistant.io/) powered by the [Snips Voice Playtform](https://snips.ai/). Snips provides a private, powerful, and customizable voice assistant technology that processes all language input on the device, nothing is ever sent to the cloud.
+Voice Panel is an Android Voice Assistant for [Home Assistant](https://www.home-assistant.io/) powered by the [Snips Voice Platform](https://snips.ai/). Snips provides a private, powerful, and customizable voice assistant technology that processes all language input on the device, nothing is ever sent to the cloud.
 
-Voice Panel uses Snips to act as a voice interface for Home Assistant. At this time, you can control your alarm system, lights, windows, blinds, switches and retrieve the weather.  You wake the application by using the wake-word "Hey, Snips" or by using face detection, which acts at the wake-word.  Then simply ask the to "turn off the living room lights" for example.
+Voice Panel uses Snips to act as a voice interface for Home Assistant. At this time, you can control your alarm system, lights, windows, blinds, switches, check status, get the date/time, and retrieve the weather information. You initiate a conversation with Voice Panel by using speaking wake-word, “Hey, Snips”. Alternatively, you can use face detection to initiate a conversation simply by looking at the device.
 
-Currently the application has a few limitations.  The Snips Android SDK does not work as a satelite, all messages must be forworded to Home Assistant using MQTT and speach is processed on the Android device using TTS.  The Snips Android SDK does not support custom wake-words at this time.  To initiate a conversation, you must say "Hey, Snips" or you can try the face detection wake-word feature which starts listening when the camera recognizes a face. 
+Currently the application has a few limitations. The Snips Android SDK does not work as a satellite, all messages must be forwarded to Home Assistant using MQTT and speech is processed on the Android device using TTS. The Snips Android SDK does not support custom wake-words at this time. To initiate a conversation, you must say “Hey, Snips” or you can try the face detection wake-word feature which starts listening when the camera recognizes a face.
 
 ## Support
 
@@ -12,13 +12,13 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ## Features
 - Face activated wake-word (no need to say "Hey, Snips").
-- Control over Home Assistant components using voice
+- Control Home Assistant components using voice commands ("Turn on the kitchen lights").
 - Stream video, detect motion, detect faces, and read QR Codes.
-- Capture and emailing images when the alarm is disabled.
-- MQTT commands to remotely control the application (speak text, play audio, display notifications, alerts, etc.).
+- Support for MQTT Alarm Panel Control to control your alarm system.
+- MQTT commands to remotely control the application (speak text, play audio, send notifications, alerts, etc.).
 - Device sensor data reporting over MQTT (temperature, light, pressure, battery, etc.).
-- MQTT Day/Night mode based on the sun from Home Assistant
-- MQTT weather data to display weather from Home Assistant
+- MQTT Day/Night mode based on the sun value reported from Home Assistant.
+- MQTT weather data to display weather reported from Home Assistant.
 
 ## Screen Shots:
 
@@ -27,7 +27,7 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ## Hardware & Software 
 
-- Android Device running Android OS 5.0.1 (SDK 21) or greater. Though performance on older devices may not be ideal. 
+- Android Device running Android OS 5.0.1 (SDK 21) or greater. Though performance on older devices may vary. Google Play services may also be required, this may affect some Amazon Fire Tablet devices. 
 
 ### Installation
 
@@ -35,15 +35,9 @@ You can download and install the latest release from the [release section](https
 
 ## Assistant Setup
 
-You first need to setup MQTT by adding the HASS MQTT Broker add-on to Home Assistant.  This allows the two-way communication between Home Assistant and Voice Panel using the MQTT messaging protocal. 
+You first need to setup a [MQTT Broker](https://www.home-assistant.io/addons/)in Home Assistant by adding the HASS MQTT Broker add-on to Home Assistant.  This allows the two-way communication between Home Assistant and Voice Panel using the MQTT messaging protocal. 
 
--[MQTT Broker](https://www.home-assistant.io/addons/)
-
-For the Voice Assistant to control Home Assistant components, you neeed to install either the Snips component or the Snips AI add-on. 
-
--[Snips Component ](https://www.home-assistant.io/components/snips/)
-
--[Snips Add-On](https://www.home-assistant.io/addons/snips/)
+For the Voice Assistant to control Home Assistant components, you neeed to install either the [Snips component](https://www.home-assistant.io/components/snips/) or the [Snips Add-On](https://www.home-assistant.io/addons/snips/). 
 
 Home Assistant already has [bundled scripts](https://developers.home-assistant.io/docs/en/intent_builtin.html) included when you add the Snips platform to Home Assistant.  These scripts will allow you to turn on/off components (lights, switches, etc.), open/close components (garage, blinds, etc.), set the color of lights, add items to your shopping list, and retrieve items from your shopping list.   So you can say "Turn on the kitchen lights" to control a the component lights.kitchen. 
 

@@ -27,7 +27,7 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ## Hardware & Software 
 
-- Android Device running Android OS 5.0.1 (SDK 21) or greater. Though performance on older devices may vary. Google Play services may also be required, this may affect some Amazon Fire Tablet devices. 
+- Android Device running Android OS 5.0.1 (SDK 21) or greater. Though performance on older devices may vary. Google Play services may also be required, this may affect some Amazon Fire Tablet devices. Ideally you want to keep your device unlocked and use Daydream as a screen saver, waking the device when either say the wake-word or with motion or face detection.
 
 ### Installation
 

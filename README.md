@@ -14,7 +14,7 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 - Face activated wake-word (no need to say "Hey, Snips").
 - Control Home Assistant components using voice commands ("Turn on the kitchen lights").
 - Stream video, detect motion, detect faces, and read QR Codes.
-- Suport for MQTT Alarm Panel Control to control your alarm system.
+- Support for MQTT Alarm Panel Control to control your alarm system.
 - MQTT commands to remotely control the application (speak text, play audio, send notifications, alerts, etc.).
 - Device sensor data reporting over MQTT (temperature, light, pressure, battery, etc.).
 - MQTT Day/Night mode based on the sun value reported from Home Assistant.

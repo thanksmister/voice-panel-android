@@ -253,5 +253,6 @@
     <string name="menu_item_clear_logs">Clear logs</string>
     <string name="text_message_logs">Message Logs</string>
     <string name="text_initializing">Initializing...</string>
+    <string name="text_camera_permissions_denied">Camera permissions denied...</string>
 
 </resources>

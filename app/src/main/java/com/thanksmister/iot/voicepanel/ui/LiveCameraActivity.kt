@@ -146,7 +146,7 @@ class LiveCameraActivity : DaggerAppCompatActivity() {
             viewModel.startCameraPreview(cameraCallback, preview!!)
             return
         }
-        Toast.makeText(this, getString(R.string.toast_write_permissions_denied), Toast.LENGTH_LONG).show()
+        Toast.makeText(this, getString(R.string.text_camera_permissions_denied), Toast.LENGTH_LONG).show()
     }
 
     private fun startUpdatePicture() {

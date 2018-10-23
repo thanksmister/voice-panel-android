@@ -148,7 +148,7 @@ class MqttSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
             }
             getString(R.string.key_setting_mqtt_serverport) -> {
                 value = portPreference!!.text
-                if (value.matches("[0-9]+".toRegex()) && !TextUtils.isEmpty(value)) {
+                if (!TextUtils.isEmpty(value) && value.matches("[0-9]+".toRegex())) {
                     mqttOptions.setPort(Integer.valueOf(value)!!)
                     portPreference!!.summary = value
                 } else if (isAdded) {

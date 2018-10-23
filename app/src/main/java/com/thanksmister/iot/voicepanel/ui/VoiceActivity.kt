@@ -81,7 +81,7 @@ class VoiceActivity : BaseActivity() {
                 val message = intent.getStringExtra(BROADCAST_ALERT_MESSAGE)
                 dialogUtils.showAlertDialog(this@VoiceActivity, message)
             } else if (BROADCAST_TOAST_MESSAGE == intent.action) {
-                val message = intent.getStringExtra(BROADCAST_ALERT_MESSAGE)
+                val message = intent.getStringExtra(BROADCAST_TOAST_MESSAGE)
                 Toast.makeText(this@VoiceActivity, message, Toast.LENGTH_SHORT).show()
             } else if (BROADCAST_SCREEN_WAKE == intent.action) {
                 resetInactivityTimer()

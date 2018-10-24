@@ -2,7 +2,16 @@
 
 Voice Panel is an Android Voice Assistant for [Home Assistant](https://www.home-assistant.io/) powered by the [Snips Voice Platform](https://snips.ai/). Snips provides a private, powerful, and customizable voice assistant technology that processes all language input on the device, nothing is ever sent to the cloud.
 
+#### Screen Shots:
+
+![ui](https://user-images.githubusercontent.com/142340/47121221-42808f80-d248-11e8-813a-72b3be85eae3.png)
+![landscape](https://user-images.githubusercontent.com/142340/47121143-e3227f80-d247-11e8-979a-3bdf19ceb998.png)
+
 Voice Panel uses Snips to act as a voice interface for Home Assistant. At this time, you can control your alarm system, lights, windows, blinds, switches, check status, get the date/time, and retrieve the weather information. You initiate a conversation with Voice Panel by using speaking wake-word, “Hey, Snips”. Alternatively, you can use face detection to initiate a conversation simply by looking at the device.
+
+#### Supported Snips Apps
+
+![snips apps](https://user-images.githubusercontent.com/142340/47439110-2d44bd00-d782-11e8-8860-ed5e90ea8904.png)
 
 Currently the application has a few limitations. The Snips Android SDK does not work as a satellite, all messages must be forwarded to Home Assistant using MQTT and speech is processed on the Android device using TTS. The Snips Android SDK does not support custom wake-words at this time. To initiate a conversation, you must say “Hey, Snips” or you can try the face detection wake-word feature which starts listening when the camera recognizes a face.
 
@@ -19,11 +28,6 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 - Device sensor data reporting over MQTT (temperature, light, pressure, battery, etc.).
 - MQTT Day/Night mode based on the sun value reported from Home Assistant.
 - MQTT weather data to display weather reported from Home Assistant.
-
-## Screen Shots:
-
-![ui](https://user-images.githubusercontent.com/142340/47121221-42808f80-d248-11e8-813a-72b3be85eae3.png)
-![landscape](https://user-images.githubusercontent.com/142340/47121143-e3227f80-d247-11e8-979a-3bdf19ceb998.png)
 
 ## Hardware & Software 
 

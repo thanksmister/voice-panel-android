@@ -229,7 +229,7 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                     snipsClient!!.startNotification("Sorry, I didn't understand.", null)
                 } else if (SessionTermination.Type.TIMEOUT == sessionEndedMessage.termination.type
                         && !manuallyListening && !lowProbability) {
-                    snipsClient!!.startNotification("Sorry, I don't know how to do that.", null)
+                    snipsClient!!.startNotification("Sorry, I may not have heard you in time.", null)
                 } else if (SessionTermination.Type.NOMINAL == sessionEndedMessage.termination.type) {
                     //snipsClient!!.startNotification("Assistant initialized and ready.", null)
                 }

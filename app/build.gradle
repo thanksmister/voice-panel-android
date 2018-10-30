@@ -27,8 +27,8 @@ repositories {
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 0
-def versionBuild = 4 // bump for dog food builds, public betas, etc.
+def versionPatch = 1
+def versionBuild = 0 // bump for dog food builds, public betas, etc.
 
 def ALARM_CODE() {
     Properties properties = new Properties()
@@ -135,7 +135,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:16.2.0'
 
     // Snips
-    implementation('ai.snips:snips-platform-android:0.58.3@aar') {
+    implementation('ai.snips:snips-platform-android:0.60.2@aar') {
         transitive = true
     }
 

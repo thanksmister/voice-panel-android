@@ -29,8 +29,8 @@ class FileUtils {
     companion object {
 
         fun getAssistantDirectory(appContext: Context): File {
-            val rootDir: File by lazy { appContext.filesDir }
-            val assistantDir by lazy { File(rootDir, "assistant") }
+            val rootDir: File = appContext.filesDir
+            val assistantDir = File(rootDir, "assistant")
             Timber.d("Rood Dir: " + rootDir.path)
             Timber.d("Assistant Dir: " + assistantDir.path)
             return assistantDir
@@ -38,16 +38,16 @@ class FileUtils {
 
         fun unzipAssistantDirectory(appContext: Context, version: String):Boolean {
             val assistantDir = getAssistantDirectory(appContext)
-            val versionFile by lazy { File(assistantDir, "android_version_$version") }
+            val versionFile =  File(assistantDir, "android_version_$version")
             Timber.d("Unzip File Version Name: " + versionFile.name)
             return !versionFile.exists()
         }
 
         fun doUnzipAssistantDirectory(appContext: Context, version: String): Boolean {
             Timber.d("doUnzipAssistantDirectory")
-            val rootDir: File by lazy { appContext.filesDir }
-            val assistantDir by lazy { File(rootDir, "assistant") }
-            val versionFile by lazy { File(assistantDir, "android_version_$version") }
+            val rootDir: File = appContext.filesDir
+            val assistantDir: File = File(rootDir, "assistant")
+            val versionFile: File = File(assistantDir, "android_version_$version")
             try {
                 assistantDir.deleteRecursively()
             } catch (e: Exception) {

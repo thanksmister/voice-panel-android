@@ -45,6 +45,8 @@ For the Voice Assistant to control Home Assistant components, you neeed to insta
 
 Home Assistant already has [bundled scripts](https://developers.home-assistant.io/docs/en/intent_builtin.html) included when you add the Snips platform to Home Assistant.  These scripts will allow you to turn on/off components (lights, switches, etc.), open/close components (garage, blinds, etc.), set the color of lights, add items to your shopping list, and retrieve items from your shopping list.   So you can say "Turn on the kitchen lights" to control a the component lights.kitchen. 
 
+For the Snips you basically need to add ```snips:``` to you configuration.yaml file and then add the custom intents you want to work with.  The basic intents bundled with Home Assistant will already allow you to work with your HA components.
+
 ### Custom Assistant Commands
 
 Voice Panel also has custom scripts that extend upon the basic functionality. Currently Voice Panel can control your the MQTT alarm panel in Home Assistant, get the status for any component by name ("What's the status of the front door?"), get the time/date, get the weather, and control the thermostate.  

@@ -79,6 +79,7 @@ class VoiceActivity : BaseActivity() {
         override fun onReceive(context: Context, intent: Intent) {
             if (BROADCAST_ALERT_MESSAGE == intent.action) {
                 val message = intent.getStringExtra(BROADCAST_ALERT_MESSAGE)
+                Timber.d("Show alert with message $message")
                 dialogUtils.showAlertDialog(this@VoiceActivity, message)
             } else if (BROADCAST_TOAST_MESSAGE == intent.action) {
                 val message = intent.getStringExtra(BROADCAST_TOAST_MESSAGE)
@@ -158,10 +159,11 @@ class VoiceActivity : BaseActivity() {
         commandList.background = null
         commandList.invalidate()
 
+        lifecycle.addObserver(dialogUtils)
+
         // We must be sure we have the instantiated the view model before we observe.
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(VoiceViewModel::class.java)
-        lifecycle.addObserver(dialogUtils)
-        observeViewModel()
+        observeViewModel(viewModel)
     }
 
     override fun onResume() {
@@ -235,8 +237,7 @@ class VoiceActivity : BaseActivity() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun observeViewModel() {
-
+    private fun observeViewModel(viewModel: VoiceViewModel) {
         disposable.add(viewModel.getAlarmState()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -275,12 +276,13 @@ class VoiceActivity : BaseActivity() {
                     }
                 }, { error -> Timber.e("Unable to get alarm state: " + error)}))
 
+        // TODO this shouldn't be firing constantly
         disposable.add(viewModel.getIntentMessages()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({commands ->
+                    Timber.d("commands: " + commands)
                     this@VoiceActivity.runOnUiThread {
-                        Timber.d("commands: " + commands)
                         commandList.adapter = CommandAdapter(commands, null)
                         commandList.background = null
                         commandList.invalidate()
@@ -296,8 +298,9 @@ class VoiceActivity : BaseActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({sun ->
+                    Timber.d("sun: " + sun)
                     this@VoiceActivity.runOnUiThread {
-                        if(configuration.useNightDayMode) {
+                        if (configuration.useNightDayMode) {
                             dayNightModeCheck(sun.sun)
                         }
                     }

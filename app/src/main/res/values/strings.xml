@@ -96,7 +96,8 @@
     <string name="text_rate_application">Rate application</string>
     <string name="text_github_code">GitHub code</string>
 
-    <string name="error_mqtt_connection">The MQTT client connection wasn\'t established or was closed unexpectedly. Will try to reconnect.</string>
+    <string name="error_mqtt_exception">There was an error initializing the MQTT client, please check your settings.</string>
+    <string name="error_mqtt_connection">The MQTT client connection wasn\'t established or was closed unexpectedly.</string>
     <string name="error_mqtt_subscription">Couldn\'t subscribe to the MQTT topics, check the MQTT broker settings or your connection.</string>
     <string name="text_android_channel_name">Voice Panel Running</string>
     <string name="text_android_channel_description">Voice Panel Running…</string>

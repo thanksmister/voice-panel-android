@@ -136,6 +136,8 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     private var syncMap = HashMap<String, Boolean>() // init sync map
     private var mediaPlayer: MediaPlayer? = null
     private var lastSessionId: String? = null
+    private var mqttAlertMessageShown = false
+    private var mqttConnected = false
 
     inner class VoicePanelServiceBinder : Binder() {
         val service: VoicePanelService
@@ -367,7 +369,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     private fun initializeCommandList() {
         configuration.initializedVoice = false
         disposable.add(Completable.fromAction {
-            initDao.deleteAllItems()
+            //initDao.deleteAllItems()
         } .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -416,6 +418,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     // TODO let's only save this intent on success
     // TODO check the probability is high or ask to repeat message
     override fun onSnipsIntentDetectedListener(intentJson: String) {
+        Timber.d("onSnipsIntentDetectedListener")
         Timber.d("intent detected!")
         Timber.d("intent json: $intentJson")
         val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
@@ -452,26 +455,30 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     override fun onMQTTConnect() {
         Timber.w("onMQTTConnect")
-        publishMessage(mqttOptions.getBaseTopic() + COMMAND_STATE, state.toString())
+        publishMessage(COMMAND_STATE, state.toString())
         clearFaceDetected()
         clearMotionDetected()
         updateSyncMap(INIT_MQTT, false)
     }
 
     override fun onMQTTDisconnect() {
-        Timber.w("onMQTTDisconnect")
+        Timber.e("onMQTTDisconnect")
         if(hasNetwork()) {
-            sendToastMessage(getString(R.string.error_mqtt_connection))
-            //reconnectHandler.postDelayed(restartMqttRunnable, 3000)
+            if(!mqttAlertMessageShown && Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                mqttAlertMessageShown = true
+                sendAlertMessage(getString(R.string.error_mqtt_connection))
+            }
         }
         updateSyncMap(INIT_MQTT, false)
     }
 
     override fun onMQTTException(message: String) {
-        Timber.w("onMQTTException: $message")
+        Timber.e("onMQTTException: $message")
         if(hasNetwork()) {
-            sendToastMessage(message)
-            //reconnectHandler.postDelayed(restartMqttRunnable, 3000)
+            if(!mqttAlertMessageShown && Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                mqttAlertMessageShown = true
+                sendAlertMessage(getString(R.string.error_mqtt_exception))
+            }
         }
         updateSyncMap(INIT_MQTT, false)
     }
@@ -772,8 +779,8 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun insertMessage(messageId: String, topic: String, payload: String, type: String) {
-        /*Timber.d("insertMessage: " + topic)
-        Timber.d("insertMessage: " + payload)*/
+        Timber.d("insertMessage: " + topic)
+        Timber.d("insertMessage: " + payload)
         disposable.add(Completable.fromAction {
             val createdAt = DateUtils.generateCreatedAtDate()
             val message = MessageMqtt()
@@ -791,13 +798,13 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     // TODO add the intent response
     private fun insertHermes(intentMessage: IntentMessage) {
-        Timber.d("intentMessage: $intentMessage")
+        Timber.d("insertHermes: $intentMessage")
         disposable.add(Completable.fromAction {
             commandDataSource.insertItem(intentMessage)
         } .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                }, { error -> Timber.e("Commands error: " + error.message) }))
+                }, { error -> Timber.e("Database error" + error.message) }))
     }
 
     private fun insertSun(payload: String) {
@@ -806,11 +813,11 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
             val sun = Sun()
             sun.sun = payload
             sun.createdAt = DateUtils.generateCreatedAtDate()
-            sunDao.updateItem(sun)
+            //sunDao.updateItem(sun)
         } .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                }, { error -> Timber.e("Sun error" + error.message) }))
+                }, { error -> Timber.e("Database error" + error.message) }))
     }
 
     private fun insertWeather(payload: String) {
@@ -819,11 +826,11 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         val weather = gson.fromJson<Weather>(payload, Weather::class.java)
         disposable.add(Completable.fromAction {
             weather.createdAt = DateUtils.generateCreatedAtDate()
-            weatherDao.updateItem(weather)
+            //weatherDao.updateItem(weather)
         } .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                }, { error -> Timber.e("Weather error" + error.message) }))
+                }, { error -> Timber.e("Database error" + error.message) }))
     }
 
     private fun playAudio(audioUrl: String) {

@@ -122,10 +122,12 @@ class LogFragment : BaseFragment() {
     }
 
     private fun observeViewModel(viewModel: LogsViewModel) {
+        Timber.d("observeViewModel")
         disposable.add(viewModel.getMessages()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({messages ->
+                    Timber.d("messages: " + messages)
                     logs_list.adapter = MessageAdapter(messages)
                     logs_list.invalidate()
                 }, { error -> Timber.e("Unable to get messages: " + error)}))

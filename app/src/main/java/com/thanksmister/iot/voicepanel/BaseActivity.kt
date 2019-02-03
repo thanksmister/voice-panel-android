@@ -67,7 +67,9 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         inactivityHandler.removeCallbacks(inactivityCallback)
-        disposable.dispose()
+        if (!disposable.isDisposed) {
+            disposable.dispose();
+        }
     }
 
     fun resetInactivityTimer() {

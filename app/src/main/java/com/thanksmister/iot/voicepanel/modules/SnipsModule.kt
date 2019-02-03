@@ -27,6 +27,7 @@ import android.media.AudioFormat
 import android.media.AudioRecord
 import android.media.MediaRecorder
 import android.os.AsyncTask
+import android.os.DeadObjectException
 import android.os.Handler
 import android.os.Process
 import android.text.TextUtils
@@ -275,7 +276,7 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                         if (snipsClient != null) {
                             try {
                                 snipsClient!!.sendAudioBuffer(buffer)
-                            } catch (e: Exception) {
+                            } catch (e: DeadObjectException) {
                                 Timber.w(e.message)
                             }
                         }

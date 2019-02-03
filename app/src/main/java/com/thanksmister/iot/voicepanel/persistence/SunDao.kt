@@ -19,6 +19,7 @@ package com.thanksmister.iot.voicepanel.persistence
 import android.arch.persistence.room.*
 
 import io.reactivex.Flowable
+import timber.log.Timber
 
 /**
  * Data Access Object for the messages table.
@@ -42,6 +43,7 @@ interface SunDao {
 
     @Transaction
     fun updateItem(item: Sun) {
+        Timber.d("updateItem")
         deleteAllItems()
         insertItem(item)
     }

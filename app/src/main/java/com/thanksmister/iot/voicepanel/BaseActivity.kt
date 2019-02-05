@@ -112,7 +112,7 @@ abstract class BaseActivity : DaggerAppCompatActivity() {
      * into foreground.
      */
     open fun handleNetworkDisconnect() {
-        bringApplicationToForegroundIfNeeded()
+        //bringApplicationToForegroundIfNeeded()
         dialogUtils.showAlertDialogToDismiss(this@BaseActivity, getString(R.string.text_notification_network_title),
                 getString(R.string.text_notification_network_description))
         hasNetwork.set(false)

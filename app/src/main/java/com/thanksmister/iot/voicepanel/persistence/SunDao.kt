@@ -43,7 +43,6 @@ interface SunDao {
 
     @Transaction
     fun updateItem(item: Sun) {
-        Timber.d("updateItem")
         deleteAllItems()
         insertItem(item)
     }

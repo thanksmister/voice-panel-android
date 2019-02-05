@@ -49,7 +49,7 @@ open class BaseSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
         super.onActivityCreated(savedInstanceState)
         // Set title bar
         if ((activity as SettingsActivity).supportActionBar != null) {
-            (activity as SettingsActivity).supportActionBar!!.title = (getString(R.string.title_settings))
+            (activity as SettingsActivity).supportActionBar?.title = (getString(R.string.title_settings))
         }
     }
 
@@ -75,7 +75,7 @@ open class BaseSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
         val stringValue = value.toString()
         if (preference is SwitchPreference) {
             return@OnPreferenceChangeListener true
-        }else if (preference is ListPreference) {
+        } else if (preference is ListPreference) {
             val index = preference.findIndexOfValue(stringValue)
             preference.setSummary(
                     if (index >= 0)

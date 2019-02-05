@@ -98,9 +98,7 @@ class LiveCameraActivity : DaggerAppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if(toast != null) {
-            toast!!.cancel()
-        }
+        toast?.cancel()
     }
 
     public override fun onStart() {
@@ -110,9 +108,7 @@ class LiveCameraActivity : DaggerAppCompatActivity() {
 
     public override fun onStop() {
         super.onStop()
-        if(toast != null) {
-            toast!!.cancel()
-        }
+        toast?.cancel()
         stopUpdatePicture()
     }
 
@@ -122,9 +118,7 @@ class LiveCameraActivity : DaggerAppCompatActivity() {
 
     public override fun onDestroy() {
         super.onDestroy()
-        if (toast != null) {
-            toast!!.cancel()
-        }
+        toast?.cancel()
     }
 
     private fun requestCameraPermission() {
@@ -151,21 +145,18 @@ class LiveCameraActivity : DaggerAppCompatActivity() {
 
     private fun startUpdatePicture() {
         updateHandler = Handler()
-        updateHandler!!.postDelayed(updatePicture, interval.toLong())
+        updateHandler?.postDelayed(updatePicture, interval.toLong())
     }
 
     private fun stopUpdatePicture() {
-        if (updateHandler != null) {
-            updateHandler!!.removeCallbacks(updatePicture)
-            updateHandler = null
-        }
+        updateHandler?.removeCallbacks(updatePicture)
+        updateHandler = null
     }
 
     private val cameraCallback = object : CameraCallback {
         override fun onCameraInit() {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
-
         override fun onDetectorError() {
             Toast.makeText(this@LiveCameraActivity,getString(R.string.error_missing_vision_lib), Toast.LENGTH_LONG).show()
         }
@@ -213,8 +204,8 @@ class LiveCameraActivity : DaggerAppCompatActivity() {
         if(!toastShown) {
             toastShown = true
             toast = Toast.makeText(this@LiveCameraActivity, text, Toast.LENGTH_SHORT)
-            toast!!.setGravity(Gravity.BOTTOM, 0, 40)
-            toast!!.show()
+            toast?.setGravity(Gravity.BOTTOM, 0, 40)
+            toast?.show()
         }
     }
 

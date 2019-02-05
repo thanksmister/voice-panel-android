@@ -118,7 +118,7 @@ class VoiceActivity : BaseActivity() {
         filter.addAction(BROADCAST_ACTION_LISTENING_START)
         filter.addAction(BROADCAST_ACTION_LISTENING_END)
         localBroadCastManager = LocalBroadcastManager.getInstance(this)
-        localBroadCastManager!!.registerReceiver(mBroadcastReceiver, filter)
+        localBroadCastManager?.registerReceiver(mBroadcastReceiver, filter)
 
         if(configuration.cameraEnabled && configuration.hasCameraDetections()) {
             window.setFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED, WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED)
@@ -201,9 +201,7 @@ class VoiceActivity : BaseActivity() {
     }
 
     override fun onDestroy() {
-        if(localBroadCastManager != null) {
-            localBroadCastManager!!.unregisterReceiver(mBroadcastReceiver)
-        }
+        localBroadCastManager?.unregisterReceiver(mBroadcastReceiver)
         super.onDestroy()
     }
 

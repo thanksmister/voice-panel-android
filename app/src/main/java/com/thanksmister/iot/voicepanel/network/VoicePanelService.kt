@@ -190,7 +190,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         filter.addAction(Intent.ACTION_SCREEN_OFF)
         filter.addAction(Intent.ACTION_USER_PRESENT)
         localBroadCastManager = LocalBroadcastManager.getInstance(this)
-        localBroadCastManager!!.registerReceiver(mBroadcastReceiver, filter)
+        localBroadCastManager?.registerReceiver(mBroadcastReceiver, filter)
     }
 
     override fun onDestroy() {
@@ -199,13 +199,12 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         if (!disposable.isDisposed) {
             disposable.clear()
         }
-        if(mqttModule != null) {
-            mqttModule?.pause()
+        mqttModule?.let {
+            it.pause()
             mqttModule = null
         }
-        if(localBroadCastManager != null) {
-            localBroadCastManager?.unregisterReceiver(mBroadcastReceiver)
-        }
+
+        localBroadCastManager?.unregisterReceiver(mBroadcastReceiver)
         cameraReader.stopCamera()
         sensorReader.stopReadings()
         if(snipsModule != null) {
@@ -310,17 +309,13 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     private fun handleNetworkConnect() {
         Timber.w("handleNetworkConnect")
-        if (mqttModule != null && !hasNetwork.get()) {
-            mqttModule?.restart()
-        }
+        mqttModule.takeIf { !hasNetwork.get() }?.restart()
         hasNetwork.set(true)
     }
 
     private fun handleNetworkDisconnect() {
         Timber.w("handleNetworkDisconnect")
-        if (mqttModule != null && hasNetwork.get()) {
-            mqttModule?.pause()
-        }
+        mqttModule.takeIf { hasNetwork.get() }?.pause()
         hasNetwork.set(false)
     }
 
@@ -330,14 +325,18 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     private fun configurePowerOptions() {
         Timber.d("configurePowerOptions")
-        if (partialWakeLock != null && !partialWakeLock!!.isHeld) {
-            partialWakeLock!!.acquire(3000)
+        partialWakeLock?.let {
+            if(!it.isHeld) {
+                it.acquire(3000)
+            }
         }
-        if (!wifiLock!!.isHeld) {
-            wifiLock!!.acquire()
+        wifiLock?.let {
+            if(!it.isHeld) {
+                it.acquire()
+            }
         }
         try {
-            keyguardLock!!.disableKeyguard()
+            keyguardLock?.disableKeyguard()
         } catch (ex: Exception) {
             Timber.i("Disabling keyguard didn't work")
             ex.printStackTrace()
@@ -346,14 +345,18 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     private fun stopPowerOptions() {
         Timber.i("Releasing Screen/WiFi Locks")
-        if(partialWakeLock != null && partialWakeLock!!.isHeld) {
-            partialWakeLock!!.release()
+        partialWakeLock?.let {
+            if(it.isHeld) {
+                it.release()
+            }
         }
-        if (wifiLock != null && wifiLock!!.isHeld) {
-            wifiLock!!.release()
+        wifiLock?.let {
+            if(it.isHeld) {
+                it.release()
+            }
         }
         try {
-            keyguardLock!!.reenableKeyguard()
+            keyguardLock?.reenableKeyguard()
         } catch (ex: Exception) {
             Timber.i("Enabling keyguard didn't work")
             ex.printStackTrace()
@@ -484,9 +487,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private val restartMqttRunnable = Runnable {
-        if (mqttModule != null) {
-            mqttModule!!.restart()
-        }
+        mqttModule?.restart()
     }
 
     // TODO don't pass alarm mqtt as command
@@ -535,9 +536,9 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun publishAlarm(command: String) {
-        if(mqttModule != null) {
+        mqttModule?.let {
             Timber.d("publishAlarm $command")
-            mqttModule!!.publishAlarm(command)
+            it.publishAlarm(command)
             if(command == AlarmUtils.COMMAND_DISARM) {
                 captureImageTask()
             }
@@ -549,12 +550,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun publishMessage(command: String, message: String) {
-        if(mqttModule != null) {
-            /*Timber.d("publishMessage")
-            Timber.d("topic $command")
-            Timber.d("payload: $message")*/
-            mqttModule!!.publishState(command, message)
-        }
+        mqttModule?.publishState(command, message)
     }
 
     private fun configureCamera() {
@@ -585,12 +581,12 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     private fun configureAudioPlayer() {
         audioPlayer = MediaPlayer()
-        audioPlayer!!.setOnPreparedListener { audioPlayer ->
+        audioPlayer?.setOnPreparedListener { audioPlayer ->
             Timber.d("audioPlayer: File buffered, playing it now")
             audioPlayerBusy = false
             audioPlayer.start()
         }
-        audioPlayer!!.setOnCompletionListener { audioPlayer ->
+        audioPlayer?.setOnCompletionListener { audioPlayer ->
             Timber.d("audioPlayer: Cleanup")
             if (audioPlayer.isPlaying) {  // should never happen, just in case
                 audioPlayer.stop()
@@ -598,7 +594,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
             audioPlayer.reset()
             audioPlayerBusy = false
         }
-        audioPlayer!!.setOnErrorListener { audioPlayer, i, i1 ->
+        audioPlayer?.setOnErrorListener { audioPlayer, i, i1 ->
             Timber.d("audioPlayer: Error playing file")
             audioPlayerBusy = false
             false
@@ -612,18 +608,18 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
             httpServer = AsyncHttpServer()
             if (configuration.httpMJPEGEnabled) {
                 startMJPEG()
-                httpServer!!.addAction("GET", "/camera/stream") { _, response ->
+                httpServer?.addAction("GET", "/camera/stream") { _, response ->
                     Timber.i("GET Arrived (/camera/stream)")
                     startMJPEG(response)
                 }
                 Timber.i("Enabled MJPEG Endpoint")
             }
-            httpServer!!.addAction("*", "*") { request, response ->
+            httpServer?.addAction("*", "*") { request, response ->
                 Timber.i("Unhandled Request Arrived")
                 response.code(404)
                 response.send("")
             }
-            httpServer!!.listen(AsyncServer.getDefault(), configuration.httpPort)
+            httpServer?.listen(AsyncServer.getDefault(), configuration.httpPort)
             Timber.i("Started HTTP server on " + configuration.httpPort)
             updateSyncMap(INIT_HTTP_SERVER, false)
         }
@@ -631,9 +627,9 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
 
     private fun stopHttp() {
         Timber.d("stopHttp")
-        if (httpServer != null) {
+        httpServer?.let {
             stopMJPEG()
-            httpServer!!.stop()
+            it.stop()
             httpServer = null
         }
     }
@@ -756,10 +752,12 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     private fun processHermes(payload:String) {
         val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
         val response = gson.fromJson<IntentResponse>(payload, IntentResponse::class.java)
-        if(snipsModule != null && !TextUtils.isEmpty(response.sessionId) && lastSessionId == response.sessionId) {
-            insertIntentResponse(response.sessionId!!, response)
-            if(!TextUtils.isEmpty(response.text)) {
-                snipsModule!!.endSession(response.sessionId!!, response.text!!)
+        snipsModule?.let {
+            if(!TextUtils.isEmpty(response.sessionId) && lastSessionId == response.sessionId) {
+                insertIntentResponse(response.sessionId!!, response)
+                if(!TextUtils.isEmpty(response.text)) {
+                    it.endSession(response.sessionId!!, response.text!!)
+                }
             }
         }
     }
@@ -808,12 +806,12 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun insertSun(payload: String) {
-        //Timber.d("insertSun $payload")
+        Timber.d("insertSun $payload")
         disposable.add(Completable.fromAction {
             val sun = Sun()
             sun.sun = payload
             sun.createdAt = DateUtils.generateCreatedAtDate()
-            //sunDao.updateItem(sun)
+            sunDao.updateItem(sun)
         } .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -821,12 +819,12 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun insertWeather(payload: String) {
-        //Timber.d("insertWeather")
+        Timber.d("insertWeather")
         val gson = GsonBuilder().serializeNulls().create()
         val weather = gson.fromJson<Weather>(payload, Weather::class.java)
         disposable.add(Completable.fromAction {
             weather.createdAt = DateUtils.generateCreatedAtDate()
-            //weatherDao.updateItem(weather)
+            weatherDao.updateItem(weather)
         } .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -837,72 +835,47 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         Timber.d("audioPlayer")
         if (audioPlayerBusy) {
             Timber.d("audioPlayer: Cancelling all previous buffers because new audio was requested")
-            audioPlayer!!.reset()
-        } else if (audioPlayer!!.isPlaying) {
+            audioPlayer?.reset()
+        } else if (audioPlayer!= null && audioPlayer!!.isPlaying) {
             Timber.d("audioPlayer: Stopping all media playback because new audio was requested")
-            audioPlayer!!.stop()
-            audioPlayer!!.reset()
+            audioPlayer?.stop()
+            audioPlayer?.reset()
         }
 
         audioPlayerBusy = true
         try {
-            audioPlayer!!.setDataSource(audioUrl)
+            audioPlayer?.setDataSource(audioUrl)
         } catch (e: IOException) {
             Timber.e("audioPlayer: An error occurred while preparing audio (" + e.message + ")")
             audioPlayerBusy = false
-            audioPlayer!!.reset()
+            audioPlayer?.reset()
             return
         }
 
         Timber.d("audioPlayer: Buffering $audioUrl")
-        audioPlayer!!.prepareAsync()
+        audioPlayer?.prepareAsync()
     }
 
     private fun speakMessage(message: String) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            if (snipsModule != null) {
-                Timber.d("speakMessage $message")
-                snipsModule!!.startNotification(message)
-            }
+            snipsModule?.startNotification(message)
         }
     }
 
     @SuppressLint("WakelockTimeout")
     private fun switchScreenOn(awakeTime: Long) {
         Timber.d("switchScreenOn")
-        if (partialWakeLock != null && !partialWakeLock!!.isHeld) {
-            Timber.d("partialWakeLock")
-            partialWakeLock!!.acquire(SCREEN_WAKE_TIME)
-        } else if (partialWakeLock != null && partialWakeLock!!.isHeld) {
-            Timber.d("new partialWakeLock")
-            partialWakeLock!!.release()
-            partialWakeLock!!.acquire(SCREEN_WAKE_TIME)
+        partialWakeLock?.let {
+            if (!it.isHeld) {
+                Timber.d("partialWakeLock")
+                it.acquire(SCREEN_WAKE_TIME)
+            } else if (it.isHeld) {
+                Timber.d("new partialWakeLock")
+                it.release()
+                it.acquire(SCREEN_WAKE_TIME)
+            }
         }
         sendWakeScreen()
-    }
-
-    private fun changeScreenBrightness(brightness: Int) {
-        Timber.d("changeScreenBrightness")
-        if (screenBrightness != brightness) {
-            var mode = -1
-            try {
-                mode = Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE) //this will return integer (0 or 1)
-            } catch (e: Settings.SettingNotFoundException) {
-                Timber.e(e.message)
-            }
-
-            try {
-                if (mode == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
-                    //Automatic mode, need to be in manual to change brightness
-                    Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS_MODE, Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL)
-                }
-                if (brightness in 1..255) {
-                    Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, brightness)
-                }
-            } catch (e: SecurityException) {
-                Timber.e(e.message)
-            }
-        }
     }
 
     private fun publishMotionDetected() {
@@ -1030,9 +1003,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun stopContinuousAlarm() {
-        if(mediaPlayer != null) {
-            mediaPlayer?.stop()
-        }
+        mediaPlayer?.stop()
     }
 
     private fun playContinuousAlarm() {

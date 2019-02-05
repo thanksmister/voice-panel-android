@@ -48,34 +48,32 @@ class DialogUtils(base: Context?) : ContextWrapper(base), LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     fun clearDialogs() {
-        if (dialog != null && dialog!!.isShowing) {
-            dialog!!.dismiss()
-            dialog = null
+        dialog?.let {
+            if(it.isShowing) {
+                it.dismiss()
+                dialog = null
+            }
         }
-
-        if (alertDialog != null && alertDialog!!.isShowing) {
-            alertDialog!!.dismiss()
-            alertDialog = null
-        }
-        if (screenSaverDialog != null && screenSaverDialog!!.isShowing) {
-            screenSaverDialog!!.dismiss()
-            screenSaverDialog!!.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON )
-            screenSaverDialog = null
-        }
+        hideAlertDialog()
+        hideScreenSaverDialog()
     }
 
-    fun hideScreenSaverDialog() {
-        if (screenSaverDialog != null && screenSaverDialog!!.isShowing) {
-            screenSaverDialog!!.dismiss()
-            screenSaverDialog!!.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON )
-            screenSaverDialog = null
+    private fun hideScreenSaverDialog() {
+        screenSaverDialog?.let {
+            if(it.isShowing) {
+                it.dismiss()
+                it.window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON )
+                screenSaverDialog = null
+            }
         }
     }
 
     fun hideAlertDialog() {
-        if (alertDialog != null && alertDialog!!.isShowing) {
-            alertDialog!!.dismiss()
-            alertDialog = null
+        alertDialog?.let {
+            if(it.isShowing) {
+                it.dismiss()
+                alertDialog = null
+            }
         }
     }
 
@@ -157,7 +155,6 @@ class DialogUtils(base: Context?) : ContextWrapper(base), LifecycleObserver {
         alarmCodeView.setListener(alarmCodeListener)
         alarmCodeView.setCode(code)
         dialog = buildImmersiveDialog(activity, true, view, false)
-        //dialog!!.setOnDismissListener { alarmCodeView.destroySoundUtils() }
     }
 
     fun showCodeDialog(activity: AppCompatActivity, confirmCode: Boolean, listener: AlarmCodeView.ViewListener,
@@ -172,7 +169,7 @@ class DialogUtils(base: Context?) : ContextWrapper(base), LifecycleObserver {
         }
         alarmCodeView.setListener(listener)
         dialog = buildImmersiveDialog(activity, true, view, false)
-        dialog!!.setOnCancelListener(onCancelListener)
+        dialog?.setOnCancelListener(onCancelListener)
     }
 
     fun showArmOptionsDialog(activity: AppCompatActivity, armListener: ArmOptionsView.ViewListener) {
@@ -203,10 +200,10 @@ class DialogUtils(base: Context?) : ContextWrapper(base), LifecycleObserver {
         dialog.setCancelable(cancelable)
         dialog.setContentView(view)
         //Set the dialog to not focusable (makes navigation ignore us adding the window)
-        dialog.window!!.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
-        dialog.window!!.decorView.systemUiVisibility = context.window.decorView.systemUiVisibility
+        dialog.window?.setFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        dialog.window?.decorView?.systemUiVisibility = context.window.decorView.systemUiVisibility
         dialog.show()
-        dialog.window!!.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
+        dialog.window?.clearFlags(WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE)
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         wm.updateViewLayout(context.window.decorView, context.window.attributes)
         return dialog

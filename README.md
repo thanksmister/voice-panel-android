@@ -237,7 +237,7 @@ You can also use MQTT to publish the weather to the Voice Panel application, whi
 - id: '1538595661244'
   alias: MQTT Weather
   trigger:
-  - minutes: /5
+  - minutes: '/15'
     platform: time
   condition: []
   action:
@@ -262,7 +262,7 @@ Similar to how weather works, you can control the Voice Panel to display the day
 - id: '1539017708085'
   alias: MQTT Sun
   trigger:
-  - minutes: /5
+  - minutes: '/5'
     platform: time
   condition: []
   action:

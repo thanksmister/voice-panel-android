@@ -276,7 +276,7 @@ Similar to how weather works, you can control the Voice Panel to display the day
 The resulting payload will look like this:
 
 ```
-{"topic": "voicepanel/command","payload":"{'sun':'above_horizon'}}
+{"topic": "alarmpanel/command","payload":{"sun":"above_horizon"}}
 ```
 
 You can also test this from the using the "mqtt.publish" service under the Home Assistant Developer Tools:

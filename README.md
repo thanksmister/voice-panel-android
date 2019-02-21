@@ -139,7 +139,7 @@ searchWeatherForecast:
 
 You can get the status of Home Assistant components using voice commands.  First you need to add the intent scripts to the "intents.yaml" file to handle script information.   The status intent has two slots, one for the entity location (such as kitchen, living room, deck, upstairs, etc.) and one for entity id (door, camera, light, etc.).   These slots can be used to provide a specific response for the item status.   
 
-* "What's the staus of the main door"
+* "What's the status of the main door"
 * "Main door state?"
 * "Are the doors secure?"
 

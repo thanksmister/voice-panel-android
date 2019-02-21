@@ -35,7 +35,7 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ### Installation
 
-You can download and install the latest release from the [release section](https://github.com/thanksmister/voice-panel-android/releases) or if you prefer, install the application from the [Google Play store] (https://play.google.com/store/apps/details?id=com.thanksmister.iot.voicepanel). 
+You can download and install the latest release from the [release section](https://github.com/thanksmister/voice-panel-android/releases) or if you prefer, install the application from the [Google Play store](https://play.google.com/store/apps/details?id=com.thanksmister.iot.voicepanel). 
 
 ## Assistant Setup
 

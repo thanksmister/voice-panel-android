@@ -407,7 +407,7 @@ screenOn | true/false | ```{"screenOn":true}``` | If the screen is currently on
     * Default Topic: ```voicepanel/state```
 
 ## MQTT Commands
-Interact and control the application and device remotely using either MQTT commands, including using your device as an announcer with Google Text-To-Speach. Each device required a unique base topic which you set in the MQTT settings, the default is "voicepanel".  This distinguishes your device if you are running multiple devices.  
+Interact and control the application and device remotely using either MQTT commands, including using your device as an announcer with Google Text-To-Speech. Each device required a unique base topic which you set in the MQTT settings, the default is "voicepanel".  This distinguishes your device if you are running multiple devices.  
 
 ### Commands
 Key | Value | Example Payload | Description
@@ -418,7 +418,7 @@ speak | data | ```{"speak": "Hello!"}``` | Uses the devices TTS to speak the mes
 alert | data | ```{"alert": "Hello!"}``` | Displays an alert dialog within the application
 notification | data | ```{"notification": "Hello!"}``` | Displays a system notification on the devie
 
-* The base topic value (default is "voicepanel") should be unique to each device running the application unless you want all devices to receive the same command. The base topic and can be changed in the application settingssettings.
+* The base topic value (default is "voicepanel") should be unique to each device running the application unless you want all devices to receive the same command. The base topic and can be changed in the application settings.
 * Commands are constructed via valid JSON. It is possible to string multiple commands together:
   * eg, ```{"clearCache":true, "relaunch":true}```
 * MQTT

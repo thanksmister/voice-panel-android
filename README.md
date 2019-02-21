@@ -7,7 +7,7 @@ Voice Panel is an Android Voice Assistant for [Home Assistant](https://www.home-
 ![ui](https://user-images.githubusercontent.com/142340/47121221-42808f80-d248-11e8-813a-72b3be85eae3.png)
 ![landscape](https://user-images.githubusercontent.com/142340/47121143-e3227f80-d247-11e8-979a-3bdf19ceb998.png)
 
-Voice Panel uses Snips to act as a voice interface for Home Assistant. At this time, you can control your alarm system, lights, windows, blinds, switches, check status, get the date/time, and retrieve the weather information. You initiate a conversation with Voice Panel by using speaking wake-word, “Hey, Snips”. Alternatively, you can use face detection to initiate a conversation simply by looking at the device.
+Voice Panel uses Snips to act as a voice interface for Home Assistant. At this time, you can control your alarm system, lights, windows, blinds, switches, check status, get the date/time, and retrieve the weather information. You initiate a conversation with Voice Panel by using the wake-word, “Hey, Snips”. Alternatively, you can use face detection to initiate a conversation simply by looking at the device.
 
 #### Supported Snips Apps
 
@@ -35,7 +35,7 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 
 ### Installation
 
-You can download and install the latest release from the [release section](https://github.com/thanksmister/voice-panel-android/releases). 
+You can download and install the latest release from the [release section](https://github.com/thanksmister/voice-panel-android/releases) or if you prefer, install the application from the Google Play store [https://play.google.com/store/apps/details?id=com.thanksmister.iot.voicepanel]. 
 
 ## Assistant Setup
 

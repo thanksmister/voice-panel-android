@@ -155,11 +155,11 @@ getStatus:
       {% endif %} 
  ```
  
-In the above example, "entity_locale" and "entity_id" are used to provide a sepcific sensor status.  In this case we asked "what is the status of the main door?" and Snips responsed with "The main door is closed", which is the status of the sensor.main_door entity.  
+In the above example, "entity_locale" and "entity_id" are used to provide a specific sensor status.  In this case we asked "what is the status of the main door?" and Snips responds with "The main door is closed", which is the status of the sensor.main_door entity.  
 
 ### Time/Date 
 
-You can get the current time and date from Home Assistant components using voice commands.  Add the follwing intent scripts to the "intents.yaml" file to handle intents for Time/Date.  
+You can get the current time and date from Home Assistant components using voice commands.  Add the following intent scripts to the "intents.yaml" file to handle intents for Time/Date.  
 
 * "What's the date?"
 * "What day is it?"

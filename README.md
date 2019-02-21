@@ -118,7 +118,7 @@ If you would like to get weather updates, you will need to add a [weather compon
 
   * "What's the weather today?"
 
-#### Example Darksky Weather 
+#### Example Dark Sky Weather 
 
 ```
 searchWeatherForecast:
@@ -224,14 +224,14 @@ alarm_control_panel:
 
 -- If I set the the alarm mode home, the alarm will immediately be on without any pending time.  If the alarm is triggered,      there will be no pending time before the siren sounds.   If the alarm mode is away, I have 60 seconds to leave before the      alarm is active and 30 seconds to disarm the alarm when entering.   
 
--- Notice that my trigger_time is 1800 and disarm_after_trigger is false, this means the alarm runs for 1800 seconds until it    stops and it doesn't reset after its triggerd. 
+-- Notice that my trigger_time is 1800 and disarm_after_trigger is false, this means the alarm runs for 1800 seconds until it    stops and it doesn't reset after it's triggered. 
 
 
 ### MQTT Weather
 
 ![weather](https://user-images.githubusercontent.com/142340/47173511-a193e200-d2e4-11e8-8cbc-f2d57cdb6346.png)
 
-You can also use MQTT to publish the weather to the Voice Panel application, which it will then display on the main view. To do this you need to setup an automation that publishes a formatted MQTT message on an interval.  Then in the application settings, enable the weather feature. Here is a sample automation that uses Darksky data to publish an MQTT message: 
+You can also use MQTT to publish the weather to the Voice Panel application, which it will then display on the main view. To do this you need to setup an automation that publishes a formatted MQTT message on an interval.  Then in the application settings, enable the weather feature. Here is a sample automation that uses Dark Sky data to publish an MQTT message: 
 
 ```
 - id: '1538595661244'
@@ -311,9 +311,9 @@ temperature | unit, value | ```{"unit":"°C", "value":"24"}``` |
 
 *NOTE:* Sensor values are device specific. Not all devices will publish all sensor values.
 
-* Sensor values are constructued as JSON per the above table
+* Sensor values are constructed as JSON per the above table
 * For MQTT
-  * WallPanel publishes all sensors to MQTT under ```[voicepanel]/sensor```
+  * Voice Panel publishes all sensors to MQTT under ```[voicepanel]/sensor```
   * Each sensor publishes to a subtopic based on the type of sensor
     * Example: ```voicepanel/sensor/battery```
     
@@ -328,7 +328,7 @@ sensor:
     
  - platform: mqtt
     state_topic: "voicepanel/sensor/temperature"
-    name: "WallPanel Temperature"
+    name: "Voice Panel Temperature"
     unit_of_measurement: "°C"
     value_template: '{{ value_json.value }}'
 
@@ -361,7 +361,7 @@ face | value | ```{"value": false}``` | Published immediately when face detected
 qrcode | value | ```{"value": data}``` | Published immediately when QR Code scanned
 
 * MQTT
-  * WallPanel publishes all sensors to MQTT under ```[voicepanel]/sensor```
+  * Voice Panel publishes all sensors to MQTT under ```[voicepanel]/sensor```
   * Each sensor publishes to a subtopic based on the type of sensor
     * Example: ```voicepanel/sensor/motion```
 
@@ -393,7 +393,7 @@ sensor:
 ```
 
 ### Application State Data
-The application canl also publish state data about the application such as the current dashboard url loaded or the screen state.
+The application can also publish state data about the application such as the current dashboard url loaded or the screen state.
 
 Key | Value | Example | Description
 -|-|-|-
@@ -403,7 +403,7 @@ screenOn | true/false | ```{"screenOn":true}``` | If the screen is currently on
 * State values are presented together as a JSON block
   * eg, ```{"currentUrl":"http://hasbian:8123/states","screenOn":true}```
 * MQTT
-  * WallPanel publishes state to topic ```[voicepanel]/state```
+  * Voice Panel publishes state to topic ```[voicepanel]/state```
     * Default Topic: ```voicepanel/state```
 
 ## MQTT Commands
@@ -422,7 +422,7 @@ notification | data | ```{"notification": "Hello!"}``` | Displays a system notif
 * Commands are constructed via valid JSON. It is possible to string multiple commands together:
   * eg, ```{"clearCache":true, "relaunch":true}```
 * MQTT
-  * WallPanel subscribes to topic ```[voicepanel]/command```
+  * Voice Panel subscribes to topic ```[voicepanel]/command```
     * Default Topic: ```voicepanel/command```
   * Publish a JSON payload to this topic (be mindfula of quotes in JSON should be single quotes not double)
 
@@ -435,7 +435,7 @@ Example format for the message topic and payload:
 
 ## MJPEG Video Streaming
 
-Use the device camera as a live MJPEG stream. Just connect to the stream using the device IP address and end point. Be sure to turn on the camera streaming options in the settings and set the number of allowed streams and HTTP port number. Note that performance depends upon your device (older devices will be slow).
+Use the device camera as a live MJPEG stream. Just connect to the stream using the device IP address and endpoint. Be sure to turn on the camera streaming options in the settings and set the number of allowed streams and HTTP port number. Note that performance depends upon your device (older devices will be slow).
 
 #### Browser Example:
 

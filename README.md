@@ -49,9 +49,9 @@ For the Snips you basically need to add ```snips:``` to you configuration.yaml f
 
 ### Custom Assistant Commands
 
-Voice Panel also has custom scripts that extend upon the basic functionality. Currently Voice Panel can control your the MQTT alarm panel in Home Assistant, get the status for any component by name ("What's the status of the front door?"), get the time/date, get the weather, and control the thermostate.  
+Voice Panel also has custom scripts that extend upon the basic functionality. Currently Voice Panel can control your the MQTT alarm panel in Home Assistant, get the status for any component by name ("What's the status of the front door?"), get the time/date, get the weather, and control the thermostat.  
 
-To use custom scripts you need to create a file to store your [intent scripts](https://www.home-assistant.io/components/intent_script/) and customize the assistants behavior.  Create an "intents.yaml" file in your confi directory, then link this from the configuration.yaml file by adding this line at the bottom: 
+To use custom scripts you need to create a file to store your [intent scripts](https://www.home-assistant.io/components/intent_script/) and customize the assistants behavior.  Create an "intents.yaml" file in your configuration directory, then link this from the configuration.yaml file by adding this line at the bottom: 
 
 ```intent_script: !include intents.yaml```
 

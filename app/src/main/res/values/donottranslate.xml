@@ -68,7 +68,7 @@
     <string name="key_snips_dialog">snips_dialog</string>
     <string name="default_key_snips_dialog">true</string>
     <string name="key_snips_logs">snips_logs</string>
-    <string name="default_snips_logs">true</string>
+    <string name="default_snips_logs">false</string>
     <string name="key_snips_streaming">snips_streaming</string>
     <string name="default_snips_streaming">true</string>
     <string name="key_snips_injection">snips_injection</string>

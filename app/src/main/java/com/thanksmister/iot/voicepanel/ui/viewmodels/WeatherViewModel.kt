@@ -67,7 +67,6 @@ constructor(application: Application, private val dataSource: WeatherDao, privat
                 .map { items -> items[0] }
     }
 
-
     public override fun onCleared() {
         Timber.d("onCleared")
         //prevents memory leaks by disposing pending observable objects

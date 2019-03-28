@@ -255,5 +255,7 @@
     <string name="text_message_logs">Message Logs</string>
     <string name="text_initializing">Initializing...</string>
     <string name="text_camera_permissions_denied">Camera permissions denied...</string>
+    <string name="text_didnt_understand">Sorry, I didn\'t understand.</string>
+    <string name="text_listening_timeout">Sorry, I may not have heard you in time.</string>
 
 </resources>

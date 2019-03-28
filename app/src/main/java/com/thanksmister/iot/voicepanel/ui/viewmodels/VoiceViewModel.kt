@@ -98,8 +98,4 @@ constructor(application: Application, private val dataSource: IntentDao, private
                 .subscribe({
                 }, { error -> Timber.e("Database error" + error.message) }))
     }
-
-    companion object {
-
-    }
 }

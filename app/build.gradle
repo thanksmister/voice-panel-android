@@ -27,8 +27,8 @@ repositories {
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 2
-def versionBuild = 1 // bump for dog food builds, public betas, etc.
+def versionPatch = 3
+def versionBuild = 0 // bump for dog food builds, public betas, etc.
 
 def ALARM_CODE() {
     Properties properties = new Properties()
@@ -136,7 +136,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-vision:17.0.2'
 
     // Snips
-    implementation('ai.snips:snips-platform-android:0.60.2@aar') {
+    implementation('ai.snips:snips-platform-android:0.61.1@aar') {
         transitive = true
     }
 
@@ -197,7 +197,7 @@ dependencies {
     implementation 'com.koushikdutta.async:androidasync:2.1.9'
 
     // Animation
-    implementation 'com.github.ybq:Android-SpinKit:1.1.0'
+    implementation 'com.github.ybq:Android-SpinKit:1.2.0'
 
     // Fingerprint Identify
     implementation 'com.wei.android.lib:fingerprintidentify:1.2.1'

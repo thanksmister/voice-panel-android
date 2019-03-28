@@ -279,7 +279,6 @@ class VoiceActivity : BaseActivity() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({commands ->
-                    Timber.d("commands: " + commands)
                     this@VoiceActivity.runOnUiThread {
                         commandList.adapter = CommandAdapter(commands, null)
                         commandList.background = null

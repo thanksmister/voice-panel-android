@@ -159,8 +159,8 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
     }
 
     private fun initClient() {
-        Timber.d("initClient")
         if(snipsClient == null) {
+            Timber.d("initClient")
             //val oldAssistantDir = File(Environment.getExternalStorageDirectory().toString(), "snips_android_assistant")
             val assistantDir = FileUtils.getAssistantDirectory(baseContext)
             snipsClient = SnipsPlatformClient.Builder(assistantDir)
@@ -173,16 +173,16 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                     .enableInjection(options.enableInjection) // defaults to false
                     .build();
 
-            snipsClient!!.onPlatformReady = fun(): Unit {
+            snipsClient?.onPlatformReady = fun(): Unit {
                 listener.onSnipsPlatformReady()
             }
-            snipsClient!!.onPlatformError = fun(snipsPlatformError: SnipsPlatformClient.SnipsPlatformError): Unit {
+            snipsClient?.onPlatformError = fun(snipsPlatformError: SnipsPlatformClient.SnipsPlatformError): Unit {
                 if(!TextUtils.isEmpty(snipsPlatformError.message)) {
                     listener.onSnipsPlatformError(snipsPlatformError.message!!)
                 }
             }
-            snipsClient!!.onHotwordDetectedListener = fun(): Unit {
-                Timber.d("a hotword was detected !")
+            snipsClient?.onHotwordDetectedListener = fun(): Unit {
+                Timber.d("a hot word was detected !")
                 // Do your magic here :D
                 // TODO play a sound or make some icon change
                 listener.onSnipsHotwordDetectedListener()
@@ -190,12 +190,12 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                 faceWakeIntervalActive = false
                 faceWakeWordClearHandler.removeCallbacks(clearFaceWakeWord)
             }
-            snipsClient!!.onIntentDetectedListener = fun(intentMessage: IntentMessage): Unit {
+            snipsClient?.onIntentDetectedListener = fun(intentMessage: IntentMessage): Unit {
                 Timber.d("received an intent: $intentMessage")
-                Timber.d("The probability was ${intentMessage.intent.probability}")
+                Timber.d("The probability was ${intentMessage.intent.confidenceScore}")
                 val lowerValue = options.nluProbability
                 val higherValue = 1.0f
-                if(intentMessage.intent.probability in lowerValue..higherValue) {
+                if(intentMessage.intent.confidenceScore in lowerValue..higherValue) {
                     val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
                     var json = gson.toJson(intentMessage, IntentMessage::class.java)
                     json = json.replace("type", "kind")
@@ -209,28 +209,28 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                 clearFaceWakeWordActive() // interval until next face wake
                 manuallyListening = false
             }
-            snipsClient!!.onListeningStateChangedListener = fun(isListening: Boolean): Unit {
+            snipsClient?.onListeningStateChangedListener = fun(isListening: Boolean): Unit {
                 Timber.d("asr listening state: " + isListening)
                 // Do you magic here :D
                 listener.onSnipsListeningStateChangedListener(isListening)
             }
-            snipsClient!!.onSessionStartedListener = fun(sessionStartedMessage: SessionStartedMessage): Unit {
+            snipsClient?.onSessionStartedListener = fun(sessionStartedMessage: SessionStartedMessage): Unit {
                 Timber.d("dialogue session started: $sessionStartedMessage")
                 //listener.onSessionStartedListener(sessionStartedMessage)
             }
-            snipsClient!!.onSessionQueuedListener = fun(sessionQueuedMessage: SessionQueuedMessage): Unit {
+            snipsClient?.onSessionQueuedListener = fun(sessionQueuedMessage: SessionQueuedMessage): Unit {
                 Timber.d("dialogue session queued: $sessionQueuedMessage")
                 //listener.onSessionQueuedListener(sessionQueuedMessage)
             }
-            snipsClient!!.onSessionEndedListener = fun(sessionEndedMessage: SessionEndedMessage): Unit {
+            snipsClient?.onSessionEndedListener = fun(sessionEndedMessage: SessionEndedMessage): Unit {
                 Timber.d("dialogue session ended: $sessionEndedMessage")
                 Timber.d("termination type: ${sessionEndedMessage.termination.type}")
                 if(SessionTermination.Type.INTENT_NOT_RECOGNIZED == sessionEndedMessage.termination.type
                         && !manuallyListening && !lowProbability) {
-                    snipsClient!!.startNotification("Sorry, I didn't understand.", null)
+                    snipsClient!!.startNotification(getString(R.string.text_didnt_understand), null)
                 } else if (SessionTermination.Type.TIMEOUT == sessionEndedMessage.termination.type
                         && !manuallyListening && !lowProbability) {
-                    snipsClient!!.startNotification("Sorry, I may not have heard you in time.", null)
+                    snipsClient!!.startNotification(getString(R.string.text_listening_timeout), null)
                 } else if (SessionTermination.Type.NOMINAL == sessionEndedMessage.termination.type) {
                     //snipsClient!!.startNotification("Assistant initialized and ready.", null)
                 }
@@ -238,15 +238,14 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                 manuallyListening = false
                 listener.onSessionEndedListener(sessionEndedMessage)
             }
-            snipsClient!!.onSnipsWatchListener = fun(s: String): Unit {
+            snipsClient?.onSnipsWatchListener = fun(s: String): Unit {
                 listener.onSnipsWatchListener(s)
             }
 
             // We enabled steaming in the builder, so we need to provide the platform an audio stream. If you don't want
             // to manage the audio stream do no enable the option, and the snips platform will grab the mic by itself
             startStreaming()
-
-            snipsClient!!.connect(applicationContext)
+            snipsClient?.connect(applicationContext)
         }
     }
 
@@ -269,19 +268,17 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
             object : Thread() {
                 override fun run() {
                     recorder = AudioRecord(MediaRecorder.AudioSource.MIC, FREQUENCY, CHANNEL, ENCODING, minBufferSizeInBytes)
-                    recorder!!.startRecording()
+                    recorder?.startRecording()
                     while (continueStreaming) {
                         val buffer = ShortArray(minBufferSizeInBytes / 2)
-                        recorder!!.read(buffer, 0, buffer.size)
-                        if (snipsClient != null) {
-                            try {
-                                snipsClient!!.sendAudioBuffer(buffer)
-                            } catch (e: DeadObjectException) {
-                                Timber.w(e.message)
-                            }
+                        recorder?.read(buffer, 0, buffer.size)
+                        try {
+                            snipsClient?.sendAudioBuffer(buffer)
+                        } catch (e: Exception) {
+                            Timber.w(e.message)
                         }
                     }
-                    recorder!!.stop()
+                    recorder?.stop()
                     Timber.d("audio streaming stopped")
                 }
             }.start()

@@ -124,13 +124,14 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
             getString(R.string.key_snips_probability) -> {
                 val value = probabilityPreference!!.text
                 try {
-                    if(!TextUtils.isEmpty(value)) {
-                        snipsOptions.nluProbability = value.toFloat()
+                    val floatValue = value.toFloatOrNull()
+                    if(floatValue != null) {
+                        snipsOptions.nluProbability = floatValue
                         if(!(value.toFloat() in 0.0..1.0)) {
                            Toast.makeText(activity, getString(R.string.error_snips_probability), Toast.LENGTH_LONG).show()
                         }
                     } else if (isAdded) {
-                        Toast.makeText(activity, R.string.text_error_blank_entry, Toast.LENGTH_LONG).show()
+                        Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
                         probabilityPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
                         probabilityPreference!!.text = snipsOptions.nluProbability.toString()
 

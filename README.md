@@ -242,7 +242,7 @@ You can also use MQTT to publish the weather to the Voice Panel application, whi
   condition: []
   action:
   - data:
-      payload_template: '{''weather'':{''summary'':''{{states(''sensor.dark_sky_summary'')}}'',''precipitation'':''{{states(''sensor.dark_sky_precip_probability'')}}'',''icon'':''{{states(''sensor.dark_sky_icon'')}}'',''temperature'':''{{states(''sensor.dark_sky_apparent_temperature'')}}'',''units'':''{{states.sensor.dark_sky_apparent_temperature.attributes.unit_of_measurement}}''}}'
+      payload_template: {% raw %}'{''weather'':{''summary'':''{{states(''sensor.dark_sky_summary'')}}'',''precipitation'':''{{states(''sensor.dark_sky_precip_probability'')}}'',''icon'':''{{states(''sensor.dark_sky_icon'')}}'',''temperature'':''{{states(''sensor.dark_sky_apparent_temperature'')}}'',''units'':''{{states.sensor.dark_sky_apparent_temperature.attributes.unit_of_measurement}}''}}'{% endraw %}
       topic: voicepanel/command
       retain: true
     service: mqtt.publish
@@ -267,7 +267,7 @@ Similar to how weather works, you can control the Voice Panel to display the day
   condition: []
   action:
   - data:
-      payload_template: '{''sun'':''{{states(''sun.sun'')}}''}'
+      payload_template: {% raw %}"{'sun':'{{states('sun.sun')}}'}"{% endraw %}
       retain: true
       topic: voicepanel/command
     service: mqtt.publish
@@ -286,7 +286,7 @@ You can also test this from the using the "mqtt.publish" service under the Home 
 
 ```
 {
-  "payload_template": "{'sun':'{{states('sun.sun') }}'}",
+  "payload_template": {% raw %}"{'sun':'{{states('sun.sun')}}'}"{% endraw %},
   "topic": "voicepanel/command"
 }
 ```

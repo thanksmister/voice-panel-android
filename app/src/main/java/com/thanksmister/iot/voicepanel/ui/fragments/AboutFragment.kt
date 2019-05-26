@@ -106,9 +106,9 @@ class AboutFragment : Fragment() {
     }
 
     companion object {
-        const val SUPPORT_URL:String = "https://thanksmister.com/voicepanel-android/"
+        const val SUPPORT_URL:String = "https://thanksmister.com/voice-panel-android/"
         const val GOOGLE_PLAY_RATING = "com.thanksmister.iot.voicepanel"
-        const val GITHUB_URL = "https://github.com/thanksmister/voicepanel-android"
+        const val GITHUB_URL = "https://github.com/thanksmister/voice-panel-android/"
         const val EMAIL_ADDRESS = "mister@thanksmister.com"
         fun newInstance(): AboutFragment {
             return AboutFragment()

@@ -17,7 +17,7 @@ Currently the application has a few limitations. The Snips Android SDK does not 
 
 ## Support
 
-For issues, feature requests, comments or questions, use the [Github issues tracker](https://github.com/thanksmister/vioce-panel-android/issues).  
+For issues, feature requests, comments or questions, use the [Github issues tracker](https://github.com/thanksmister/voice-panel-android/issues).  
 
 ## Features
 - Face activated wake-word (no need to say "Hey, Snips").

@@ -420,18 +420,17 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         bm.sendBroadcast(intent)
     }
 
-    // TODO let's only save this intent on success
-    // TODO check the probability is high or ask to repeat message
+    // TODO let's use the intent message from Snips and map to our dao object
     override fun onSnipsIntentDetectedListener(intentJson: String) {
         Timber.d("onSnipsIntentDetectedListener")
         Timber.d("intent detected!")
         Timber.d("intent json: $intentJson")
+        val jsonWithSiteId = intentJson.replace("default", configuration.mqttBaseTopic)
         val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
-        val intentMessage = gson.fromJson<IntentMessage>(intentJson, IntentMessage::class.java)
+        val intentMessage = gson.fromJson<IntentMessage>(jsonWithSiteId, IntentMessage::class.java)
         intentMessage.createdAt = DateUtils.generateCreatedAtDate()
         intentMessage.response = IntentResponse()
-        intentMessage.siteId = configuration.mqttBaseTopic
-        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent?.intentName, gson.toJson(intentMessage))
+        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent?.intentName, jsonWithSiteId)
         lastSessionId = intentMessage.sessionId
         insertHermes(intentMessage)
     }

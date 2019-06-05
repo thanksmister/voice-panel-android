@@ -24,7 +24,9 @@ class Intent {
     @SerializedName("intentName")
     @Expose
     var intentName: String? = null
-    @SerializedName("probability")
+
+    @SerializedName("confidenceScore")
     @Expose
-    var probability: Double? = null
+    var confidenceScore: Double? = null
+
 }

@@ -431,7 +431,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         intentMessage.createdAt = DateUtils.generateCreatedAtDate()
         intentMessage.response = IntentResponse()
         intentMessage.siteId = configuration.mqttBaseTopic
-        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent?.intentName, intentJson)
+        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent?.intentName, gson.toJson(intentMessage))
         lastSessionId = intentMessage.sessionId
         insertHermes(intentMessage)
     }

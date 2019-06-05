@@ -93,14 +93,16 @@ class SensorsSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.On
         when (key) {
             getString(R.string.key_setting_mqtt_sensorfrequency) -> {
                 try {
-                    val value = sensorPublishFrequency!!.text
-                    if(!TextUtils.isEmpty(value)) {
-                        configuration.deviceSensorFrequency = value.toInt()
-                        sensorPublishFrequency!!.summary = value
-                    } else if (isAdded) {
+                    val value = sensorPublishFrequency?.text
+                    if(value?.toIntOrNull() == null) {
+                        Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
+                    } else if(TextUtils.isEmpty(value)) {
                         Toast.makeText(activity, R.string.text_error_blank_entry, Toast.LENGTH_LONG).show()
                         sensorPublishFrequency!!.setDefaultValue(configuration.deviceSensorFrequency.toString())
-                        sensorPublishFrequency!!.setSummary(configuration.deviceSensorFrequency.toString())
+                        sensorPublishFrequency!!.summary = configuration.deviceSensorFrequency.toString()
+                    } else if (isAdded) {
+                        configuration.deviceSensorFrequency = value.toInt()
+                        sensorPublishFrequency!!.summary = value
                     }
                 } catch (e : Exception) {
                     if(isAdded) {

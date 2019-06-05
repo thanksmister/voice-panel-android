@@ -122,6 +122,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     private val mBinder = VoicePanelServiceBinder()
     private val motionClearHandler = Handler()
     private val faceClearHandler = Handler()
+    private var textToSpeechModule: TextToSpeechModule? = null
 
    // private var textToSpeechModule: TextToSpeechModule? = null
     private var mqttModule: MQTTModule? = null
@@ -176,6 +177,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         initializeCommandList()
         configureMqtt()
         configureVoice()
+        configureTextToSpeech()
         configurePowerOptions()
         startHttp()
         configureCamera()
@@ -387,7 +389,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
                 return
             }
         }
-        if (snipsModule == null  && mqttOptions.isValid) {
+        if (snipsModule == null && mqttOptions.isValid) {
             updateSyncMap(INIT_VOICE, true)
             snipsModule = SnipsModule(this@VoicePanelService.applicationContext, snipsOptions,this@VoicePanelService)
             lifecycle.addObserver(snipsModule!!)
@@ -428,13 +430,17 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         val intentMessage = gson.fromJson<IntentMessage>(intentJson, IntentMessage::class.java)
         intentMessage.createdAt = DateUtils.generateCreatedAtDate()
         intentMessage.response = IntentResponse()
-        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent!!.intentName, intentJson)
+        intentMessage.siteId = configuration.mqttBaseTopic
+        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent?.intentName, intentJson)
         lastSessionId = intentMessage.sessionId
         insertHermes(intentMessage)
     }
 
     override fun onSnipsListeningStateChangedListener(isListening: Boolean) {
         Timber.d("listening: " + isListening)
+        if(isListening && configuration.hasHotwordResponse) {
+            speakResponse(configuration.hotwordResponse)
+        }
     }
 
     override fun onSessionEndedListener(sessionEndedMessage: SessionEndedMessage) {
@@ -562,14 +568,14 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         }
     }
 
-    /*private fun configureTextToSpeech() {
+    private fun configureTextToSpeech() {
         Timber.d("configureTextToSpeach")
         if (textToSpeechModule == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mqttOptions.isValid) {
             updateSyncMap(INIT_SPEECH, true)
             textToSpeechModule = TextToSpeechModule(this, this)
             lifecycle.addObserver(textToSpeechModule!!)
         }
-    }*/
+    }
 
     override fun onTextToSpeechInitialized() {
         updateSyncMap(INIT_SPEECH, false)
@@ -857,9 +863,15 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     private fun speakMessage(message: String) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Timber.d("speakMessage: $message")
             snipsModule?.startNotification(message)
         }
+    }
+
+    private fun speakResponse(message: String) {
+        Timber.d("speakResponse: $message")
+        textToSpeechModule?.speakText(message)
     }
 
     @SuppressLint("WakelockTimeout")

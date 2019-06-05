@@ -19,6 +19,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -27,7 +28,7 @@ repositories {
 
 def versionMajor = 0
 def versionMinor = 1
-def versionPatch = 3
+def versionPatch = 4
 def versionBuild = 0 // bump for dog food builds, public betas, etc.
 
 def ALARM_CODE() {
@@ -47,7 +48,6 @@ def BROKER() {
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
     return properties.getProperty("broker");
 }
-
 
 def ASSISTANT_VERSION() {
     Properties properties = new Properties()
@@ -210,6 +210,9 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.5@aar') {
         transitive = true;
     }
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.9'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1-alpha01'

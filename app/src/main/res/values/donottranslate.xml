@@ -103,8 +103,12 @@
     <string name="default_snips_face_wake_interval">5</string>
     <string name="key_setting_battery">setting_battery</string>
 
+    <string name="key_setting_site_id">setting_site_id</string>
+    <string name="default_setting_site_id">voicepanel</string>
+
+
     <string name="license" translatable="false"><![CDATA[
-        <br><b>Copyright 2017 ThanksMister LLC</b><br>
+        <br><b>Copyright 2019 - 2020 ThanksMister LLC</b><br>
         <br>
         This application contains open source libraries under the Apache License, Version 2.0 (the "License");
         you may not use this file except in compliance with the License.

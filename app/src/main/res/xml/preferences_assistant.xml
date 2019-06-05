@@ -41,6 +41,22 @@
             android:summary="@string/pref_face_wake_interval_summary"
             android:title="@string/pref_face_wake_interval_title"/>
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="pref_hotword_response_enabled"
+            android:title="@string/pref_enable_hotword_response_title"
+            android:summary="@string/pref_enable_hotword_response_summary"/>
+
+        <EditTextPreference
+            android:text="@android:string/yes"
+            android:defaultValue="@android:string/ok"
+            android:dependency="pref_hotword_response_enabled"
+            android:key="pref_hotword_response_value"
+            android:negativeButtonText="@android:string/cancel"
+            android:positiveButtonText="@android:string/ok"
+            android:summary="@string/pref_hotword_response_summary"
+            android:title="@string/pref_hotword_response_title"/>
+
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -20,7 +20,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.utils.AlarmUtils
-import com.thanksmister.iot.voicepanel.utils.AlarmUtils.Companion.MODE_DISARM
 import com.thanksmister.iot.voicepanel.utils.AlarmUtils.Companion.STATE_DISARM
 import javax.inject.Inject
 
@@ -130,6 +129,14 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
     var showIntentList: Boolean
         get() = getBoolPref(PREF_SHOW_INTENT_LIST, true)
         set(value) = setBoolPref(PREF_SHOW_INTENT_LIST, value)
+
+    var hasHotwordResponse: Boolean
+        get() = getBoolPref(PREF_HOTWORD_RESPONSE_ENABLED, true)
+        set(value) = setBoolPref(PREF_HOTWORD_RESPONSE_ENABLED, value)
+
+    var hotwordResponse: String
+        get() = getStringPref(PREF_HOTWORD_RESPONSE, context.getString(android.R.string.yes))
+        set(value) = this.setStringPref(PREF_HOTWORD_RESPONSE, value)
 
     var alarmCode: Int
         get() = getPrefInt(PREF_ALARM_CODE, 1234)
@@ -456,6 +463,9 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         const val PREF_STATE_TOPIC = "pref_alarm_topic"
         const val PREF_FACE_WAKE_WORD = "pref_face_wakeword"
         const val PREF_SHOW_INTENT_LIST  = "pref_show_intent_list"
+
+        const val PREF_HOTWORD_RESPONSE_ENABLED = "pref_hotword_response_enabled"
+        const val PREF_HOTWORD_RESPONSE = "pref_hotword_response_value"
 
     }
 }

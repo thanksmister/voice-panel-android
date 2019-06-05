@@ -257,5 +257,11 @@
     <string name="text_camera_permissions_denied">Camera permissions denied...</string>
     <string name="text_didnt_understand">Sorry, I didn\'t understand.</string>
     <string name="text_listening_timeout">Sorry, I may not have heard you in time.</string>
+    <string name="pref_hotword_response_summary">The response given when the hotword is detected.</string>
+    <string name="pref_hotword_response_title">Hotword Response</string>
+    <string name="pref_enable_hotword_response_title">Enable Hotword Response</string>
+    <string name="pref_enable_hotword_response_summary">Enabled the assistant to verbally respond to hotword detected.</string>
+    <string name="error_init_tts">There was an error initializing TTS service.</string>
+    <string name="error_tts">There was an error using the TTS service.</string>
 
 </resources>

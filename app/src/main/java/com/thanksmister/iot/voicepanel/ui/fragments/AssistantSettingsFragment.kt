@@ -29,7 +29,9 @@ import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.modules.SnipsOptions
 import com.thanksmister.iot.voicepanel.persistence.Configuration
 import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_FACE_WAKE_WORD
+import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_HOTWORD_RESPONSE
 import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_SHOW_INTENT_LIST
+import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_HOTWORD_RESPONSE_ENABLED
 import com.thanksmister.iot.voicepanel.ui.SettingsActivity
 import com.thanksmister.iot.voicepanel.utils.DialogUtils
 import dagger.android.support.AndroidSupportInjection
@@ -46,6 +48,9 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
     private var intentListPreference: SwitchPreference? = null
     private var probabilityPreference: EditTextPreference? = null
     private var faceWakeIntervalPreference: EditTextPreference? = null
+
+    private var enableHotwordResponse: SwitchPreference? = null
+    private var hotwordResponsePreference: EditTextPreference? = null
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)
@@ -96,6 +101,13 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
         hotwordSensitivityPreference = findPreference(getString(R.string.key_snips_hotword_sensitivity)) as EditTextPreference
         hotwordSensitivityPreference!!.setDefaultValue(snipsOptions.withHotwordSensitivity.toString())
         hotwordSensitivityPreference!!.text = snipsOptions.withHotwordSensitivity.toString()
+
+        enableHotwordResponse = findPreference(PREF_HOTWORD_RESPONSE_ENABLED) as SwitchPreference
+        enableHotwordResponse?.isChecked = configuration.hasHotwordResponse
+
+        hotwordResponsePreference = findPreference(PREF_HOTWORD_RESPONSE) as EditTextPreference
+        hotwordResponsePreference?.setDefaultValue(configuration.hotwordResponse)
+        hotwordResponsePreference?.text = configuration.hotwordResponse
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
@@ -171,6 +183,17 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
             }
             PREF_SHOW_INTENT_LIST -> {
                 configuration.showIntentList = intentListPreference!!.isChecked
+            }
+            PREF_HOTWORD_RESPONSE -> {
+                val value = hotwordResponsePreference?.text
+                if(value.isNullOrEmpty()) {
+                    val default = getString(android.R.string.yes)
+                    Toast.makeText(activity, R.string.text_error_blank_entry, Toast.LENGTH_LONG).show()
+                    hotwordResponsePreference?.setDefaultValue(default)
+                    hotwordResponsePreference?.text = default
+                } else {
+                    configuration.hotwordResponse = value
+                }
             }
         }
     }

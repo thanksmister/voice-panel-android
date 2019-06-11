@@ -66,14 +66,27 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         }
     
     var withHotwordSensitivity: Float
-        get() = sharedPreferences.getString(context.getString(R.string.key_snips_hotword_sensitivity), context.getString(R.string.default_snips_hotword_sensitivity)).toFloat()
+        get() : Float {
+            val prefValue = sharedPreferences.getString(context.getString(R.string.key_snips_hotword_sensitivity), context.getString(R.string.default_snips_hotword_sensitivity))
+            return if(prefValue != null)   {
+                prefValue.toFloatOrNull()?:context.getString(R.string.default_snips_face_wake_interval).toFloat()
+            } else {
+                context.getString(R.string.default_snips_hotword_sensitivity).toFloat()
+            }
+        }
         set(value) {
             sharedPreferences.edit().putString(context.getString(R.string.key_snips_hotword_sensitivity), value.toString()).apply()
         }
 
     var nluProbability: Float
-        get() = sharedPreferences.getString(context.getString(R.string.key_snips_probability), context.getString(R.string.default_snips_snips_probability)).toFloat()
-        set(value) {
+        get() : Float {
+            val prefValue = sharedPreferences.getString(context.getString(R.string.key_snips_probability), context.getString(R.string.default_snips_snips_probability))
+            return if(prefValue != null)   {
+                prefValue.toFloatOrNull()?:context.getString(R.string.default_snips_snips_probability).toFloat()
+            } else {
+                context.getString(R.string.default_snips_snips_probability).toFloat()
+            }
+        }set(value) {
             sharedPreferences.edit().putString(context.getString(R.string.key_snips_probability), value.toString()).apply()
         }
 

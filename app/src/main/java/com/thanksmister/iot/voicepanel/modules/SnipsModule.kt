@@ -55,7 +55,7 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
         fun onSnipsPlatformReady()
         fun onSnipsPlatformError(error: String)
         fun onSnipsHotwordDetectedListener()
-        fun onSnipsIntentDetectedListener(intentJson: String)
+        fun onSnipsIntentDetectedListener(intentMessage: IntentMessage)
         fun onSnipsListeningStateChangedListener(isListening: Boolean)
         fun onSessionEndedListener(sessionEndedMessage: SessionEndedMessage)
         fun onSnipsWatchListener(s: String)
@@ -196,11 +196,11 @@ class SnipsModule (base: Context?, private var options: SnipsOptions, var listen
                 val lowerValue = options.nluProbability
                 val higherValue = 1.0f
                 if(intentMessage.intent.confidenceScore in lowerValue..higherValue) {
-                    val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
+                   /* val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
                     var json = gson.toJson(intentMessage, IntentMessage::class.java)
-                    json = json.replace("type", "kind")
+                    json = json.replace("type", "kind")*/
                     lowProbability = false
-                    listener.onSnipsIntentDetectedListener(json)
+                    listener.onSnipsIntentDetectedListener(intentMessage)
                 } else {
                     Timber.w("The probability was too low.")
                     lowProbability = true

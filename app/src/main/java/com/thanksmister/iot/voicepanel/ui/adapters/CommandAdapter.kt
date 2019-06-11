@@ -23,8 +23,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.thanksmister.iot.voicepanel.R
-import com.thanksmister.iot.voicepanel.persistence.Intent
-import com.thanksmister.iot.voicepanel.persistence.IntentMessage
+import com.thanksmister.iot.voicepanel.persistence.IntentMessageModel
 import com.thanksmister.iot.voicepanel.utils.ComponentUtils
 import com.thanksmister.iot.voicepanel.utils.ComponentUtils.Companion.COMPONENT_HASS_SHOPPING_LIST_LAST_ITEMS
 import com.thanksmister.iot.voicepanel.utils.DateUtils
@@ -33,10 +32,10 @@ import com.thanksmister.iot.voicepanel.utils.StringUtils
 import kotlinx.android.synthetic.main.adapter_commands.view.*
 import timber.log.Timber
 
-class CommandAdapter(private val items: List<IntentMessage>?, private val listener: OnItemClickListener?) : RecyclerView.Adapter<CommandAdapter.ViewHolder>() {
+class CommandAdapter(private val items: List<IntentMessageModel>?, private val listener: OnItemClickListener?) : RecyclerView.Adapter<CommandAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(item: IntentMessage)
+        fun onItemClick(item: IntentMessageModel)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommandAdapter.ViewHolder {
@@ -56,7 +55,7 @@ class CommandAdapter(private val items: List<IntentMessage>?, private val listen
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         @SuppressLint("SetTextI18n")
-        fun bindItems(item: IntentMessage, position: Int, listener: OnItemClickListener?) {
+        fun bindItems(item: IntentMessageModel, position: Int, listener: OnItemClickListener?) {
             if(item.intent != null) {
                 val itemValue = ""
                 when {

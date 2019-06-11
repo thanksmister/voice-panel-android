@@ -21,7 +21,6 @@ import android.arch.lifecycle.AndroidViewModel
 import com.thanksmister.iot.voicepanel.architecture.AlertMessage
 import com.thanksmister.iot.voicepanel.architecture.ToastMessage
 import com.thanksmister.iot.voicepanel.persistence.*
-import com.thanksmister.iot.voicepanel.utils.AlarmUtils
 import com.thanksmister.iot.voicepanel.utils.AlarmUtils.Companion.ALARM_TYPE
 import io.reactivex.Completable
 import io.reactivex.Flowable
@@ -69,7 +68,7 @@ constructor(application: Application, private val dataSource: IntentDao, private
         }
     }
 
-    fun getIntentMessages(): Flowable<List<IntentMessage>> {
+    fun getIntentMessages(): Flowable<List<IntentMessageModel>> {
         return dataSource.getItems()
                 .filter {items -> items.isNotEmpty()}
     }

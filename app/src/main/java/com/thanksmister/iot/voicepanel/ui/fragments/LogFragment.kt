@@ -27,10 +27,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.*
 import com.thanksmister.iot.voicepanel.BaseFragment
 import com.thanksmister.iot.voicepanel.R
-import com.thanksmister.iot.voicepanel.persistence.Configuration
-import com.thanksmister.iot.voicepanel.persistence.IntentMessage
 import com.thanksmister.iot.voicepanel.persistence.MessageMqtt
-import com.thanksmister.iot.voicepanel.ui.adapters.CommandAdapter
 import com.thanksmister.iot.voicepanel.ui.adapters.MessageAdapter
 import com.thanksmister.iot.voicepanel.ui.viewmodels.LogsViewModel
 import com.thanksmister.iot.voicepanel.utils.DialogUtils

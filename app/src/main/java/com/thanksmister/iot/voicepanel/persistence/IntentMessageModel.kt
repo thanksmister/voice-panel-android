@@ -29,7 +29,7 @@ import com.thanksmister.iot.voicepanel.network.IntentConverter
  * Created by Michael Ritchie on 10/15/18.
  */
 @Entity(tableName = "Intents")
-class IntentMessage {
+class IntentMessageModel {
 
     @PrimaryKey(autoGenerate = true)
     var uid: Int = 0

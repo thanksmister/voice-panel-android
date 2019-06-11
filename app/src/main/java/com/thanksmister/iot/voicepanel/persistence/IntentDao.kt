@@ -34,7 +34,7 @@ interface IntentDao {
      * @return list of all messages
      */
     @Query("SELECT * FROM Intents ORDER BY createdAt DESC")
-    fun getItems(): Flowable<List<IntentMessage>>
+    fun getItems(): Flowable<List<IntentMessageModel>>
 
 
     /**
@@ -42,14 +42,14 @@ interface IntentDao {
      * @return the message from the table with a specific id.
      */
     @Query("SELECT * FROM Intents WHERE sessionId = :id")
-    fun getItemById(id: String): Flowable<IntentMessage>
+    fun getItemById(id: String): Flowable<IntentMessageModel>
 
     /**
      * Insert a item in the database. If the item already exists, replace it.
      * @param user the message to be inserted.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertItem(item: IntentMessage)
+    fun insertItem(item: IntentMessageModel)
 
     /**
      * Delete all items.

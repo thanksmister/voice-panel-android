@@ -25,7 +25,7 @@ import android.content.Context
 /**
  * The Room database
  */
-@Database(entities = arrayOf(IntentMessage::class, MessageMqtt::class, Weather::class, Sun::class), version = 4, exportSchema = false)
+@Database(entities = arrayOf(IntentMessageModel::class, MessageMqtt::class, Weather::class, Sun::class), version = 4, exportSchema = false)
 @TypeConverters(IntentConverter::class, SlotsConverter::class, StringConverter::class)
 abstract class VoicePanelDatabase : RoomDatabase() {
 

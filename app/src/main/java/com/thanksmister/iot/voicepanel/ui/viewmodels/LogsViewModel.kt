@@ -22,7 +22,7 @@ import android.arch.lifecycle.AndroidViewModel
 import com.thanksmister.iot.voicepanel.architecture.AlertMessage
 import com.thanksmister.iot.voicepanel.architecture.ToastMessage
 import com.thanksmister.iot.voicepanel.persistence.IntentDao
-import com.thanksmister.iot.voicepanel.persistence.IntentMessage
+import com.thanksmister.iot.voicepanel.persistence.IntentMessageModel
 import com.thanksmister.iot.voicepanel.persistence.MessageDao
 import com.thanksmister.iot.voicepanel.persistence.MessageMqtt
 import io.reactivex.Completable
@@ -61,7 +61,7 @@ constructor(application: Application, private val messageDataSource: MessageDao,
                 .filter {messages -> messages.isNotEmpty()}
     }
 
-    fun getIntentMessages(): Flowable<List<IntentMessage>> {
+    fun getIntentMessages(): Flowable<List<IntentMessageModel>> {
         return dataSource.getItems()
     }
 

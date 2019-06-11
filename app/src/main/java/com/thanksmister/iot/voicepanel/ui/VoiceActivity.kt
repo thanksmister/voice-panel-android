@@ -53,7 +53,7 @@ import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROAD
 import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROADCAST_SCREEN_WAKE
 import com.thanksmister.iot.voicepanel.network.VoicePanelService.Companion.BROADCAST_TOAST_MESSAGE
 import com.thanksmister.iot.voicepanel.persistence.Configuration
-import com.thanksmister.iot.voicepanel.persistence.IntentMessage
+import com.thanksmister.iot.voicepanel.persistence.IntentMessageModel
 import com.thanksmister.iot.voicepanel.ui.adapters.CommandAdapter
 import com.thanksmister.iot.voicepanel.ui.viewmodels.VoiceViewModel
 import com.thanksmister.iot.voicepanel.ui.views.AlarmDisableView
@@ -155,7 +155,7 @@ class VoiceActivity : BaseActivity() {
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         commandList.layoutManager = linearLayoutManager
 
-        commandList.adapter = CommandAdapter(ArrayList<IntentMessage>(), null)
+        commandList.adapter = CommandAdapter(ArrayList<IntentMessageModel>(), null)
         commandList.background = null
         commandList.invalidate()
 

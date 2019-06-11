@@ -17,6 +17,7 @@
 package com.thanksmister.iot.voicepanel.network
 
 
+import ai.snips.hermes.IntentMessage
 import ai.snips.hermes.SessionEndedMessage
 import android.Manifest
 import android.annotation.SuppressLint
@@ -50,7 +51,6 @@ import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.modules.*
 import com.thanksmister.iot.voicepanel.modules.SnipsOptions.Companion.SUBSCRIBE_TOPIC_HERMES
 import com.thanksmister.iot.voicepanel.persistence.*
-import com.thanksmister.iot.voicepanel.ui.adapters.MessageAdapter
 import com.thanksmister.iot.voicepanel.utils.*
 import com.thanksmister.iot.voicepanel.utils.MqttUtils.Companion.COMMAND_ALERT
 import com.thanksmister.iot.voicepanel.utils.MqttUtils.Companion.COMMAND_AUDIO
@@ -72,7 +72,6 @@ import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.fragment_logs.*
 import org.json.JSONException
 import org.json.JSONObject
 import timber.log.Timber
@@ -420,19 +419,19 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         bm.sendBroadcast(intent)
     }
 
-    // TODO let's use the intent message from Snips and map to our dao object
-    override fun onSnipsIntentDetectedListener(intentJson: String) {
-        Timber.d("onSnipsIntentDetectedListener")
+    override fun onSnipsIntentDetectedListener(intentMessage: IntentMessage) {
         Timber.d("intent detected!")
-        Timber.d("intent json: $intentJson")
-        val jsonWithSiteId = intentJson.replace("default", configuration.mqttBaseTopic)
+        val intentMessageCopy = intentMessage.copy(siteId = configuration.mqttBaseTopic)
         val gson = GsonBuilder().disableHtmlEscaping().serializeNulls().create()
-        val intentMessage = gson.fromJson<IntentMessage>(jsonWithSiteId, IntentMessage::class.java)
-        intentMessage.createdAt = DateUtils.generateCreatedAtDate()
-        intentMessage.response = IntentResponse()
-        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent?.intentName, jsonWithSiteId)
+        var intentMessageJson = gson.toJson(intentMessageCopy)
+        intentMessageJson = intentMessageJson.replace("type", "kind")
+        Timber.d("intent json: $intentMessageJson")
+        publishMessage(snipsOptions.getCommandTopic() + intentMessage.intent.intentName, intentMessageJson)
+        val intentMessageModel = gson.fromJson<IntentMessageModel>(intentMessageJson, IntentMessageModel::class.java)
+        intentMessageModel.createdAt = DateUtils.generateCreatedAtDate()
+        intentMessageModel.response = IntentResponse()
         lastSessionId = intentMessage.sessionId
-        insertHermes(intentMessage)
+        insertHermes(intentMessageModel)
     }
 
     override fun onSnipsListeningStateChangedListener(isListening: Boolean) {
@@ -800,7 +799,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
     }
 
     // TODO add the intent response
-    private fun insertHermes(intentMessage: IntentMessage) {
+    private fun insertHermes(intentMessage: IntentMessageModel) {
         Timber.d("insertHermes: $intentMessage")
         disposable.add(Completable.fromAction {
             commandDataSource.insertItem(intentMessage)
@@ -994,7 +993,7 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         bm.sendBroadcast(intent)
         if(!configuration.initializedVoice) {
             configuration.initializedVoice = true;
-            val intentMessage = IntentMessage()
+            val intentMessage = IntentMessageModel()
             intentMessage.slots = ArrayList<Slot>()
             intentMessage.intent = com.thanksmister.iot.voicepanel.persistence.Intent()
             intentMessage.response = IntentResponse()

@@ -113,69 +113,46 @@ class AssistantSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences, key: String) {
         when (key) {
             getString(R.string.key_snips_hotword_sensitivity) -> {
-                val value = hotwordSensitivityPreference!!.text
-                try {
-                    if(!TextUtils.isEmpty(value)) {
-                        snipsOptions.withHotwordSensitivity = value.toFloat()
-                        if(!(value.toFloat() in 0.0..1.0)) {
-                            Toast.makeText(activity, getString(R.string.error_hotword_sensitivity), Toast.LENGTH_LONG).show()
-                        }
-                    } else if (isAdded) {
-                        Toast.makeText(activity, R.string.text_error_blank_entry, Toast.LENGTH_LONG).show()
-                        hotwordSensitivityPreference!!.setDefaultValue(snipsOptions.withHotwordSensitivity.toString())
-                        hotwordSensitivityPreference!!.text = snipsOptions.withHotwordSensitivity.toString()
+                val value = hotwordSensitivityPreference!!.text.toFloatOrNull()
+                if(value != null) {
+                    snipsOptions.withHotwordSensitivity = value
+                    if(value.toFloat() !in 0.0..1.0) {
+                        Toast.makeText(activity, getString(R.string.error_hotword_sensitivity), Toast.LENGTH_LONG).show()
                     }
-                } catch (e : Exception) {
-                    if(isAdded) {
-                        Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
-                        hotwordSensitivityPreference!!.setDefaultValue(snipsOptions.withHotwordSensitivity.toString())
-                        hotwordSensitivityPreference!!.text = snipsOptions.withHotwordSensitivity.toString()
-                    }
+                } else if (isAdded) {
+                    Toast.makeText(activity, getString(R.string.error_hotword_sensitivity), Toast.LENGTH_LONG).show()
+                    hotwordSensitivityPreference!!.setDefaultValue(snipsOptions.withHotwordSensitivity.toString())
+                    hotwordSensitivityPreference!!.text = snipsOptions.withHotwordSensitivity.toString()
                 }
             }
             getString(R.string.key_snips_probability) -> {
                 val value = probabilityPreference!!.text
-                try {
-                    val floatValue = value.toFloatOrNull()
-                    if(floatValue != null) {
-                        snipsOptions.nluProbability = floatValue
-                        if(!(value.toFloat() in 0.0..1.0)) {
-                           Toast.makeText(activity, getString(R.string.error_snips_probability), Toast.LENGTH_LONG).show()
-                        }
-                    } else if (isAdded) {
-                        Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
-                        probabilityPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
-                        probabilityPreference!!.text = snipsOptions.nluProbability.toString()
+                val floatValue = value.toFloatOrNull()
+                if(floatValue != null) {
+                    snipsOptions.nluProbability = floatValue
+                    if(!(value.toFloat() in 0.0..1.0)) {
+                       Toast.makeText(activity, getString(R.string.error_snips_probability), Toast.LENGTH_LONG).show()
+                    }
+                } else if (isAdded) {
+                    Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
+                    probabilityPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
+                    probabilityPreference!!.text = snipsOptions.nluProbability.toString()
 
-                    }
-                } catch (e : Exception) {
-                    if(isAdded) {
-                        Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
-                        probabilityPreference!!.setDefaultValue(snipsOptions.nluProbability.toString())
-                        probabilityPreference!!.text = snipsOptions.nluProbability.toString()
-                    }
                 }
             }
             getString(R.string.key_snips_face_wake_interval) -> {
-                val value = faceWakeIntervalPreference!!.text
-                try {
-                    if(!TextUtils.isEmpty(value)) {
+                val value = faceWakeIntervalPreference!!.text.toIntOrNull()
+                if(value != null) {
+                    if(value.toInt() !in 0..60) {
+                        Toast.makeText(activity, getString(R.string.error_snips_wake_interval), Toast.LENGTH_LONG).show()
+                    } else {
                         snipsOptions.faceWakeDelayTime = value.toInt()
-                        if(!(value.toInt() in 0..60)) {
-                            Toast.makeText(activity, getString(R.string.error_snips_wake_interval), Toast.LENGTH_LONG).show()
-                        }
-                    } else if (isAdded) {
-                        Toast.makeText(activity, R.string.text_error_blank_entry, Toast.LENGTH_LONG).show()
-                        faceWakeIntervalPreference!!.setDefaultValue(snipsOptions.faceWakeDelayTime.toString())
-                        faceWakeIntervalPreference!!.text = snipsOptions.faceWakeDelayTime.toString()
+                    }
+                } else if (isAdded) {
+                    Toast.makeText(activity, getString(R.string.error_snips_wake_interval), Toast.LENGTH_LONG).show()
+                    faceWakeIntervalPreference!!.setDefaultValue(snipsOptions.faceWakeDelayTime.toString())
+                    faceWakeIntervalPreference!!.text = snipsOptions.faceWakeDelayTime.toString()
 
-                    }
-                } catch (e : Exception) {
-                    if(isAdded) {
-                        Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
-                        faceWakeIntervalPreference!!.setDefaultValue(snipsOptions.faceWakeDelayTime.toString())
-                        faceWakeIntervalPreference!!.text = snipsOptions.faceWakeDelayTime.toString()
-                    }
                 }
             }
             PREF_FACE_WAKE_WORD -> {

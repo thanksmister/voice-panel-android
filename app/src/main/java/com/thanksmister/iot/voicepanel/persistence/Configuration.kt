@@ -260,7 +260,7 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         set(value) = this.setStringPref(context.getString(R.string.key_setting_mqtt_servername), value)
 
     var mqttServerPort: Int
-        get() = getStringPref(context.getString(R.string.key_setting_mqtt_serverport), context.getString(R.string.default_setting_mqtt_serverport)).trim().toInt()
+        get() = getPrefInt(context.getString(R.string.key_setting_mqtt_serverport), context.getString(R.string.default_setting_mqtt_serverport).toInt())
         set(value) = this.setPrefInt(context.getString(R.string.key_setting_mqtt_serverport), value)
 
     var mqttBaseTopic: String

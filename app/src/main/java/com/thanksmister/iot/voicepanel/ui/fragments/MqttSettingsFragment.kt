@@ -142,10 +142,10 @@ class MqttSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
                 }
             }
             getString(R.string.key_setting_mqtt_serverport) -> {
-                value = portPreference!!.text
-                if (!TextUtils.isEmpty(value) && value.matches("[0-9]+".toRegex())) {
-                    mqttOptions.setPort(Integer.valueOf(value)!!)
-                    portPreference!!.summary = value
+                val port = portPreference?.text?.toIntOrNull()
+                if (port != null) {
+                    mqttOptions.setPort(port)
+                    portPreference!!.summary = port.toString()
                 } else if (isAdded) {
                     Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
                     portPreference!!.text = mqttOptions.getPort().toString()

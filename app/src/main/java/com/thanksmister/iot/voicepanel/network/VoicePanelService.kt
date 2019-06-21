@@ -175,7 +175,6 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         startForeground()
         initializeCommandList()
         configureMqtt()
-        configureVoice()
         configureTextToSpeech()
         configurePowerOptions()
         startHttp()
@@ -571,12 +570,15 @@ class VoicePanelService : LifecycleService(), MQTTModule.MQTTListener,
         if (textToSpeechModule == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && mqttOptions.isValid) {
             updateSyncMap(INIT_SPEECH, true)
             textToSpeechModule = TextToSpeechModule(this, this)
-            lifecycle.addObserver(textToSpeechModule!!)
+            if(textToSpeechModule != null) {
+                lifecycle.addObserver(textToSpeechModule!!)
+            }
         }
     }
 
     override fun onTextToSpeechInitialized() {
         updateSyncMap(INIT_SPEECH, false)
+        configureVoice()
     }
 
     override fun onTextToSpeechError() {

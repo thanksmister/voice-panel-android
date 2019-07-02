@@ -322,7 +322,7 @@ temperature | unit, value | ```{"unit":"°C", "value":"24"}``` |
 sensor:
   - platform: mqtt
     state_topic: "voicepanel/sensor/battery"
-    name: "Alarm Panel Battery Level"
+    name: "Voice Panel Battery Level"
     unit_of_measurement: "%"
     value_template: '{{ value_json.value }}'
     
@@ -334,19 +334,19 @@ sensor:
 
   - platform: mqtt
     state_topic: "voicepanel/sensor/light"
-    name: "Alarm Panel Light Level"
+    name: "Voice Panel Light Level"
     unit_of_measurement: "lx"
     value_template: '{{ value_json.value }}'
     
   - platform: mqtt
     state_topic: "voicepanel/sensor/magneticField"
-    name: "Alarm Panel Magnetic Field"
+    name: "Voice Panel Magnetic Field"
     unit_of_measurement: "uT"
     value_template: '{{ value_json.value }}'
 
   - platform: mqtt
     state_topic: "voicepanel/sensor/pressure"
-    name: "Alarm Panel Pressure"
+    name: "Voice Panel Pressure"
     unit_of_measurement: "hPa"
     value_template: '{{ value_json.value }}'
 ```

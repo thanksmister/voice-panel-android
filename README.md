@@ -263,7 +263,7 @@ Similar to how weather works, you can control the Voice Panel to display the day
   alias: MQTT Sun
   trigger:
   - minutes: '/5'
-    platform: time
+    platform: time_pattern
   condition: []
   action:
   - data:
@@ -278,7 +278,7 @@ The resulting payload will look like this:
 ```
 {
   "payload": "{'sun':'below_horizon'}",
-  "topic": "alarmpanel/command"
+  "topic": "voicepanel/command"
 }
 ```
 

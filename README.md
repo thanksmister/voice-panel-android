@@ -238,11 +238,11 @@ You can also use MQTT to publish the weather to the Voice Panel application, whi
   alias: MQTT Weather
   trigger:
   - minutes: '/15'
-    platform: time
+    platform: time_pattern
   condition: []
   action:
   - data:
-      payload_template: {% raw %}'{''weather'':{''summary'':''{{states(''sensor.dark_sky_summary'')}}'',''precipitation'':''{{states(''sensor.dark_sky_precip_probability'')}}'',''icon'':''{{states(''sensor.dark_sky_icon'')}}'',''temperature'':''{{states(''sensor.dark_sky_apparent_temperature'')}}'',''units'':''{{states.sensor.dark_sky_apparent_temperature.attributes.unit_of_measurement}}''}}'{% endraw %}
+      payload_template: {% raw %}"{'weather':{'summary':'{{states('sensor.dark_sky_summary')}}','precipitation':'{{states('sensor.dark_sky_precip_probability')}}','icon':'{{states('sensor.dark_sky_icon')}}','temperature':'{{states('sensor.dark_sky_apparent_temperature')}}','units':'{{states.sensor.dark_sky_apparent_temperature.attributes.unit_of_measurement}}'}}"{% endraw %}
       topic: voicepanel/command
       retain: true
     service: mqtt.publish
@@ -251,7 +251,7 @@ You can also use MQTT to publish the weather to the Voice Panel application, whi
 The resulting payload will look like this:
 
 ```
-{"topic": "voicepanel/command","payload":"{'weather':{'summary':'Partly Cloudy','precipitation':'0','icon':'partly-cloudy-day','temperature':'22.5','units':'°C'}}
+{"topic": "voicepanel/command","payload":"{'weather':{'summary':'Partly Cloudy','precipitation':'0','icon':'partly-cloudy-day','temperature':'22.5','units':'°C'}}"}
 ```
 
 ### MQTT Day/Night Mode

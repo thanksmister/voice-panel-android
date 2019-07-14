@@ -38,21 +38,9 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         get() = getBoolPref(PREF_DAY_NIGHT_MODE, false)
         set(value) = this.setBoolPref(PREF_DAY_NIGHT_MODE, value)
 
-    var dayNightMode: String
-        get() = getStringPref(DISPLAY_MODE_DAY_NIGHT, SUN_ABOVE_HORIZON)
-        set(value) = this.setStringPref(DISPLAY_MODE_DAY_NIGHT, value)
-
     var nightModeChanged: Boolean
         get() = getBoolPref(DISPLAY_MODE_DAY_NIGHT_CHANGED, false)
         set(value) = this.setBoolPref(DISPLAY_MODE_DAY_NIGHT_CHANGED, value)
-
-    var dayNightModeStartTime: String
-        get() = getStringPref(PREF_MODE_DAY_NIGHT_START, DAY_NIGHT_START_VALUE_DEFAULT)
-        set(value) = this.setStringPref(PREF_MODE_DAY_NIGHT_START, value)
-
-    var dayNightModeEndTime: String
-        get() = getStringPref(PREF_MODE_DAY_NIGHT_END, DAY_NIGHT_END_VALUE_DEFAULT)
-        set(value) = this.setStringPref(PREF_MODE_DAY_NIGHT_END, value)
 
     var alarmState: String
         get() = getStringPref(PREF_ALARM_STATE, STATE_DISARM)
@@ -74,10 +62,6 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         get() = getBoolPref(PREF_SYSTEM_NOTIFICATIONS, false)
         set(value) = this.setBoolPref(PREF_SYSTEM_NOTIFICATIONS, value)
 
-    var inactivityTime: Long
-        get() = getPrefLong(PREF_INACTIVITY_TIME, 300000)
-        set(value) = setPrefLong(PREF_INACTIVITY_TIME, value)
-
     var isFirstTime: Boolean
         get() = getBoolPref(PREF_FIRST_TIME, true)
         set(value) = setBoolPref(PREF_FIRST_TIME, value)
@@ -89,38 +73,6 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
     var alarmEnabled: Boolean
         get() = getBoolPref(context.getString(R.string.key_setting_alarm_enabled), false)
         set(value) = setBoolPref(context.getString(R.string.key_setting_alarm_enabled), value)
-
-    var fingerPrint: Boolean
-        get() = getBoolPref(PREF_FINGERPRINT, false)
-        set(value) = setBoolPref(PREF_FINGERPRINT, value)
-
-    var pendingTime: Int
-        get() = getPrefInt(PREF_PENDING_TIME, AlarmUtils.PENDING_TIME)
-        set(value) = setPrefInt(PREF_PENDING_TIME, value)
-
-    var delayTime: Int
-        get() = getPrefInt(PREF_DELAY_TIME, AlarmUtils.DELAY_TIME)
-        set(value) = setPrefInt(PREF_DELAY_TIME, value)
-
-    var delayHomeTime: Int
-        get() = getPrefInt(PREF_HOME_DELAY_TIME, AlarmUtils.DELAY_HOME_TIME)
-        set(value) = setPrefInt(PREF_HOME_DELAY_TIME, value)
-
-    var delayAwayTime: Int
-        get() = getPrefInt(PREF_AWAY_DELAY_TIME, AlarmUtils.DELAY_AWAY_TIME)
-        set(value) = setPrefInt(PREF_AWAY_DELAY_TIME, value)
-
-    var pendingHomeTime: Int
-        get() = getPrefInt(PREF_HOME_PENDING_TIME, AlarmUtils.PENDING_HOME_TIME)
-        set(value) = setPrefInt(PREF_HOME_PENDING_TIME, value)
-
-    var pendingAwayTime: Int
-        get() = getPrefInt(PREF_AWAY_PENDING_TIME, AlarmUtils.PENDING_AWAY_TIME)
-        set(value) = setPrefInt(PREF_AWAY_PENDING_TIME, value)
-
-    var disableTime: Int
-        get() = getPrefInt(PREF_DISABLE_DIALOG_TIME, AlarmUtils.DISABLE_TIME)
-        set(value) = setPrefInt(PREF_DISABLE_DIALOG_TIME, value)
 
     var faceWakeWord: Boolean
         get() = getBoolPref(PREF_FACE_WAKE_WORD, false)
@@ -278,21 +230,15 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         set(value) = this.setStringPref(context.getString(R.string.key_setting_mqtt_clientid), value)
 
     var mqttUsername: String
-        get() = getStringPref(context.getString(R.string.key_setting_mqtt_username),
-                context.getString(R.string.default_setting_mqtt_username))
+        get() = getStringPref(context.getString(R.string.key_setting_mqtt_username), context.getString(R.string.default_setting_mqtt_username))
         set(value) = this.setStringPref(context.getString(R.string.key_setting_mqtt_username), value)
 
     var mqttPassword: String
-        get() = getStringPref(context.getString(R.string.key_setting_mqtt_password),
-                context.getString(R.string.default_setting_mqtt_password))
+        get() = getStringPref(context.getString(R.string.key_setting_mqtt_password), context.getString(R.string.default_setting_mqtt_password))
         set(value) = this.setStringPref(context.getString(R.string.key_setting_mqtt_password), value)
 
     fun hasPlatformModule(): Boolean {
         return getBoolPref(PREF_MODULE_WEB, false)
-    }
-
-    fun setWebModule(value: Boolean) {
-        this.setBoolPref(PREF_MODULE_WEB, value)
     }
 
     fun hasPlatformChange(): Boolean {
@@ -303,28 +249,8 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         setBoolPref(PREF_PLATFORM_CHANGED, value)
     }
 
-    fun setTssModule(value: Boolean) {
-        this.setBoolPref(PREF_MODULE_TSS, value)
-    }
-
     fun hasSystemAlerts(): Boolean {
         return getBoolPref(PREF_SYSTEM_NOTIFICATIONS, false)
-    }
-
-    fun showClockScreenSaverModule(): Boolean {
-        return getBoolPref(PREF_MODULE_CLOCK_SAVER, false)
-    }
-
-    fun setClockScreenSaverModule(value: Boolean) {
-        this.setBoolPref(PREF_MODULE_CLOCK_SAVER, value)
-    }
-
-    fun showPhotoScreenSaver(): Boolean {
-        return getBoolPref(PREF_MODULE_PHOTO_SAVER, false)
-    }
-
-    fun setPhotoScreenSaver(value: Boolean) {
-        this.setBoolPref(PREF_MODULE_PHOTO_SAVER, value)
     }
 
     var showWeatherModule: Boolean
@@ -348,37 +274,16 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
         return cameraEnabled && (cameraMotionEnabled || cameraQRCodeEnabled || cameraFaceEnabled || httpMJPEGEnabled)
     }
 
-    fun hasScreenSaver() : Boolean {
-        return (showPhotoScreenSaver() || showClockScreenSaverModule())
-    }
-
-    fun isAlarmTriggeredMode(): Boolean {
-        return alarmState == AlarmUtils.MODE_TRIGGERED
-                || alarmState == AlarmUtils.MODE_HOME_TRIGGERED_PENDING
-                || alarmState == AlarmUtils.MODE_AWAY_TRIGGERED_PENDING
-                || alarmState == AlarmUtils.MODE_TRIGGERED_PENDING
-    }
-
-    fun isAlarmPendingMode(): Boolean {
-        return (alarmState == AlarmUtils.MODE_ARM_AWAY_PENDING
-                || alarmState == AlarmUtils.MODE_ARM_HOME_PENDING
-                || alarmState == AlarmUtils.MODE_AWAY_TRIGGERED_PENDING
-                || alarmState == AlarmUtils.MODE_HOME_TRIGGERED_PENDING)
-    }
-
-    fun isAlarmDisableMode(): Boolean {
-        return (alarmState == AlarmUtils.MODE_ARM_HOME
-                || alarmState == AlarmUtils.MODE_ARM_AWAY
-                || alarmState == AlarmUtils.MODE_HOME_TRIGGERED_PENDING
-                || alarmState == AlarmUtils.MODE_AWAY_TRIGGERED_PENDING
-                || alarmState == AlarmUtils.MODE_TRIGGERED_PENDING)
-    }
-
     private fun getStringPref(key: String, defaultValue: String?): String {
-        if(defaultValue == null) {
-            return ""
+        try{
+            val value = sharedPreferences.getString(key, defaultValue)
+            if(value.isNullOrEmpty()) {
+                return defaultValue?:""
+            }
+            return value
+        } catch (e : NumberFormatException) {
+            return defaultValue?:""
         }
-        return sharedPreferences.getString(key, defaultValue)
     }
 
     private fun setStringPref(key: String, defaultValue: String?) {
@@ -394,7 +299,15 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
     }
 
     private fun getPrefInt(key: String, defaultValue: Int): Int {
-        return sharedPreferences.getString(key, defaultValue.toString()).toInt()
+        try{
+            val value = sharedPreferences.getString(key, defaultValue.toString())
+            if(value?.toIntOrNull() == null) {
+                return defaultValue
+            }
+            return value.toInt()
+        } catch (e : NumberFormatException) {
+            return defaultValue
+        }
     }
 
     private fun setPrefInt(key: String, defaultValue: Int) {
@@ -402,7 +315,15 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
     }
 
     private fun getPrefLong(key: String, defaultValue: Long): Long {
-        return sharedPreferences.getString(key, defaultValue.toString()).toLong()
+        try{
+            val value = sharedPreferences.getString(key, defaultValue.toString())
+            if(value?.toLongOrNull() == null) {
+                return defaultValue
+            }
+            return value.toLong()
+        } catch (e : NumberFormatException) {
+            return defaultValue
+        }
     }
 
     private fun setPrefLong(key: String, defaultValue: Long) {
@@ -414,58 +335,34 @@ constructor(private val context: Context, private val sharedPreferences: SharedP
     }
 
     companion object {
-        const val PREF_FINGERPRINT = "pref_fingerprint"
         const val PREF_VOICE_INIT = "pref_voice_initialized"
-        const val PREF_PENDING_TIME = "pref_pending_time"
-        const val PREF_HOME_PENDING_TIME = "pref_home_pending_time"
-        const val PREF_AWAY_PENDING_TIME = "pref_away_pending_time"
-        const val PREF_DELAY_TIME = "pref_delay_time"
-        const val PREF_HOME_DELAY_TIME = "pref_home_delay_time"
-        const val PREF_AWAY_DELAY_TIME = "pref_away_delay_time"
         const val PREF_ALARM_STATE = "pref_alarm_state"
         const val PREF_ALARM_CODE = "pref_alarm_code"
-        const val PREF_MODULE_CLOCK_SAVER = "pref_module_saver_clock"
-        const val PREF_MODULE_PHOTO_SAVER = "pref_module_saver_photo"
-        const val PREF_IMAGE_SOURCE = "pref_image_source"
-        const val PREF_IMAGE_FIT_SIZE = "pref_image_fit"
-        const val PREF_IMAGE_ROTATION = "pref_image_rotation"
-        const val PREF_IMAGE_CLIENT_ID = "pref_image_client_id"
-        const val PREF_INACTIVITY_TIME = "pref_inactivity_time"
         const val PREF_FULL_SCXREEN = "pref_full_screen"
         const val PREF_SYSTEM_SOUNDS = "pref_system_sounds"
-        const val PREF_MODULE_TSS = "pref_module_tss"
         const val PREF_SYSTEM_NOTIFICATIONS = "pref_system_notifications"
-
-        const val PREF_DISABLE_DIALOG_TIME = "pref_disable_dialog_time" // this isn't configurable
         const val PREF_CAMERA_CAPTURE = "pref_module_camera"
-        const val PREF_CAMERA_ROTATE = "pref_camera_rotate"
         const val PREF_MODULE_WEATHER = "pref_module_weather"
         const val PREF_MODULE_WEB = "pref_module_web"
         const val PREF_WEB_URL = "pref_web_url"
         const val PREF_FIRST_TIME = "pref_first_time"
         const val PREF_WEATHER_WEATHER = "pref_weather_module"
         const val PREF_PLATFORM_BAR = "pref_platform_bar"
-        const val PREF_TELEGRAM_MODULE = "pref_telegram_module"
         const val PREF_TELEGRAM_CHAT_ID = "pref_telegram_chat_id"
         const val PREF_TELEGRAM_TOKEN = "pref_telegram_token"
         const val PREF_DAY_NIGHT_MODE = "pref_day_night_mode"
-        const val PREF_MODE_DAY_NIGHT_END = "mode_day_night_end"
-        const val PREF_MODE_DAY_NIGHT_START = "mode_day_night_start"
-        const val DISPLAY_MODE_DAY_NIGHT = "mode_day_night"
         const val DISPLAY_MODE_DAY_NIGHT_CHANGED = "mode_day_night_changed"
         const val SUN_ABOVE_HORIZON = "above_horizon"
         const val SUN_BELOW_HORIZON = "below_horizon"
-        const val DAY_NIGHT_START_VALUE_DEFAULT = "19:00"
-        const val DAY_NIGHT_END_VALUE_DEFAULT = "6:00"
         const val PREF_SENSOR_ENABLED = "pref_device_sensors_enabled"
         const val PREF_PLATFORM_CHANGED = "pref_platform_changed"
         const val PREF_COMMAND_TOPIC = "pref_command_topic"
         const val PREF_STATE_TOPIC = "pref_alarm_topic"
         const val PREF_FACE_WAKE_WORD = "pref_face_wakeword"
         const val PREF_SHOW_INTENT_LIST  = "pref_show_intent_list"
-
         const val PREF_HOTWORD_RESPONSE_ENABLED = "pref_hotword_response_enabled"
         const val PREF_HOTWORD_RESPONSE = "pref_hotword_response_value"
-
+        const val PREF_MQTT_PASSWORD = "pref_mqtt_password"
+        const val PREF_MQTT_USERNAME = "pref_mqtt_username"
     }
 }

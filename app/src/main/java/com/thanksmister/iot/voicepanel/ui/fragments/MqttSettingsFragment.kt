@@ -28,6 +28,8 @@ import android.widget.Toast
 import com.thanksmister.iot.voicepanel.R
 import com.thanksmister.iot.voicepanel.network.MQTTOptions
 import com.thanksmister.iot.voicepanel.persistence.Configuration
+import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_MQTT_PASSWORD
+import com.thanksmister.iot.voicepanel.persistence.Configuration.Companion.PREF_MQTT_USERNAME
 import com.thanksmister.iot.voicepanel.ui.SettingsActivity
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -81,8 +83,8 @@ class MqttSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
         brokerPreference = findPreference(getString(R.string.key_setting_mqtt_servername)) as EditTextPreference
         clientPreference = findPreference(getString(R.string.key_setting_mqtt_clientid)) as EditTextPreference
         portPreference = findPreference(getString(R.string.key_setting_mqtt_serverport)) as EditTextPreference
-        userNamePreference = findPreference(getString(R.string.key_setting_mqtt_username)) as EditTextPreference
-        passwordPreference = findPreference(getString(R.string.key_setting_mqtt_password)) as EditTextPreference
+        userNamePreference = findPreference(PREF_MQTT_USERNAME) as EditTextPreference
+        passwordPreference = findPreference(PREF_MQTT_PASSWORD) as EditTextPreference
         sslPreference = findPreference(getString(R.string.key_setting_mqtt_tls_enabled)) as SwitchPreference
         baseTopicPreference = findPreference(getString(R.string.key_setting_mqtt_basetopic)) as EditTextPreference
 
@@ -94,28 +96,34 @@ class MqttSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
         passwordPreference!!.text = mqttOptions.getPassword()
         sslPreference!!.isChecked = mqttOptions.getTlsConnection()
 
-        mqttOptions.getBaseTopic().takeIf { !it.isEmpty() }.let {
+        mqttOptions.getBaseTopic().takeIf { it.isNotEmpty() }?.let {
             baseTopicPreference!!.setDefaultValue(mqttOptions.getBaseTopic())
             baseTopicPreference!!.text = mqttOptions.getBaseTopic()
             baseTopicPreference!!.summary = mqttOptions.getBaseTopic()
         }
-        mqttOptions.getBroker().takeIf { !it.isEmpty() }.let {
+        mqttOptions.getBroker().takeIf { it.isNotEmpty() }?.let {
             brokerPreference!!.text = mqttOptions.getBroker()
             brokerPreference!!.summary = mqttOptions.getBroker()
+            brokerPreference!!.setDefaultValue(mqttOptions.getBroker())
         }
-        mqttOptions.getClientId().takeIf { !it.isEmpty() }.let {
+        mqttOptions.getClientId().takeIf { it.isNotEmpty() }?.let {
             clientPreference!!.text = mqttOptions.getClientId()
             clientPreference!!.summary = mqttOptions.getClientId()
+            clientPreference!!.setDefaultValue(mqttOptions.getClientId())
         }
-        mqttOptions.getPort().toString().takeIf { !it.isEmpty() }.let {
+        mqttOptions.getPort().toString().takeIf { it.isNotEmpty() }?.let {
             portPreference!!.text = mqttOptions.getPort().toString()
             portPreference!!.summary = mqttOptions.getPort().toString()
+            portPreference!!.setDefaultValue(mqttOptions.getPort().toString())
         }
-        mqttOptions.getUsername().takeIf { !it.isEmpty() }.let {
+        mqttOptions.getUsername().takeIf { it.isNotEmpty() }?.let {
             userNamePreference!!.text = mqttOptions.getUsername()
+            userNamePreference!!.summary = mqttOptions.getUsername()
+            userNamePreference!!.setDefaultValue(mqttOptions.getUsername())
         }
-        mqttOptions.getPassword().takeIf { !it.isEmpty() }.let {
+        mqttOptions.getPassword().takeIf { it.isNotEmpty() }?.let {
             passwordPreference!!.text = mqttOptions.getPassword()
+            passwordPreference!!.setDefaultValue(mqttOptions.getPassword())
         }
     }
 
@@ -147,6 +155,7 @@ class MqttSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
                     mqttOptions.setPort(port)
                     portPreference!!.summary = port.toString()
                 } else if (isAdded) {
+                    mqttOptions.setPort(requireActivity().getString(R.string.default_setting_mqtt_serverport).toInt())
                     Toast.makeText(activity, R.string.text_error_only_numbers, Toast.LENGTH_LONG).show()
                     portPreference!!.text = mqttOptions.getPort().toString()
                 }
@@ -162,15 +171,16 @@ class MqttSettingsFragment : PreferenceFragmentCompat(), SharedPreferences.OnSha
                     baseTopicPreference!!.summary = mqttOptions.getBaseTopic()
                 }
             }
-            getString(R.string.key_setting_mqtt_servername) -> {
-                value = userNamePreference!!.text
-                mqttOptions.setUsername(value)
-                userNamePreference!!.text = value
-            }
-            getString(R.string.key_setting_mqtt_password) -> {
+            PREF_MQTT_PASSWORD -> {
                 value = passwordPreference!!.text
                 mqttOptions.setPassword(value)
                 passwordPreference!!.text = value
+                passwordPreference!!.setDefaultValue(value)
+            }
+            PREF_MQTT_USERNAME -> {
+                value = userNamePreference!!.text
+                mqttOptions.setUsername(value)
+                userNamePreference!!.summary = value
             }
             getString(R.string.key_setting_mqtt_tls_enabled) -> {
                 val checked = sslPreference!!.isChecked

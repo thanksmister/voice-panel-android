@@ -62,7 +62,7 @@
             android:textSize="12sp"/>
 
         <EditTextPreference
-            android:key="@string/key_setting_mqtt_username"
+            android:key="pref_mqtt_username"
             android:negativeButtonText="@android:string/cancel"
             android:positiveButtonText="@android:string/ok"
             android:summary="@string/preference_summary_username"
@@ -70,7 +70,7 @@
 
         <EditTextPreference
             android:inputType="textPassword"
-            android:key="@string/key_setting_mqtt_password"
+            android:key="pref_mqtt_password"
             android:negativeButtonText="@android:string/cancel"
             android:password="true"
             android:positiveButtonText="@android:string/ok"

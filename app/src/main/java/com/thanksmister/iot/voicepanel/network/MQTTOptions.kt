@@ -100,8 +100,7 @@ constructor(private val configuration: Configuration) {
     }
 
     fun getPort(): Int {
-        val port = configuration.mqttServerPort
-        return port
+        return configuration.mqttServerPort
     }
 
     fun getTlsConnection(): Boolean {

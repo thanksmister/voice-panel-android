@@ -182,9 +182,9 @@
     <string name="preference_title_alert">Alert Notifications</string>
     <string name="preference_title_system_notifications">System Notifications</string>
     <string name="preference_title_weather">Weather MQTT</string>
-    <string name="preference_summary_alert">Example format for the message topic and payload to display alert dialog: \n\n"{\"topic\":\"alarmpanel/command\", \"payload\":\"{\"alert\":\"Hello!\"}\"}"</string>
+    <string name="preference_summary_alert">Example format for the message topic and payload to display alert dialog: \n\n"{\"topic\":\"voicepanel/command\", \"payload\":\"{\"alert\":\"Hello!\"}\"}"</string>
     <string name="preference_tts">TTS Notifications</string>
-    <string name="preference_tts_topic_summary">Example format for the message topic and payload to be spoken: \n\n"{\"topic\":\"alarmpanel/command\", \"payload\":\"{\"speak\":\"Hello!\"}\"}"</string>
+    <string name="preference_tts_topic_summary">Example format for the message topic and payload to be spoken: \n\n"{\"topic\":\"voicepanel/command\", \"payload\":\"{\"speak\":\"Hello!\"}\"}"</string>
     <string name="preference_camera">Camera</string>
     <string name="preference_camera_title">Camera Capture</string>
     <string name="preference_camera_summary">Use the camera to capture an image and send it when the alarm is disabled using Telegram.</string>
@@ -198,7 +198,7 @@
     <string name="pref_fullscreen_description">Display application in fullscreen mode.</string>
     <string name="pref_face_detection_summary">Detects faces using the device\'s camera.</string>
     <string name="pref_mjpeg_streaming_summary">Use the device camera as a live MJPEG stream.</string>
-    <string name="summary_notification_topic">Example format for the message topic and payload: \n\n"{\"topic\":\"alarmpanel/command\", \"payload\":\"{\"notification\":\"Hello!\"}\"}"</string>
+    <string name="summary_notification_topic">Example format for the message topic and payload: \n\n"{\"topic\":\"voicepanel/command\", \"payload\":\"{\"notification\":\"Hello!\"}\"}"</string>
     <string name="summary_weather_topic">Example format for the command topic and payload for weather data: \n\n"{\"topic\": \"voicepanel/command\",\"payload\":\"{'weather':{'summary':'Partly Cloudy','precipitation':'0','icon':'partly-cloudy-day','temperature':'22.5','units':'°C'}}\"}"</string>
     <string name="summary_setting_mqtt_basetopic">Identifier to receive MQTT commands for this panel. Each panel should have a unique identifier.</string>
     <string name="title_voice_assistant">Voice Assistant</string>

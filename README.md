@@ -238,11 +238,11 @@ You can also use MQTT to publish the weather to the Voice Panel application, whi
   alias: MQTT Weather
   trigger:
   - minutes: '/15'
-    platform: time
+    platform: time_pattern
   condition: []
   action:
   - data:
-      payload_template: {% raw %}'{''weather'':{''summary'':''{{states(''sensor.dark_sky_summary'')}}'',''precipitation'':''{{states(''sensor.dark_sky_precip_probability'')}}'',''icon'':''{{states(''sensor.dark_sky_icon'')}}'',''temperature'':''{{states(''sensor.dark_sky_apparent_temperature'')}}'',''units'':''{{states.sensor.dark_sky_apparent_temperature.attributes.unit_of_measurement}}''}}'{% endraw %}
+      payload_template: {% raw %}"{'weather':{'summary':'{{states('sensor.dark_sky_summary')}}','precipitation':'{{states('sensor.dark_sky_precip_probability')}}','icon':'{{states('sensor.dark_sky_icon')}}','temperature':'{{states('sensor.dark_sky_apparent_temperature')}}','units':'{{states.sensor.dark_sky_apparent_temperature.attributes.unit_of_measurement}}'}}"{% endraw %}
       topic: voicepanel/command
       retain: true
     service: mqtt.publish
@@ -251,7 +251,7 @@ You can also use MQTT to publish the weather to the Voice Panel application, whi
 The resulting payload will look like this:
 
 ```
-{"topic": "voicepanel/command","payload":"{'weather':{'summary':'Partly Cloudy','precipitation':'0','icon':'partly-cloudy-day','temperature':'22.5','units':'°C'}}
+{"topic": "voicepanel/command","payload":"{'weather':{'summary':'Partly Cloudy','precipitation':'0','icon':'partly-cloudy-day','temperature':'22.5','units':'°C'}}"}
 ```
 
 ### MQTT Day/Night Mode
@@ -263,7 +263,7 @@ Similar to how weather works, you can control the Voice Panel to display the day
   alias: MQTT Sun
   trigger:
   - minutes: '/5'
-    platform: time
+    platform: time_pattern
   condition: []
   action:
   - data:
@@ -278,7 +278,7 @@ The resulting payload will look like this:
 ```
 {
   "payload": "{'sun':'below_horizon'}",
-  "topic": "alarmpanel/command"
+  "topic": "voicepanel/command"
 }
 ```
 
@@ -322,7 +322,7 @@ temperature | unit, value | ```{"unit":"°C", "value":"24"}``` |
 sensor:
   - platform: mqtt
     state_topic: "voicepanel/sensor/battery"
-    name: "Alarm Panel Battery Level"
+    name: "Voice Panel Battery Level"
     unit_of_measurement: "%"
     value_template: '{{ value_json.value }}'
     
@@ -334,19 +334,19 @@ sensor:
 
   - platform: mqtt
     state_topic: "voicepanel/sensor/light"
-    name: "Alarm Panel Light Level"
+    name: "Voice Panel Light Level"
     unit_of_measurement: "lx"
     value_template: '{{ value_json.value }}'
     
   - platform: mqtt
     state_topic: "voicepanel/sensor/magneticField"
-    name: "Alarm Panel Magnetic Field"
+    name: "Voice Panel Magnetic Field"
     unit_of_measurement: "uT"
     value_template: '{{ value_json.value }}'
 
   - platform: mqtt
     state_topic: "voicepanel/sensor/pressure"
-    name: "Alarm Panel Pressure"
+    name: "Voice Panel Pressure"
     unit_of_measurement: "hPa"
     value_template: '{{ value_json.value }}'
 ```

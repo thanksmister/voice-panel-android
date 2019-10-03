@@ -23,7 +23,7 @@ For issues, feature requests, comments or questions, use the [Github issues trac
 - Face activated wake-word (no need to say "Hey, Snips").
 - Control Home Assistant components using voice commands ("Turn on the kitchen lights").
 - Stream video, detect motion, detect faces, and read QR Codes.
-- Support for MQTT Alarm Panel Control to control your alarm system.
+- Support for [MQTT Alarm Panel Control](https://www.home-assistant.io/integrations/alarm_control_panel.mqtt) to control your alarm system.
 - MQTT commands to remotely control the application (speak text, play audio, send notifications, alerts, etc.).
 - Device sensor data reporting over MQTT (temperature, light, pressure, battery, etc.).
 - MQTT Day/Night mode based on the sun value reported from Home Assistant.
@@ -49,13 +49,13 @@ For the Snips you basically need to add ```snips:``` to you configuration.yaml f
 
 ### Custom Assistant Commands
 
-Voice Panel also has custom scripts that extend upon the basic functionality. Currently Voice Panel can control your the MQTT alarm panel in Home Assistant, get the status for any component by name ("What's the status of the front door?"), get the time/date, get the weather, and control the thermostat.  
+Voice Panel also has custom scripts that extend upon the basic functionality. Currently Voice Panel can control your MQTT alarm panel in Home Assistant, get the status for any component by name ("What's the status of the front door?"), get the time/date, get the weather, and control the thermostat.  
 
 To use custom scripts you need to create a file to store your [intent scripts](https://www.home-assistant.io/components/intent_script/) and customize the assistants behavior.  Create an "intents.yaml" file in your configuration directory, then link this from the configuration.yaml file by adding this line at the bottom: 
 
 ```intent_script: !include intents.yaml```
 
-You will place intents scripts within the new "intents.yaml" file to work with the various components currently supported by application.  Home Assistant already has a [bundled scripts](https://github.com/tschmidty69/hass-snips-bundle-intents) included when you add the Snips platform to Home Assistant.  Voice Panel also has custom scripts to extend upon the basic functionality.  The additional scripts can be added to your intents yaml file to use these features. 
+You will place intents scripts within the new "intents.yaml" file to work with the various components currently supported by the application.  Home Assistant already has a [bundled scripts](https://github.com/tschmidty69/hass-snips-bundle-intents) included when you add the Snips platform to Home Assistant.  Voice Panel also has custom scripts to extend upon the basic functionality.  The additional scripts can be added to your intents yaml file to use these features. 
 
 
 ### Alarm Panel Control
@@ -176,12 +176,12 @@ getCurrentDate:
   speech:
     type: plain
     text: > 
-      It is {{ now().weekday }}, the {{ now().day }} of {{ now().month }}, {{ now().year }}
+      It is {{ now().weekday() }}, the {{ now().day }} of {{ now().month }}, {{ now().year }}
 getCurrentDay:
   speech:
     type: plain
     text: > 
-      Today is { {now().weekday }}
+      Today is { {now().weekday() }}
 ```
 
 ## MQTT Communication
@@ -192,7 +192,7 @@ In addition to voice commands, the Voice Panel application can display and contr
 
 ![alarm](https://user-images.githubusercontent.com/142340/47173519-a5276900-d2e4-11e8-84e9-db623b461020.png)
 
-The alarm panel can be controlled using only voice, however included is a manual way to set and disable the alarm which works using MQTT messaging.  To use this feature, you need to install the [Manual Alarm Control Panel with MQTT Support](https://www.home-assistant.io/components/alarm_control_panel.manual_mqtt/).  This component allows for two-way control of the Home Assistant alarm panel component using MQTT messaging.
+The alarm panel can be controlled using only voice, however included is a manual way to set and disable the alarm which works using MQTT messaging.  To use this feature, you need to install the [Manual Alarm Control Panel with MQTT Support](https://www.home-assistant.io/components/alarm_control_panel.manual_mqtt/).  This component allows for two-w ay control of the Home Assistant alarm panel component using MQTT messaging.
 
 To enable the MQTT alarm feature, under settings (the gear icon) select Alarm Settings. Once active, you will see a lock icon at the bottom of the main screen which displays the current alarm mode and provide a manual means for arming and disarming the alarm in addition to the voice controls.  The Alarm Settings has options to change the MQTT topic and commands if you do not wish to use the defaults. 
 

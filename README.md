@@ -1,6 +1,6 @@
 
 #NOTE: 
-Snips was recently acquied by Sonos and they have decided that the future of the Snips will not be open and have closed the Snips console to the public.  As a result, this application has been removed from Google Play and will no longer be developed.  
+Snips was recently acquied by Sonos and they have decided that the future of the Snips platform will not be open and have closed the Snips console to the public.  As a result, this application has been removed from Google Play and will no longer be developed.  
 ---------------------------------------------------------------------------------------------------------------------------
 
 # Voice Panel

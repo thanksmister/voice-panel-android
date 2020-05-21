@@ -3,11 +3,11 @@
 Snips was recently acquied by Sonos and they have decided that the future of the Snips platform will not be open and have closed the Snips console to the public.  As a result, this application has been removed from Google Play and will no longer be developed.     
 ---------------------------------------------------------------------------------------------------------------------------
 
-# Voice Panel
+## Voice Panel
 
 Voice Panel is an Android Voice Assistant for [Home Assistant](https://www.home-assistant.io/) powered by the [Snips Voice Platform](https://snips.ai/). Snips provides a private, powerful, and customizable voice assistant technology that processes all language input on the device, nothing is ever sent to the cloud.
 
-## Support
+### Support
 
 Join the [ThanksMister Community](https://community.thanksmister.com/) to ask questions or share any helpful information about this project. 
 
